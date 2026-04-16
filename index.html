@@ -9,15 +9,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0a0e1f;--bg-card:#111735;--bg-elevated:#1a2144;--primary:#6366f1;--primary-glow:#818cf8;--accent:#c084fc;--accent-2:#f472b6;--success:#34d399;--warning:#fbbf24;--danger:#f87171;--text:#e2e8f0;--text-dim:#94a3b8;--text-muted:#64748b;--border:rgba(129,140,248,0.15);--glow:0 0 40px rgba(99,102,241,0.3)}html{scroll-behavior:smooth}body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative}body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(99,102,241,0.15),transparent 40%),radial-gradient(circle at 85% 80%,rgba(192,132,252,0.12),transparent 40%),radial-gradient(circle at 50% 50%,rgba(244,114,182,0.08),transparent 60%);pointer-events:none;z-index:0}body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(129,140,248,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(129,140,248,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}header{text-align:center;padding:3rem 0 4rem;position:relative}.badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.25rem;background:rgba(99,102,241,0.1);border:1px solid var(--border);border-radius:100px;font-size:.85rem;color:var(--primary-glow);margin-bottom:1.5rem;backdrop-filter:blur(10px)}.badge::before{content:'';width:8px;height:8px;background:var(--success);border-radius:50%;box-shadow:0 0 10px var(--success);animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}h1{font-family:'Rubik Mono One','Heebo',sans-serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:900;line-height:1.1;margin-bottom:1rem;background:linear-gradient(135deg,#fff 0%,var(--primary-glow) 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em}.subtitle{font-size:1.1rem;color:var(--text-dim);max-width:600px;margin:0 auto;font-weight:300}.selector-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:2rem;box-shadow:var(--glow);backdrop-filter:blur(20px);position:relative;overflow:hidden}.selector-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--primary-glow),transparent)}.matchup{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:end;margin-bottom:2rem}.team-select{display:flex;flex-direction:column;gap:.75rem}.team-select label{font-size:.85rem;font-weight:500;color:var(--text-dim);display:flex;align-items:center;gap:.5rem}.home-icon{color:var(--success)}.away-icon{color:var(--accent-2)}select{width:100%;padding:1rem 1.25rem;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:all .2s ease;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23818cf8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 1rem center;background-size:20px;padding-left:3rem}select:hover{border-color:var(--primary);background-color:rgba(99,102,241,0.05)}select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,0.2)}.vs-divider{font-family:'Rubik Mono One',sans-serif;font-size:1.5rem;color:var(--accent);padding:0 .5rem;align-self:center;margin-top:1.5rem;opacity:.7}.predict-btn{width:100%;padding:1.25rem 2rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);border:none;border-radius:14px;color:#fff;font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(99,102,241,0.3)}.predict-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left .6s ease}.predict-btn:hover::before{left:100%}.predict-btn:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(99,102,241,0.5)}.predict-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}.results{display:none;animation:slideUp .6s ease}.results.active{display:block}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.prediction-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}.prediction-card h2{font-family:'Rubik Mono One',sans-serif;font-size:1.5rem;margin-bottom:1.5rem;color:var(--primary-glow);display:flex;align-items:center;gap:.75rem}.teams-banner{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;padding:2rem 0;align-items:center;border-bottom:1px solid var(--border);margin-bottom:2rem}.team-banner{text-align:center}.team-banner .team-name{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}.team-banner .team-role{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em}.vs-big{font-family:'Rubik Mono One',sans-serif;font-size:2.5rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.probabilities{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}.prob-item{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:transform .2s ease}.prob-item:hover{transform:translateY(-4px)}.prob-item.winner{border-color:var(--success);background:linear-gradient(135deg,rgba(52,211,153,0.1),var(--bg-elevated));box-shadow:0 0 30px rgba(52,211,153,0.2)}.prob-label{font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}.prob-team{font-size:1rem;font-weight:500;color:var(--text-dim);margin-bottom:.75rem;min-height:1.5em}.prob-value{font-family:'Rubik Mono One',sans-serif;font-size:2.5rem;font-weight:900;line-height:1}.prob-value.home{color:var(--success)}.prob-value.draw{color:var(--warning)}.prob-value.away{color:var(--accent-2)}.prob-bar{height:4px;background:rgba(0,0,0,0.3);border-radius:100px;margin-top:1rem;overflow:hidden}.prob-bar-fill{height:100%;border-radius:100px;transition:width 1s ease}.prob-bar-fill.home{background:linear-gradient(90deg,var(--success),#10b981)}.prob-bar-fill.draw{background:linear-gradient(90deg,var(--warning),#f59e0b)}.prob-bar-fill.away{background:linear-gradient(90deg,var(--accent-2),var(--accent))}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.stat-block{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:1.5rem}.stat-block h3{font-size:1rem;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);color:var(--text)}.stat-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;font-size:.95rem}.stat-row .label{color:var(--text-dim)}.stat-row .value{font-weight:700;color:var(--text)}.form-badges{display:flex;gap:4px;margin-top:.5rem}.form-badge{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#fff}.form-badge.W{background:var(--success)}.form-badge.D{background:var(--warning);color:#0a0e1f}.form-badge.L{background:var(--danger)}.insights{background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(192,132,252,0.05));border:1px solid rgba(129,140,248,0.3);border-radius:20px;padding:2rem;margin-top:1.5rem}.insights h3{font-size:1.1rem;margin-bottom:1rem;color:var(--primary-glow);display:flex;align-items:center;gap:.5rem}.insight-item{padding:.75rem 0;color:var(--text-dim);border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.75rem}.insight-item:last-child{border-bottom:none}.insight-item::before{content:'\25C6';color:var(--accent);font-size:.7rem;margin-top:.4rem}.loading{display:none;text-align:center;padding:3rem}.loading.active{display:block}.spinner{width:50px;height:50px;margin:0 auto 1rem;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{color:var(--text-dim);font-size:.95rem}.error{display:none;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--danger);padding:1.25rem 1.5rem;border-radius:12px;margin-bottom:1.5rem}.error.active{display:block}footer{text-align:center;padding:3rem 0 2rem;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border);margin-top:3rem}footer a{color:var(--primary-glow);text-decoration:none}footer a:hover{text-decoration:underline}.disclaimer{background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);padding:1rem;border-radius:12px;margin-top:1.5rem;font-size:.85rem;color:var(--warning);text-align:center}@media(max-width:768px){.container{padding:1rem}header{padding:2rem 0 2.5rem}.selector-card,.prediction-card{padding:1.5rem}.matchup{grid-template-columns:1fr}.vs-divider{display:none}.teams-banner{grid-template-columns:1fr;gap:1rem}.vs-big{font-size:1.5rem}.probabilities{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr}}
+*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0a0e1f;--bg-card:#111735;--bg-elevated:#1a2144;--primary:#6366f1;--primary-glow:#818cf8;--accent:#c084fc;--accent-2:#f472b6;--success:#34d399;--warning:#fbbf24;--danger:#f87171;--text:#e2e8f0;--text-dim:#94a3b8;--text-muted:#64748b;--border:rgba(129,140,248,0.15);--glow:0 0 40px rgba(99,102,241,0.3)}html{scroll-behavior:smooth}body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative}body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(99,102,241,0.15),transparent 40%),radial-gradient(circle at 85% 80%,rgba(192,132,252,0.12),transparent 40%),radial-gradient(circle at 50% 50%,rgba(244,114,182,0.08),transparent 60%);pointer-events:none;z-index:0}body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(129,140,248,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(129,140,248,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}header{text-align:center;padding:3rem 0 4rem;position:relative}.badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.25rem;background:rgba(99,102,241,0.1);border:1px solid var(--border);border-radius:100px;font-size:.85rem;color:var(--primary-glow);margin-bottom:1.5rem;backdrop-filter:blur(10px)}.badge::before{content:'';width:8px;height:8px;background:var(--success);border-radius:50%;box-shadow:0 0 10px var(--success);animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}h1{font-family:'Rubik Mono One','Heebo',sans-serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:900;line-height:1.1;margin-bottom:1rem;background:linear-gradient(135deg,#fff 0%,var(--primary-glow) 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em}.subtitle{font-size:1.1rem;color:var(--text-dim);max-width:600px;margin:0 auto;font-weight:300}.selector-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:2rem;box-shadow:var(--glow);backdrop-filter:blur(20px);position:relative;overflow:hidden}.selector-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--primary-glow),transparent)}.matchup{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:end;margin-bottom:2rem}.team-select{display:flex;flex-direction:column;gap:.75rem}.team-select label{font-size:.85rem;font-weight:500;color:var(--text-dim);display:flex;align-items:center;gap:.5rem}.home-icon{color:var(--success)}.away-icon{color:var(--accent-2)}select{width:100%;padding:1rem 1.25rem;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:all .2s ease;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23818cf8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 1rem center;background-size:20px;padding-left:3rem}select:hover{border-color:var(--primary);background-color:rgba(99,102,241,0.05)}select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,0.2)}.vs-divider{font-family:'Rubik Mono One',sans-serif;font-size:1.5rem;color:var(--accent);padding:0 .5rem;align-self:center;margin-top:1.5rem;opacity:.7}.predict-btn{width:100%;padding:1.25rem 2rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);border:none;border-radius:14px;color:#fff;font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(99,102,241,0.3)}.predict-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left .6s ease}.predict-btn:hover::before{left:100%}.predict-btn:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(99,102,241,0.5)}.predict-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}.results{display:none;animation:slideUp .6s ease}.results.active{display:block}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.prediction-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}.prediction-card h2{font-family:'Rubik Mono One',sans-serif;font-size:1.5rem;margin-bottom:1.5rem;color:var(--primary-glow);display:flex;align-items:center;gap:.75rem}.teams-banner{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;padding:2rem 0;align-items:center;border-bottom:1px solid var(--border);margin-bottom:2rem}.team-banner{text-align:center}.team-banner .team-name{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}.team-banner .team-role{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em}.vs-big{font-family:'Rubik Mono One',sans-serif;font-size:2.5rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.probabilities{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}.prob-item{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:transform .2s ease}.prob-item:hover{transform:translateY(-4px)}.prob-item.winner{border-color:var(--success);background:linear-gradient(135deg,rgba(52,211,153,0.1),var(--bg-elevated));box-shadow:0 0 30px rgba(52,211,153,0.2)}.prob-label{font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}.prob-team{font-size:1rem;font-weight:500;color:var(--text-dim);margin-bottom:.75rem;min-height:1.5em}.prob-value{font-family:'Rubik Mono One',sans-serif;font-size:2.5rem;font-weight:900;line-height:1}.prob-value.home{color:var(--success)}.prob-value.draw{color:var(--warning)}.prob-value.away{color:var(--accent-2)}.prob-bar{height:4px;background:rgba(0,0,0,0.3);border-radius:100px;margin-top:1rem;overflow:hidden}.prob-bar-fill{height:100%;border-radius:100px;transition:width 1s ease}.prob-bar-fill.home{background:linear-gradient(90deg,var(--success),#10b981)}.prob-bar-fill.draw{background:linear-gradient(90deg,var(--warning),#f59e0b)}.prob-bar-fill.away{background:linear-gradient(90deg,var(--accent-2),var(--accent))}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.stat-block{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:1.5rem}.stat-block h3{font-size:1rem;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);color:var(--text)}.stat-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;font-size:.95rem}.stat-row .label{color:var(--text-dim)}.stat-row .value{font-weight:700;color:var(--text)}.form-badges{display:flex;gap:4px;margin-top:.5rem;flex-wrap:wrap}.form-badge{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#fff}.form-badge.W{background:var(--success)}.form-badge.D{background:var(--warning);color:#0a0e1f}.form-badge.L{background:var(--danger)}.insights{background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(192,132,252,0.05));border:1px solid rgba(129,140,248,0.3);border-radius:20px;padding:2rem;margin-top:1.5rem}.insights h3{font-size:1.1rem;margin-bottom:1rem;color:var(--primary-glow);display:flex;align-items:center;gap:.5rem}.insight-item{padding:.75rem 0;color:var(--text-dim);border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.75rem}.insight-item:last-child{border-bottom:none}.insight-item::before{content:'\25C6';color:var(--accent);font-size:.7rem;margin-top:.4rem}.data-source{font-size:.75rem;color:var(--text-muted);text-align:center;margin-top:1rem;padding:.5rem;background:rgba(99,102,241,0.05);border-radius:8px}.error{display:none;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--danger);padding:1.25rem 1.5rem;border-radius:12px;margin-bottom:1.5rem}.error.active{display:block}footer{text-align:center;padding:3rem 0 2rem;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border);margin-top:3rem}footer a{color:var(--primary-glow);text-decoration:none}footer a:hover{text-decoration:underline}.disclaimer{background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);padding:1rem;border-radius:12px;margin-top:1.5rem;font-size:.85rem;color:var(--warning);text-align:center}@media(max-width:768px){.container{padding:1rem}header{padding:2rem 0 2.5rem}.selector-card,.prediction-card{padding:1.5rem}.matchup{grid-template-columns:1fr}.vs-divider{display:none}.teams-banner{grid-template-columns:1fr;gap:1rem}.vs-big{font-size:1.5rem}.probabilities{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <div class="badge">נתונים חיים • ליגת העל 2025/26</div>
+    <div class="badge">נתוני עונה 2025/26 • ליגת העל</div>
     <h1>חוזה תוצאות<br>ליגת העל</h1>
-    <p class="subtitle">בחר שתי קבוצות וקבל ניתוח מעמיק של הסיכויים — מבוסס על נתוני אמת, צורה עדכנית, ומודל מתמטי מוכח</p>
+    <p class="subtitle">בחר שתי קבוצות וקבל ניתוח מעמיק של הסיכויים — מבוסס על נתוני העונה האמיתיים, צורה עדכנית, ומודל מתמטי מוכח</p>
   </header>
   <div class="selector-card">
     <div class="matchup">
@@ -34,10 +34,6 @@
     <button class="predict-btn" id="predictBtn" disabled>נתח את המשחק →</button>
   </div>
   <div class="error" id="errorBox"></div>
-  <div class="loading" id="loadingBox">
-    <div class="spinner"></div>
-    <div class="loading-text">שולף נתונים עדכניים וממחשב סיכויים...</div>
-  </div>
   <div class="results" id="resultsBox">
     <div class="prediction-card">
       <div class="teams-banner">
@@ -58,28 +54,310 @@
         <h3>🎯 ניתוח מעמיק</h3>
         <div id="insightsList"></div>
       </div>
+      <div class="data-source">נתונים: ליגת העל 2025/26 — 26 מחזורים • מחושב עם מודל Poisson Distribution</div>
     </div>
     <div class="disclaimer">⚠️ הכלי לשימוש בידורי ומידעי בלבד. אינו מהווה המלצה להימורים.</div>
   </div>
   <footer>
-    <div>פותח על ידי <a href="https://lior-ai.com" target="_blank">lior_Ai</a> • נתונים מ-TheSportsDB</div>
-    <div style="margin-top:.5rem;opacity:.7">מודל חיזוי: Poisson Distribution + Form Index</div>
+    <div>פותח על ידי <a href="https://lior-ai.com" target="_blank">lior_Ai</a> • נתוני עונה 2025/26</div>
+    <div style="margin-top:.5rem;opacity:.7">מודל חיזוי: Poisson Distribution + Home Advantage + Form Index</div>
   </footer>
 </div>
 <script>
-const TEAMS=[{id:'134177',name:'מכבי תל אביב',apiName:'Maccabi Tel Aviv'},{id:'134176',name:'מכבי חיפה',apiName:'Maccabi Haifa'},{id:'134184',name:'הפועל באר שבע',apiName:'Hapoel Beer Sheva'},{id:'134180',name:'בית"ר ירושלים',apiName:'Beitar Jerusalem'},{id:'134181',name:'הפועל תל אביב',apiName:'Hapoel Tel Aviv'},{id:'134179',name:'הפועל חיפה',apiName:'Hapoel Haifa'},{id:'134178',name:'מכבי נתניה',apiName:'Maccabi Netanya'},{id:'134183',name:'בני סכנין',apiName:'Bnei Sakhnin'},{id:'134182',name:'מ.ס. אשדוד',apiName:'Ashdod SC'},{id:'134185',name:'עירוני קרית שמונה',apiName:'Ironi Kiryat Shmona'},{id:'134186',name:'מכבי בני ריינה',apiName:'Maccabi Bnei Raina'},{id:'144917',name:'עירוני טבריה',apiName:'Ironi Tiberias'},{id:'134187',name:'הפועל ירושלים',apiName:'Hapoel Jerusalem'},{id:'134188',name:'הפועל פתח תקווה',apiName:'Hapoel Petah Tikva'}];
-const API_KEY='3';const API_BASE=`https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
-async function fetchLastMatches(t){try{const r=await fetch(`${API_BASE}/eventslast.php?id=${t}`);if(!r.ok)throw new Error('API error');const d=await r.json();return d.results||[]}catch(e){console.error('Failed to fetch matches for team',t,e);return[]}}
-function analyzeTeam(matches,teamId,teamApiName){const all=matches.slice(0,10);let wins=0,draws=0,losses=0,goalsFor=0,goalsAgainst=0,homeGoalsFor=0,homeGames=0,awayGoalsFor=0,awayGames=0;const form=[];all.forEach(m=>{const hs=parseInt(m.intHomeScore),as=parseInt(m.intAwayScore);if(isNaN(hs)||isNaN(as))return;const isHome=m.idHomeTeam===teamId||m.strHomeTeam===teamApiName;const ts=isHome?hs:as,tc=isHome?as:hs;goalsFor+=ts;goalsAgainst+=tc;if(isHome){homeGoalsFor+=ts;homeGames++}else{awayGoalsFor+=ts;awayGames++}if(ts>tc){wins++;if(form.length<5)form.push('W')}else if(ts<tc){losses++;if(form.length<5)form.push('L')}else{draws++;if(form.length<5)form.push('D')}});const played=wins+draws+losses;return{played,wins,draws,losses,points:wins*3+draws,goalsFor,goalsAgainst,goalDiff:goalsFor-goalsAgainst,avgGoalsFor:played>0?goalsFor/played:1,avgGoalsAgainst:played>0?goalsAgainst/played:1,homeAvgGoals:homeGames>0?homeGoalsFor/homeGames:0,awayAvgGoals:awayGames>0?awayGoalsFor/awayGames:0,form:form.reverse(),formScore:form.reduce((s,r)=>s+(r==='W'?3:r==='D'?1:0),0)}}
-function poissonPMF(l,k){if(l<=0)l=0.1;let r=Math.exp(-l);for(let i=1;i<=k;i++)r*=l/i;return r}
-function calculateProbabilities(hs,as){const LAG=1.35,HA=1.25;const hff=0.8+(hs.formScore/15)*0.4,aff=0.8+(as.formScore/15)*0.4;const ha=hs.avgGoalsFor||LAG,hd=hs.avgGoalsAgainst||LAG,aa=as.avgGoalsFor||LAG,ad=as.avgGoalsAgainst||LAG;const he=(ha*ad/LAG)*HA*hff,ae=(aa*hd/LAG)*aff;let hw=0,d=0,aw=0;for(let h=0;h<=6;h++)for(let a=0;a<=6;a++){const p=poissonPMF(he,h)*poissonPMF(ae,a);if(h>a)hw+=p;else if(h===a)d+=p;else aw+=p}const t=hw+d+aw;return{home:hw/t*100,draw:d/t*100,away:aw/t*100,expectedHome:he,expectedAway:ae}}
-function generateInsights(ht,at,hs,as,p){const ins=[];if(p.home>p.away+15)ins.push(`<strong>${ht.name}</strong> פייבוריטית בולטת במשחק — ${p.home.toFixed(0)}% סיכוי לניצחון`);else if(p.away>p.home+15)ins.push(`<strong>${at.name}</strong> פייבוריטית למרות משחק חוץ — ${p.away.toFixed(0)}% סיכוי`);else ins.push(`משחק מאוזן — ההפרש בין הקבוצות קטן, תוצאה בלתי צפויה`);if(hs.formScore>=10)ins.push(`${ht.name} בצורה מעולה (${hs.formScore}/15 נק׳ ב-5 משחקים אחרונים)`);else if(hs.formScore<=4)ins.push(`${ht.name} במשבר — רק ${hs.formScore}/15 נק׳ ב-5 משחקים אחרונים`);if(as.formScore>=10)ins.push(`${at.name} בצורה מעולה (${as.formScore}/15 נק׳ ב-5 משחקים אחרונים)`);else if(as.formScore<=4)ins.push(`${at.name} במשבר — רק ${as.formScore}/15 נק׳ ב-5 משחקים אחרונים`);const te=p.expectedHome+p.expectedAway;if(te>3)ins.push(`צפי ל<strong>משחק עתיר שערים</strong> — ${te.toFixed(1)} שערים מצטברים צפויים`);else if(te<2)ins.push(`צפי ל<strong>משחק זהיר</strong> — פחות מ-2 שערים במצטבר`);if(hs.avgGoalsAgainst<1)ins.push(`הגנה חזקה אצל ${ht.name} — פחות משער ספוג בממוצע`);if(as.avgGoalsAgainst>2)ins.push(`הגנה רעועה אצל ${at.name} — מעל 2 שערים סופגת בממוצע`);ins.push(`תחזית תוצאה סבירה: <strong>${Math.round(p.expectedHome)}-${Math.round(p.expectedAway)}</strong>`);return ins}
-function renderResults(ht,at,hs,as,p){document.getElementById('homeNameDisplay').textContent=ht.name;document.getElementById('awayNameDisplay').textContent=at.name;const mx=Math.max(p.home,p.draw,p.away);document.getElementById('probsBox').innerHTML=`<div class="prob-item ${p.home===mx?'winner':''}"><div class="prob-label">ניצחון בית</div><div class="prob-team">${ht.name}</div><div class="prob-value home">${p.home.toFixed(0)}<span style="font-size:1.2rem">%</span></div><div class="prob-bar"><div class="prob-bar-fill home" style="width:${p.home}%"></div></div></div><div class="prob-item ${p.draw===mx?'winner':''}"><div class="prob-label">תיקו</div><div class="prob-team">X</div><div class="prob-value draw">${p.draw.toFixed(0)}<span style="font-size:1.2rem">%</span></div><div class="prob-bar"><div class="prob-bar-fill draw" style="width:${p.draw}%"></div></div></div><div class="prob-item ${p.away===mx?'winner':''}"><div class="prob-label">ניצחון חוץ</div><div class="prob-team">${at.name}</div><div class="prob-value away">${p.away.toFixed(0)}<span style="font-size:1.2rem">%</span></div><div class="prob-bar"><div class="prob-bar-fill away" style="width:${p.away}%"></div></div></div>`;document.getElementById('statsGrid').innerHTML=renderTeamStats(ht,hs)+renderTeamStats(at,as);const insights=generateInsights(ht,at,hs,as,p);document.getElementById('insightsList').innerHTML=insights.map(i=>`<div class="insight-item">${i}</div>`).join('');document.getElementById('resultsBox').classList.add('active')}
-function renderTeamStats(t,s){const fh=s.form.length>0?`<div class="form-badges">${s.form.map(r=>`<div class="form-badge ${r}">${r==='W'?'נ':r==='D'?'ת':'ה'}</div>`).join('')}</div>`:'<div style="color:var(--text-muted);font-size:0.85rem">אין מספיק נתונים</div>';return`<div class="stat-block"><h3>${t.name}</h3><div class="stat-row"><span class="label">משחקים</span><span class="value">${s.played}</span></div><div class="stat-row"><span class="label">נ / ת / ה</span><span class="value">${s.wins} / ${s.draws} / ${s.losses}</span></div><div class="stat-row"><span class="label">שערים לזכות / לחובה</span><span class="value">${s.goalsFor} / ${s.goalsAgainst}</span></div><div class="stat-row"><span class="label">ממוצע התקפה</span><span class="value">${s.avgGoalsFor.toFixed(2)}</span></div><div class="stat-row"><span class="label">ממוצע הגנה</span><span class="value">${s.avgGoalsAgainst.toFixed(2)}</span></div><div class="stat-row"><span class="label">צורה (5 אחרונים)</span><span class="value">${s.formScore}/15</span></div>${fh}</div>`}
-function initSelects(){const h=document.getElementById('homeTeam'),a=document.getElementById('awayTeam'),b=document.getElementById('predictBtn');[...TEAMS].sort((x,y)=>x.name.localeCompare(y.name,'he')).forEach(t=>{h.add(new Option(t.name,t.id));a.add(new Option(t.name,t.id))});function u(){b.disabled=!h.value||!a.value||h.value===a.value;if(h.value&&a.value&&h.value===a.value)showError('לא ניתן לבחור את אותה קבוצה פעמיים');else hideError()}h.addEventListener('change',u);a.addEventListener('change',u);b.addEventListener('click',handlePredict)}
-function showError(m){const b=document.getElementById('errorBox');b.textContent=m;b.classList.add('active')}function hideError(){document.getElementById('errorBox').classList.remove('active')}function showLoading(s){const b=document.getElementById('loadingBox');if(s)b.classList.add('active');else b.classList.remove('active')}
-async function handlePredict(){const hi=document.getElementById('homeTeam').value,ai=document.getElementById('awayTeam').value,ht=TEAMS.find(t=>t.id===hi),at=TEAMS.find(t=>t.id===ai);if(!ht||!at)return;hideError();document.getElementById('resultsBox').classList.remove('active');showLoading(true);try{const[hm,am]=await Promise.all([fetchLastMatches(ht.id),fetchLastMatches(at.id)]);if(hm.length===0&&am.length===0){showError('לא ניתן היה לטעון נתונים מה-API כרגע. נסה שוב בעוד מספר דקות.');showLoading(false);return}const hs=analyzeTeam(hm,ht.id,ht.apiName),as=analyzeTeam(am,at.id,at.apiName),p=calculateProbabilities(hs,as);showLoading(false);renderResults(ht,at,hs,as,p);setTimeout(()=>{document.getElementById('resultsBox').scrollIntoView({behavior:'smooth',block:'start'})},100)}catch(e){console.error(e);showError('אירעה שגיאה בניתוח. נסה שוב.');showLoading(false)}}
-document.addEventListener('DOMContentLoaded',initSelects);
+// נתוני עונה 2025/26 אמיתיים — 26 מחזורים (מ-Sportsmole / Wikipedia)
+// P=משחקים, W=ניצחונות, D=תיקו, L=הפסדות, GF=שערים לזכות, GA=שערי חובה
+// HW/HD/HL=בית-נצ/תיקו/הפסד, HGF/HGA=שערי בית, AW/AD/AL=חוץ, AGF/AGA=שערי חוץ
+// form = 6 משחקים אחרונים (מהחדש לישן)
+const TEAMS = [
+  {
+    id:'134799', name:'הפועל באר שבע',
+    p:26, w:18, d:5, l:3, gf:58, ga:25,
+    hw:9, hd:4, hl:0, hgf:29, hga:10,
+    aw:9, ad:1, al:3, agf:29, aga:15,
+    form:['W','W','D','D','W','W']
+  },
+  {
+    id:'135992', name:'בית"ר ירושלים',
+    p:26, w:17, d:6, l:3, gf:61, ga:29,
+    hw:7, hd:5, hl:1, hgf:21, hga:12,
+    aw:10, ad:1, al:2, agf:40, aga:17,
+    form:['W','W','W','D','L','W']
+  },
+  {
+    id:'134315', name:'מכבי תל אביב',
+    p:26, w:14, d:7, l:5, gf:55, ga:32,
+    hw:7, hd:3, hl:3, hgf:27, hga:20,
+    aw:7, ad:4, al:2, agf:28, aga:12,
+    form:['L','W','W','D','W','W']
+  },
+  {
+    id:'134124', name:'הפועל תל אביב',
+    p:26, w:15, d:6, l:5, gf:46, ga:26,
+    hw:12, hd:0, hl:1, hgf:27, hga:9,
+    aw:3, ad:6, al:4, agf:19, aga:17,
+    form:['D','W','D','W','W','W']
+  },
+  {
+    id:'134400', name:'מכבי חיפה',
+    p:26, w:11, d:9, l:6, gf:50, ga:28,
+    hw:8, hd:1, hl:4, hgf:33, hga:15,
+    aw:3, ad:8, al:2, agf:17, aga:13,
+    form:['W','L','L','W','D','W']
+  },
+  {
+    id:'141238', name:'הפועל פתח תקווה',
+    p:26, w:9, d:10, l:7, gf:41, ga:36,
+    hw:4, hd:5, hl:4, hgf:17, hga:16,
+    aw:5, ad:5, al:3, agf:24, aga:20,
+    form:['D','D','W','L','W','W']
+  },
+  {
+    id:'134087', name:'מכבי נתניה',
+    p:26, w:10, d:5, l:11, gf:45, ga:55,
+    hw:4, hd:5, hl:4, hgf:23, hga:25,
+    aw:6, ad:0, al:7, agf:22, aga:30,
+    form:['D','W','L','W','D','L']
+  },
+  {
+    id:'135994', name:'בני סכנין',
+    p:26, w:8, d:8, l:10, gf:27, ga:35,
+    hw:4, hd:5, hl:4, hgf:15, hga:16,
+    aw:4, ad:3, al:6, agf:12, aga:19,
+    form:['W','L','D','L','L','D']
+  },
+  {
+    id:'133950', name:'עירוני קרית שמונה',
+    p:26, w:7, d:6, l:13, gf:37, ga:46,
+    hw:4, hd:3, hl:6, hgf:18, hga:19,
+    aw:3, ad:3, al:7, agf:19, aga:27,
+    form:['L','W','W','D','D','L']
+  },
+  {
+    id:'135995', name:'הפועל חיפה',
+    p:26, w:6, d:7, l:13, gf:31, ga:44,
+    hw:2, hd:4, hl:7, hgf:19, hga:27,
+    aw:4, ad:3, al:6, agf:12, aga:17,
+    form:['D','L','D','W','L','L']
+  },
+  {
+    id:'135991', name:'מ.ס. אשדוד',
+    p:26, w:5, d:9, l:12, gf:32, ga:50,
+    hw:2, hd:4, hl:7, hgf:19, hga:30,
+    aw:3, ad:5, al:5, agf:13, aga:20,
+    form:['D','L','L','L','W','D']
+  },
+  {
+    id:'141235', name:'הפועל ירושלים',
+    p:26, w:4, d:9, l:13, gf:22, ga:37,
+    hw:2, hd:5, hl:6, hgf:12, hga:22,
+    aw:2, ad:4, al:7, agf:10, aga:15,
+    form:['L','D','L','L','D','L']
+  },
+  {
+    id:'146401', name:'עירוני טבריה',
+    p:26, w:7, d:6, l:13, gf:32, ga:52,
+    hw:5, hd:3, hl:5, hgf:17, hga:21,
+    aw:2, ad:3, al:8, agf:15, aga:31,
+    form:['D','L','W','D','L','L']
+  },
+  {
+    id:'141801', name:'מכבי בני ריינה',
+    p:26, w:3, d:3, l:20, gf:17, ga:59,
+    hw:2, hd:2, hl:9, hgf:10, hga:31,
+    aw:1, ad:1, al:11, agf:7, aga:28,
+    form:['L','D','L','L','L','L']
+  }
+];
+
+const LEAGUE_AVG_GOALS = 1.35; // ממוצע ליגתי לקבוצה
+
+function getTeamStats(team, isHome) {
+  const p = team.p || 26;
+  // ממוצע התקפה והגנה מופרד לבית/חוץ
+  const hGames = team.hw + team.hd + team.hl;
+  const aGames = team.aw + team.ad + team.al;
+  return {
+    played: p,
+    wins: team.w, draws: team.d, losses: team.l,
+    points: team.w * 3 + team.d,
+    goalsFor: team.gf, goalsAgainst: team.ga,
+    avgGoalsFor: team.gf / p,
+    avgGoalsAgainst: team.ga / p,
+    homeAvgFor: hGames > 0 ? team.hgf / hGames : team.gf / p,
+    homeAvgAgainst: hGames > 0 ? team.hga / hGames : team.ga / p,
+    awayAvgFor: aGames > 0 ? team.agf / aGames : team.gf / p,
+    awayAvgAgainst: aGames > 0 ? team.aga / aGames : team.ga / p,
+    form: team.form || [],
+    formScore: (team.form || []).slice(0,5).reduce((s,r) => s + (r==='W'?3:r==='D'?1:0), 0)
+  };
+}
+
+function poissonPMF(lambda, k) {
+  if (lambda <= 0) lambda = 0.1;
+  let result = Math.exp(-lambda);
+  for (let i = 1; i <= k; i++) result *= lambda / i;
+  return result;
+}
+
+function calculateProbabilities(homeTeam, awayTeam) {
+  const hs = getTeamStats(homeTeam, true);
+  const as = getTeamStats(awayTeam, false);
+
+  // מודל Dixon-Coles מפושט עם יתרון בית
+  const HOME_ADVANTAGE = 1.20;
+  const leagueAvg = LEAGUE_AVG_GOALS;
+
+  // attack/defense strength based on home/away splits
+  const homeAttack = hs.homeAvgFor / leagueAvg;
+  const homeDefense = hs.homeAvgAgainst / leagueAvg;
+  const awayAttack = as.awayAvgFor / leagueAvg;
+  const awayDefense = as.awayAvgAgainst / leagueAvg;
+
+  // Form multiplier (last 5 games)
+  const homeFormMult = 0.85 + (hs.formScore / 15) * 0.30;
+  const awayFormMult = 0.85 + (as.formScore / 15) * 0.30;
+
+  // Expected goals
+  const expectedHome = Math.max(0.3, homeAttack * awayDefense * leagueAvg * HOME_ADVANTAGE * homeFormMult);
+  const expectedAway = Math.max(0.3, awayAttack * homeDefense * leagueAvg * awayFormMult);
+
+  let homeWin = 0, draw = 0, awayWin = 0;
+  for (let h = 0; h <= 8; h++) {
+    for (let a = 0; a <= 8; a++) {
+      const p = poissonPMF(expectedHome, h) * poissonPMF(expectedAway, a);
+      if (h > a) homeWin += p;
+      else if (h === a) draw += p;
+      else awayWin += p;
+    }
+  }
+  const total = homeWin + draw + awayWin;
+  return {
+    home: homeWin / total * 100,
+    draw: draw / total * 100,
+    away: awayWin / total * 100,
+    expectedHome,
+    expectedAway,
+    homeStats: hs,
+    awayStats: as
+  };
+}
+
+function generateInsights(ht, at, p) {
+  const hs = p.homeStats, as = p.awayStats;
+  const ins = [];
+
+  if (p.home > p.away + 20) ins.push(`<strong>${ht.name}</strong> פייבוריטית ברורה — ${p.home.toFixed(0)}% סיכוי לניצחון בית`);
+  else if (p.away > p.home + 20) ins.push(`<strong>${at.name}</strong> פייבוריטית גם כקבוצת חוץ — ${p.away.toFixed(0)}% סיכוי`);
+  else if (Math.abs(p.home - p.away) < 8) ins.push(`משחק מאוזן במיוחד — ההפרש בין הסיכויים קטן מ-8%, תוצאה פתוחה`);
+  else ins.push(`<strong>${p.home > p.away ? ht.name : at.name}</strong> מעט עדיפה עם ${Math.max(p.home,p.away).toFixed(0)}% סיכוי`);
+
+  if (hs.formScore >= 12) ins.push(`${ht.name} בצורה מעולה — ${hs.formScore}/15 נקודות ב-5 משחקים אחרונים`);
+  else if (hs.formScore <= 4) ins.push(`${ht.name} במשבר — רק ${hs.formScore}/15 נקודות ב-5 משחקים אחרונים`);
+
+  if (as.formScore >= 12) ins.push(`${at.name} בצורה מעולה — ${as.formScore}/15 נקודות ב-5 משחקים אחרונים`);
+  else if (as.formScore <= 4) ins.push(`${at.name} במשבר — רק ${as.formScore}/15 נקודות ב-5 משחקים אחרונים`);
+
+  const totalExpected = p.expectedHome + p.expectedAway;
+  if (totalExpected > 3.2) ins.push(`צפי ל<strong>משחק עתיר שערים</strong> — ${totalExpected.toFixed(1)} שערים צפויים`);
+  else if (totalExpected < 2.0) ins.push(`צפי ל<strong>משחק שמרני</strong> — פחות מ-2 שערים צפויים`);
+  else ins.push(`צפי ל-${totalExpected.toFixed(1)} שערים במשחק`);
+
+  if (hs.homeAvgFor > 2.2) ins.push(`${ht.name} אדירה בבית — ממוצע ${hs.homeAvgFor.toFixed(1)} שערים לזכות בבית`);
+  if (as.awayAvgFor > 2.0) ins.push(`${at.name} מסוכנת גם בחוץ — ${as.awayAvgFor.toFixed(1)} שערים בממוצע`);
+
+  ins.push(`תחזית תוצאה סבירה: <strong>${Math.round(p.expectedHome)}-${Math.round(p.expectedAway)}</strong>`);
+  return ins;
+}
+
+function renderTeamStats(team, stats) {
+  const formBadges = stats.form.slice(0,6).map(r =>
+    `<div class="form-badge ${r}">${r==='W'?'נ':r==='D'?'ת':'ה'}</div>`
+  ).join('');
+  return `<div class="stat-block">
+    <h3>${team.name}</h3>
+    <div class="stat-row"><span class="label">משחקים בעונה</span><span class="value">${stats.played}</span></div>
+    <div class="stat-row"><span class="label">נ / ת / ה</span><span class="value">${stats.wins} / ${stats.draws} / ${stats.losses}</span></div>
+    <div class="stat-row"><span class="label">שערים</span><span class="value">${stats.goalsFor} : ${stats.goalsAgainst}</span></div>
+    <div class="stat-row"><span class="label">ממוצע התקפה</span><span class="value">${stats.avgGoalsFor.toFixed(2)}/מ'</span></div>
+    <div class="stat-row"><span class="label">ממוצע הגנה</span><span class="value">${stats.avgGoalsAgainst.toFixed(2)}/מ'</span></div>
+    <div class="stat-row"><span class="label">צורה (6 אחרונים)</span><span class="value">${stats.formScore}/15</span></div>
+    <div class="form-badges">${formBadges}</div>
+  </div>`;
+}
+
+function renderResults(homeTeam, awayTeam, probs) {
+  document.getElementById('homeNameDisplay').textContent = homeTeam.name;
+  document.getElementById('awayNameDisplay').textContent = awayTeam.name;
+
+  const mx = Math.max(probs.home, probs.draw, probs.away);
+  document.getElementById('probsBox').innerHTML = `
+    <div class="prob-item ${probs.home===mx?'winner':''}">
+      <div class="prob-label">ניצחון בית</div>
+      <div class="prob-team">${homeTeam.name}</div>
+      <div class="prob-value home">${probs.home.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
+      <div class="prob-bar"><div class="prob-bar-fill home" style="width:${probs.home}%"></div></div>
+    </div>
+    <div class="prob-item ${probs.draw===mx?'winner':''}">
+      <div class="prob-label">תיקו</div>
+      <div class="prob-team">X</div>
+      <div class="prob-value draw">${probs.draw.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
+      <div class="prob-bar"><div class="prob-bar-fill draw" style="width:${probs.draw}%"></div></div>
+    </div>
+    <div class="prob-item ${probs.away===mx?'winner':''}">
+      <div class="prob-label">ניצחון חוץ</div>
+      <div class="prob-team">${awayTeam.name}</div>
+      <div class="prob-value away">${probs.away.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
+      <div class="prob-bar"><div class="prob-bar-fill away" style="width:${probs.away}%"></div></div>
+    </div>`;
+
+  document.getElementById('statsGrid').innerHTML =
+    renderTeamStats(homeTeam, probs.homeStats) +
+    renderTeamStats(awayTeam, probs.awayStats);
+
+  const insights = generateInsights(homeTeam, awayTeam, probs);
+  document.getElementById('insightsList').innerHTML =
+    insights.map(i => `<div class="insight-item">${i}</div>`).join('');
+
+  document.getElementById('resultsBox').classList.add('active');
+  setTimeout(() => {
+    document.getElementById('resultsBox').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 100);
+}
+
+function initSelects() {
+  const h = document.getElementById('homeTeam');
+  const a = document.getElementById('awayTeam');
+  const btn = document.getElementById('predictBtn');
+
+  const sorted = [...TEAMS].sort((x,y) => x.name.localeCompare(y.name, 'he'));
+  sorted.forEach(t => {
+    h.add(new Option(t.name, t.id));
+    a.add(new Option(t.name, t.id));
+  });
+
+  function update() {
+    const same = h.value && a.value && h.value === a.value;
+    btn.disabled = !h.value || !a.value || same;
+    if (same) showError('לא ניתן לבחור את אותה קבוצה פעמיים');
+    else hideError();
+  }
+  h.addEventListener('change', update);
+  a.addEventListener('change', update);
+
+  btn.addEventListener('click', () => {
+    const ht = TEAMS.find(t => t.id === h.value);
+    const at = TEAMS.find(t => t.id === a.value);
+    if (!ht || !at) return;
+    hideError();
+    const probs = calculateProbabilities(ht, at);
+    renderResults(ht, at, probs);
+  });
+}
+
+function showError(m) { const b=document.getElementById('errorBox'); b.textContent=m; b.classList.add('active'); }
+function hideError() { document.getElementById('errorBox').classList.remove('active'); }
+
+document.addEventListener('DOMContentLoaded', initSelects);
 </script>
 </body>
 </html>
