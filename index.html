@@ -1,363 +1,714 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>חוזה תוצאות ליגת העל | lior_Ai</title>
-<meta name="description" content="כלי חינמי לחיזוי סיכויים במשחקי ליגת העל הישראלית. מבוסס על נתונים חיים, ניתוח צורה, ומודל Poisson.">
+<title>FootPredict — חוזה משחקי כדורגל</title>
+<meta name="description" content="חיזוי תוצאות כדורגל מקצועי — ליגת העל, פרמייר ליג, לה ליגה, סרייה א, בונדסליגה, צ'מפיונס ליג">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0a0e1f;--bg-card:#111735;--bg-elevated:#1a2144;--primary:#6366f1;--primary-glow:#818cf8;--accent:#c084fc;--accent-2:#f472b6;--success:#34d399;--warning:#fbbf24;--danger:#f87171;--text:#e2e8f0;--text-dim:#94a3b8;--text-muted:#64748b;--border:rgba(129,140,248,0.15);--glow:0 0 40px rgba(99,102,241,0.3)}html{scroll-behavior:smooth}body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative}body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 20%,rgba(99,102,241,0.15),transparent 40%),radial-gradient(circle at 85% 80%,rgba(192,132,252,0.12),transparent 40%),radial-gradient(circle at 50% 50%,rgba(244,114,182,0.08),transparent 60%);pointer-events:none;z-index:0}body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(129,140,248,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(129,140,248,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}header{text-align:center;padding:3rem 0 4rem;position:relative}.badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.25rem;background:rgba(99,102,241,0.1);border:1px solid var(--border);border-radius:100px;font-size:.85rem;color:var(--primary-glow);margin-bottom:1.5rem;backdrop-filter:blur(10px)}.badge::before{content:'';width:8px;height:8px;background:var(--success);border-radius:50%;box-shadow:0 0 10px var(--success);animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}h1{font-family:'Rubik Mono One','Heebo',sans-serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:900;line-height:1.1;margin-bottom:1rem;background:linear-gradient(135deg,#fff 0%,var(--primary-glow) 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.02em}.subtitle{font-size:1.1rem;color:var(--text-dim);max-width:600px;margin:0 auto;font-weight:300}.selector-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:2rem;box-shadow:var(--glow);backdrop-filter:blur(20px);position:relative;overflow:hidden}.selector-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--primary-glow),transparent)}.matchup{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:end;margin-bottom:2rem}.team-select{display:flex;flex-direction:column;gap:.75rem}.team-select label{font-size:.85rem;font-weight:500;color:var(--text-dim);display:flex;align-items:center;gap:.5rem}.home-icon{color:var(--success)}.away-icon{color:var(--accent-2)}select{width:100%;padding:1rem 1.25rem;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:all .2s ease;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23818cf8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 1rem center;background-size:20px;padding-left:3rem}select:hover{border-color:var(--primary);background-color:rgba(99,102,241,0.05)}select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,0.2)}.vs-divider{font-family:'Rubik Mono One',sans-serif;font-size:1.5rem;color:var(--accent);padding:0 .5rem;align-self:center;margin-top:1.5rem;opacity:.7}.predict-btn{width:100%;padding:1.25rem 2rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);border:none;border-radius:14px;color:#fff;font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(99,102,241,0.3)}.predict-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left .6s ease}.predict-btn:hover::before{left:100%}.predict-btn:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(99,102,241,0.5)}.predict-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}.results{display:none;animation:slideUp .6s ease}.results.active{display:block}@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.prediction-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}.prediction-card h2{font-family:'Rubik Mono One',sans-serif;font-size:1.5rem;margin-bottom:1.5rem;color:var(--primary-glow);display:flex;align-items:center;gap:.75rem}.teams-banner{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;padding:2rem 0;align-items:center;border-bottom:1px solid var(--border);margin-bottom:2rem}.team-banner{text-align:center}.team-banner .team-name{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}.team-banner .team-role{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em}.vs-big{font-family:'Rubik Mono One',sans-serif;font-size:2.5rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.probabilities{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}.prob-item{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:transform .2s ease}.prob-item:hover{transform:translateY(-4px)}.prob-item.winner{border-color:var(--success);background:linear-gradient(135deg,rgba(52,211,153,0.1),var(--bg-elevated));box-shadow:0 0 30px rgba(52,211,153,0.2)}.prob-label{font-size:.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}.prob-team{font-size:1rem;font-weight:500;color:var(--text-dim);margin-bottom:.75rem;min-height:1.5em}.prob-value{font-family:'Rubik Mono One',sans-serif;font-size:2.5rem;font-weight:900;line-height:1}.prob-value.home{color:var(--success)}.prob-value.draw{color:var(--warning)}.prob-value.away{color:var(--accent-2)}.prob-bar{height:4px;background:rgba(0,0,0,0.3);border-radius:100px;margin-top:1rem;overflow:hidden}.prob-bar-fill{height:100%;border-radius:100px;transition:width 1s ease}.prob-bar-fill.home{background:linear-gradient(90deg,var(--success),#10b981)}.prob-bar-fill.draw{background:linear-gradient(90deg,var(--warning),#f59e0b)}.prob-bar-fill.away{background:linear-gradient(90deg,var(--accent-2),var(--accent))}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.stat-block{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:1.5rem}.stat-block h3{font-size:1rem;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);color:var(--text)}.stat-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;font-size:.95rem}.stat-row .label{color:var(--text-dim)}.stat-row .value{font-weight:700;color:var(--text)}.form-badges{display:flex;gap:4px;margin-top:.5rem;flex-wrap:wrap}.form-badge{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#fff}.form-badge.W{background:var(--success)}.form-badge.D{background:var(--warning);color:#0a0e1f}.form-badge.L{background:var(--danger)}.insights{background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(192,132,252,0.05));border:1px solid rgba(129,140,248,0.3);border-radius:20px;padding:2rem;margin-top:1.5rem}.insights h3{font-size:1.1rem;margin-bottom:1rem;color:var(--primary-glow);display:flex;align-items:center;gap:.5rem}.insight-item{padding:.75rem 0;color:var(--text-dim);border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.75rem}.insight-item:last-child{border-bottom:none}.insight-item::before{content:'\25C6';color:var(--accent);font-size:.7rem;margin-top:.4rem}.data-source{font-size:.75rem;color:var(--text-muted);text-align:center;margin-top:1rem;padding:.5rem;background:rgba(99,102,241,0.05);border-radius:8px}.error{display:none;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--danger);padding:1.25rem 1.5rem;border-radius:12px;margin-bottom:1.5rem}.error.active{display:block}footer{text-align:center;padding:3rem 0 2rem;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border);margin-top:3rem}footer a{color:var(--primary-glow);text-decoration:none}footer a:hover{text-decoration:underline}.disclaimer{background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);padding:1rem;border-radius:12px;margin-top:1.5rem;font-size:.85rem;color:var(--warning);text-align:center}@media(max-width:768px){.container{padding:1rem}header{padding:2rem 0 2.5rem}.selector-card,.prediction-card{padding:1.5rem}.matchup{grid-template-columns:1fr}.vs-divider{display:none}.teams-banner{grid-template-columns:1fr;gap:1rem}.vs-big{font-size:1.5rem}.probabilities{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr}}
+:root,[data-theme="dark"]{
+--bg:#0b0d14;--s1:#111520;--s2:#161b2e;--s3:#1e2540;
+--border:rgba(255,255,255,0.08);--border-bright:rgba(255,255,255,0.15);
+--text:#f0f2f8;--text-dim:#8b95b0;--text-muted:#4a5168;
+--font-body:'Heebo',sans-serif;--font-display:'Space Grotesk',sans-serif;
+--r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:20px;--r-2xl:28px;
+--trans:180ms cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="light"]{
+--bg:#f2f3f7;--s1:#fff;--s2:#f7f8fc;--s3:#edf0f7;
+--border:rgba(0,0,0,0.08);--border-bright:rgba(0,0,0,0.15);
+--text:#12152a;--text-dim:#4a5168;--text-muted:#9ba3bc;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;font-size:16px;line-height:1.6}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+select{font:inherit;color:inherit}
+
+/* ── BACKGROUND ── */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18}
+.bg-blob-1{width:600px;height:600px;background:radial-gradient(circle,#4f46e5,transparent 70%);top:-200px;right:-100px}
+.bg-blob-2{width:500px;height:500px;background:radial-gradient(circle,#7c3aed,transparent 70%);bottom:-150px;left:-100px}
+.bg-blob-3{width:400px;height:400px;background:radial-gradient(circle,#0891b2,transparent 70%);top:40%;left:40%}
+[data-theme="light"] .bg-blob{opacity:.07}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:1}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* ── HEADER ── */
+header{padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:0}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{width:40px;height:40px;flex-shrink:0}
+.logo-text{font-family:var(--font-display);font-weight:700;font-size:1.2rem;letter-spacing:-.02em}
+.logo-sub{font-size:.75rem;color:var(--text-muted);font-weight:400;letter-spacing:0}
+.header-actions{display:flex;align-items:center;gap:12px}
+.theme-btn{width:36px;height:36px;border-radius:var(--r-md);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-dim);transition:all var(--trans)}
+.theme-btn:hover{color:var(--text);border-color:var(--border-bright);background:var(--s2)}
+.live-badge{display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:var(--r-2xl);font-size:.78rem;font-weight:600;color:#4ade80;letter-spacing:.02em}
+.live-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px #4ade80;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:56px 0 48px}
+.hero-label{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border:1px solid var(--border-bright);border-radius:var(--r-2xl);font-size:.82rem;color:var(--text-dim);margin-bottom:20px;background:var(--s2)}
+.hero-label svg{color:#a78bfa}
+.hero h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.2rem);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:16px;background:linear-gradient(135deg,var(--text) 0%,#a78bfa 60%,#38bdf8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.05rem;color:var(--text-dim);max-width:560px;margin:0 auto}
+
+/* ── LEAGUE TABS ── */
+.league-tabs{margin-bottom:24px}
+.tabs-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs-scroll::-webkit-scrollbar{display:none}
+.tab-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--r-2xl);border:1px solid var(--border);background:var(--s1);font-size:.9rem;font-weight:500;color:var(--text-dim);white-space:nowrap;flex-shrink:0;transition:all var(--trans);cursor:pointer}
+.tab-btn:hover{border-color:var(--border-bright);color:var(--text);background:var(--s2)}
+.tab-btn.active{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent-text);font-weight:600}
+.tab-flag{font-size:1.1rem;line-height:1}
+
+/* ── SELECTOR CARD ── */
+.selector-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-2xl);padding:32px;margin-bottom:24px;position:relative}
+.selector-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.4),transparent);border-radius:var(--r-2xl) var(--r-2xl) 0 0}
+.matchup{display:grid;grid-template-columns:1fr 60px 1fr;gap:16px;align-items:end;margin-bottom:24px}
+.select-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.select-group label span{font-size:1rem;margin-left:6px}
+.select-wrap{position:relative}
+.select-wrap select{width:100%;padding:14px 16px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r-md);font-size:.95rem;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;transition:all var(--trans);padding-left:42px}
+[dir="rtl"] .select-wrap select{padding-right:42px;padding-left:14px}
+.select-wrap select:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.2)}
+.select-wrap select:hover{border-color:var(--border-bright);background:var(--s3)}
+.select-arrow{position:absolute;top:50%;transform:translateY(-50%);left:14px;pointer-events:none;color:var(--text-muted)}
+[dir="rtl"] .select-arrow{left:auto;right:14px}
+.vs-center{display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px}
+.vs-pill{font-family:var(--font-display);font-size:.85rem;font-weight:700;padding:8px 12px;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-2xl);color:var(--text-dim);letter-spacing:.08em}
+
+/* ── PREDICT BTN ── */
+.predict-btn{width:100%;padding:16px;border-radius:var(--r-lg);font-family:var(--font-display);font-size:1.05rem;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:all var(--trans);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px}
+.predict-btn:not(:disabled){background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;box-shadow:0 8px 32px rgba(124,58,237,.35)}
+.predict-btn:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,58,237,.5)}
+.predict-btn:not(:disabled):active{transform:translateY(0)}
+.predict-btn:disabled{background:var(--s3);color:var(--text-muted);border:1px solid var(--border);cursor:not-allowed}
+.btn-shine{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .7s ease}
+.predict-btn:not(:disabled):hover .btn-shine{left:100%}
+
+/* ── RESULTS ── */
+.results{display:none;animation:fadeUp .5s ease}
+.results.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MATCH HEADER ── */
+.match-header{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-2xl);padding:32px;margin-bottom:20px;text-align:center;position:relative;overflow:hidden}
+.match-header::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--accent-glow) 0%,transparent 70%);pointer-events:none;opacity:.5}
+.match-league-label{font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.match-teams{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center}
+.match-team-name{font-family:var(--font-display);font-size:clamp(1.1rem,3vw,1.6rem);font-weight:700;letter-spacing:-.02em}
+.match-team-role{font-size:.75rem;color:var(--text-muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+.match-vs{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--text-muted);opacity:.5}
+
+/* ── PROBABILITY GRID ── */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.prob-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px 16px;text-align:center;transition:transform var(--trans)}
+.prob-card.best{border-color:var(--accent-border);background:var(--accent-card);box-shadow:0 0 32px var(--accent-glow)}
+.prob-label{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.prob-team-name{font-size:.85rem;color:var(--text-dim);margin-bottom:12px;font-weight:500;min-height:1.4em}
+.prob-pct{font-family:var(--font-display);font-size:2.6rem;font-weight:700;line-height:1;letter-spacing:-.04em}
+.prob-pct.home{color:#34d399}
+.prob-pct.draw{color:#fbbf24}
+.prob-pct.away{color:#f472b6}
+.prob-bar{height:5px;background:var(--s3);border-radius:100px;margin-top:14px;overflow:hidden}
+.prob-bar-fill{height:100%;border-radius:100px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1)}
+.prob-bar-fill.home{background:linear-gradient(90deg,#059669,#34d399)}
+.prob-bar-fill.draw{background:linear-gradient(90deg,#d97706,#fbbf24)}
+.prob-bar-fill.away{background:linear-gradient(90deg,#be185d,#f472b6)}
+
+/* ── ODDS ROW ── */
+.odds-row{display:flex;gap:12px;margin-bottom:20px}
+.odd-box{flex:1;background:var(--s1);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 12px;text-align:center}
+.odd-label{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.odd-val{font-family:var(--font-display);font-size:1.4rem;font-weight:700;letter-spacing:-.03em}
+
+/* ── STATS 2-COL ── */
+.stats-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.stat-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-xl);padding:20px}
+.stat-card h3{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:.9rem}
+.stat-row .lbl{color:var(--text-dim)}
+.stat-row .val{font-weight:700;font-variant-numeric:tabular-nums}
+.form-row{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.f-badge{width:30px;height:30px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff}
+.f-badge.W{background:#059669}
+.f-badge.D{background:#d97706;color:#0b0d14}
+.f-badge.L{background:#dc2626}
+
+/* ── EXPECTED GOALS ── */
+.xg-section{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
+.xg-section h3{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.xg-bar-row{display:grid;grid-template-columns:140px 1fr 140px;align-items:center;gap:16px;margin-bottom:14px}
+.xg-bar-row:last-child{margin-bottom:0}
+.xg-team-label{font-size:.9rem;font-weight:600}
+.xg-team-label.right{text-align:left}
+[dir="rtl"] .xg-team-label{text-align:right}
+[dir="rtl"] .xg-team-label.right{text-align:left}
+.xg-track{height:10px;background:var(--s3);border-radius:100px;overflow:hidden;position:relative}
+.xg-fill-home{height:100%;background:linear-gradient(90deg,#34d399,#059669);border-radius:100px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1)}
+.xg-fill-away{height:100%;background:linear-gradient(90deg,#f472b6,#be185d);border-radius:100px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);margin-right:auto;margin-left:0}
+[dir="rtl"] .xg-fill-away{margin-left:auto;margin-right:0}
+.xg-val{font-family:var(--font-display);font-size:1.6rem;font-weight:700;letter-spacing:-.04em}
+.xg-val.home{color:#34d399}
+.xg-val.away{color:#f472b6}
+
+/* ── INSIGHTS ── */
+.insights-card{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(56,189,248,.04));border:1px solid rgba(124,58,237,.2);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
+.insights-card h3{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a78bfa;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.insight-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.9rem;color:var(--text-dim);display:flex;gap:12px;align-items:flex-start;line-height:1.5}
+.insight-item:last-child{border-bottom:none;padding-bottom:0}
+.insight-dot{width:6px;height:6px;background:#a78bfa;border-radius:50%;margin-top:.5em;flex-shrink:0}
+
+/* ── DISCLAIMER ── */
+.disclaimer{font-size:.78rem;color:var(--text-muted);text-align:center;padding:12px 16px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:var(--r-md);margin-bottom:24px}
+
+/* ── ERROR ── */
+.error-box{display:none;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;padding:14px 18px;border-radius:var(--r-md);margin-bottom:16px;font-size:.9rem}
+.error-box.active{display:block}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:24px 0 32px;text-align:center;color:var(--text-muted);font-size:.82rem;margin-top:8px}
+footer a{color:var(--text-dim);text-decoration:none}
+footer a:hover{color:var(--text)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:680px){
+.matchup{grid-template-columns:1fr;gap:12px}
+.vs-center{display:none}
+.prob-grid{grid-template-columns:1fr}
+.stats-2col{grid-template-columns:1fr}
+.odds-row{flex-direction:column}
+.xg-bar-row{grid-template-columns:80px 1fr 80px;gap:8px}
+.hero{padding:36px 0 32px}
+.selector-card{padding:20px}
+.match-header{padding:20px}
+.match-teams{gap:12px}
+}
+@media(max-width:400px){
+.hero h1{font-size:1.7rem}
+.prob-pct{font-size:2rem}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="badge">נתוני עונה 2025/26 • ליגת העל</div>
-    <h1>חוזה תוצאות<br>ליגת העל</h1>
-    <p class="subtitle">בחר שתי קבוצות וקבל ניתוח מעמיק של הסיכויים — מבוסס על נתוני העונה האמיתיים, צורה עדכנית, ומודל מתמטי מוכח</p>
-  </header>
-  <div class="selector-card">
-    <div class="matchup">
-      <div class="team-select">
-        <label><span class="home-icon">●</span> קבוצת בית</label>
-        <select id="homeTeam"><option value="">בחר קבוצה...</option></select>
-      </div>
-      <div class="vs-divider">VS</div>
-      <div class="team-select">
-        <label><span class="away-icon">●</span> קבוצת חוץ</label>
-        <select id="awayTeam"><option value="">בחר קבוצה...</option></select>
-      </div>
-    </div>
-    <button class="predict-btn" id="predictBtn" disabled>נתח את המשחק →</button>
-  </div>
-  <div class="error" id="errorBox"></div>
-  <div class="results" id="resultsBox">
-    <div class="prediction-card">
-      <div class="teams-banner">
-        <div class="team-banner">
-          <div class="team-name" id="homeNameDisplay">—</div>
-          <div class="team-role">בית</div>
-        </div>
-        <div class="vs-big">VS</div>
-        <div class="team-banner">
-          <div class="team-name" id="awayNameDisplay">—</div>
-          <div class="team-role">חוץ</div>
-        </div>
-      </div>
-      <h2>⚡ חיזוי סיכויים</h2>
-      <div class="probabilities" id="probsBox"></div>
-      <div class="stats-grid" id="statsGrid"></div>
-      <div class="insights">
-        <h3>🎯 ניתוח מעמיק</h3>
-        <div id="insightsList"></div>
-      </div>
-      <div class="data-source">נתונים: ליגת העל 2025/26 — 26 מחזורים • מחושב עם מודל Poisson Distribution</div>
-    </div>
-    <div class="disclaimer">⚠️ הכלי לשימוש בידורי ומידעי בלבד. אינו מהווה המלצה להימורים.</div>
-  </div>
-  <footer>
-    <div>פותח על ידי <a href="https://lior-ai.com" target="_blank">lior_Ai</a> • נתוני עונה 2025/26</div>
-    <div style="margin-top:.5rem;opacity:.7">מודל חיזוי: Poisson Distribution + Home Advantage + Form Index</div>
-  </footer>
+<div class="bg-layer">
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+<div class="bg-blob bg-blob-3"></div>
 </div>
+<div class="page">
+<header>
+<div class="container">
+<div class="header-inner">
+<div class="logo">
+<svg class="logo-icon" viewBox="0 0 40 40" fill="none" aria-label="FootPredict">
+<circle cx="20" cy="20" r="18" stroke="url(#lg1)" stroke-width="2"/>
+<path d="M20 8 L23 15 L30 15 L25 19 L27 26 L20 22 L13 26 L15 19 L10 15 L17 15 Z" fill="url(#lg2)" opacity=".9"/>
+<defs>
+<linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+<linearGradient id="lg2" x1="10" y1="8" x2="30" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+</defs>
+</svg>
+<div>
+<div class="logo-text">FootPredict</div>
+<div class="logo-sub">AI Match Predictor</div>
+</div>
+</div>
+<div class="header-actions">
+<div class="live-badge"><span class="live-dot"></span>נתונים חיים 2025/26</div>
+<button class="theme-btn" data-theme-toggle aria-label="החלף מצב תאורה">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+</div>
+</div>
+</div>
+</header>
+
+<main>
+<section class="hero">
+<div class="container">
+<div class="hero-label">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+מודל Poisson Distribution · נתונים אמיתיים
+</div>
+<h1>חוזה תוצאות<br>כדורגל מקצועי</h1>
+<p>6 ליגות עולמיות, ניתוח עמוק, סיכויים מדויקים — בחר קבוצות וקבל תחזית מבוססת נתוני עונה</p>
+</div>
+</section>
+
+<section style="padding-bottom:48px">
+<div class="container">
+
+<!-- LEAGUE TABS -->
+<div class="league-tabs">
+<div class="tabs-scroll" id="leagueTabs"></div>
+</div>
+
+<!-- SELECTOR -->
+<div class="selector-card">
+<div class="matchup">
+<div class="select-group">
+<label>🏠 <span>קבוצת בית</span></label>
+<div class="select-wrap">
+<svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+<select id="homeTeam"><option value="">בחר קבוצה...</option></select>
+</div>
+</div>
+<div class="vs-center">
+<div class="vs-pill">VS</div>
+</div>
+<div class="select-group">
+<label>✈️ <span>קבוצת חוץ</span></label>
+<div class="select-wrap">
+<svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+<select id="awayTeam"><option value="">בחר קבוצה...</option></select>
+</div>
+</div>
+</div>
+<div class="error-box" id="errBox"></div>
+<button class="predict-btn" id="predictBtn" disabled>
+<div class="btn-shine"></div>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+נתח את המשחק
+</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="results">
+<div class="match-header" id="matchHeader">
+<div class="match-league-label" id="matchLeagueLabel"></div>
+<div class="match-teams">
+<div>
+<div class="match-team-name" id="homeDisplay"></div>
+<div class="match-team-role">בית</div>
+</div>
+<div class="match-vs">VS</div>
+<div>
+<div class="match-team-name" id="awayDisplay"></div>
+<div class="match-team-role">חוץ</div>
+</div>
+</div>
+</div>
+<div class="prob-grid" id="probGrid"></div>
+<div class="odds-row" id="oddsRow"></div>
+<div class="xg-section">
+<h3>⚡ שערים צפויים (xG)</h3>
+<div id="xgContent"></div>
+</div>
+<div class="stats-2col" id="statsGrid"></div>
+<div class="insights-card">
+<h3><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>ניתוח AI</h3>
+<div id="insightsList"></div>
+</div>
+<div class="disclaimer">⚠️ כלי בידורי ומידעי בלבד — אינו מהווה המלצה להימורים</div>
+</div>
+
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container">
+<div>פותח על ידי <a href="#">lior_Ai</a> · מודל Poisson Distribution + Form Index + Home Advantage</div>
+<div style="margin-top:6px">נתוני עונה 2025/26 · עדכון אחרון: אפריל 2026</div>
+</div>
+</footer>
+</div>
+
 <script>
-// נתוני עונה 2025/26 אמיתיים — 26 מחזורים (מ-Sportsmole / Wikipedia)
-// P=משחקים, W=ניצחונות, D=תיקו, L=הפסדות, GF=שערים לזכות, GA=שערי חובה
-// HW/HD/HL=בית-נצ/תיקו/הפסד, HGF/HGA=שערי בית, AW/AD/AL=חוץ, AGF/AGA=שערי חוץ
-// form = 6 משחקים אחרונים (מהחדש לישן)
-const TEAMS = [
-  {
-    id:'134799', name:'הפועל באר שבע',
-    p:26, w:18, d:5, l:3, gf:58, ga:25,
-    hw:9, hd:4, hl:0, hgf:29, hga:10,
-    aw:9, ad:1, al:3, agf:29, aga:15,
-    form:['W','W','D','D','W','W']
+// ══════════════════════════════════════════════════
+// LEAGUE DATA — 2025/26 SEASON
+// p=games, w/d/l, gf/ga, hw/hd/hl/hgf/hga, aw/ad/al/agf/aga, form[6]
+// ══════════════════════════════════════════════════
+const LEAGUES = {
+  israel: {
+    id:'israel', name:'ליגת העל', emoji:'🇮🇱', color:'#3b82f6', avgGoals:1.35,
+    accent:{bg:'rgba(59,130,246,.08)',border:'rgba(59,130,246,.3)',text:'#60a5fa',glow:'rgba(59,130,246,.15)',card:'rgba(59,130,246,.05)'},
+    teams:[
+      {id:'hbs',n:'הפועל באר שבע',p:26,w:18,d:5,l:3,gf:58,ga:25,hw:9,hd:4,hl:0,hgf:29,hga:10,aw:9,ad:1,al:3,agf:29,aga:15,form:['W','W','D','D','W','W']},
+      {id:'bjr',n:'בית"ר ירושלים',p:26,w:17,d:6,l:3,gf:61,ga:29,hw:7,hd:5,hl:1,hgf:21,hga:12,aw:10,ad:1,al:2,agf:40,aga:17,form:['W','W','W','D','L','W']},
+      {id:'mta',n:'מכבי תל אביב',p:26,w:14,d:7,l:5,gf:55,ga:32,hw:7,hd:3,hl:3,hgf:27,hga:20,aw:7,ad:4,al:2,agf:28,aga:12,form:['L','W','W','D','W','W']},
+      {id:'hta',n:'הפועל תל אביב',p:26,w:15,d:6,l:5,gf:46,ga:26,hw:12,hd:0,hl:1,hgf:27,hga:9,aw:3,ad:6,al:4,agf:19,aga:17,form:['D','W','D','W','W','W']},
+      {id:'mha',n:'מכבי חיפה',p:26,w:11,d:9,l:6,gf:50,ga:28,hw:8,hd:1,hl:4,hgf:33,hga:15,aw:3,ad:8,al:2,agf:17,aga:13,form:['W','L','L','W','D','W']},
+      {id:'hpt',n:'הפועל פתח תקווה',p:26,w:9,d:10,l:7,gf:41,ga:36,hw:4,hd:5,hl:4,hgf:17,hga:16,aw:5,ad:5,al:3,agf:24,aga:20,form:['D','D','W','L','W','W']},
+      {id:'mne',n:'מכבי נתניה',p:26,w:10,d:5,l:11,gf:45,ga:55,hw:4,hd:5,hl:4,hgf:23,hga:25,aw:6,ad:0,al:7,agf:22,aga:30,form:['D','W','L','W','D','L']},
+      {id:'bsa',n:'בני סכנין',p:26,w:8,d:8,l:10,gf:27,ga:35,hw:4,hd:5,hl:4,hgf:15,hga:16,aw:4,ad:3,al:6,agf:12,aga:19,form:['W','L','D','L','L','D']},
+      {id:'qsh',n:'עירוני קרית שמונה',p:26,w:7,d:6,l:13,gf:37,ga:46,hw:4,hd:3,hl:6,hgf:18,hga:19,aw:3,ad:3,al:7,agf:19,aga:27,form:['L','W','W','D','D','L']},
+      {id:'hhai',n:'הפועל חיפה',p:26,w:6,d:7,l:13,gf:31,ga:44,hw:2,hd:4,hl:7,hgf:19,hga:27,aw:4,ad:3,al:6,agf:12,aga:17,form:['D','L','D','W','L','L']},
+      {id:'asd',n:'מ.ס. אשדוד',p:26,w:5,d:9,l:12,gf:32,ga:50,hw:2,hd:4,hl:7,hgf:19,hga:30,aw:3,ad:5,al:5,agf:13,aga:20,form:['D','L','L','L','W','D']},
+      {id:'hjr',n:'הפועל ירושלים',p:26,w:4,d:9,l:13,gf:22,ga:37,hw:2,hd:5,hl:6,hgf:12,hga:22,aw:2,ad:4,al:7,agf:10,aga:15,form:['L','D','L','L','D','L']},
+      {id:'tib',n:'עירוני טבריה',p:26,w:7,d:6,l:13,gf:32,ga:52,hw:5,hd:3,hl:5,hgf:17,hga:21,aw:2,ad:3,al:8,agf:15,aga:31,form:['D','L','W','D','L','L']},
+      {id:'mbr',n:'מכבי בני ריינה',p:26,w:3,d:3,l:20,gf:17,ga:59,hw:2,hd:2,hl:9,hgf:10,hga:31,aw:1,ad:1,al:11,agf:7,aga:28,form:['L','D','L','L','L','L']},
+    ]
   },
-  {
-    id:'135992', name:'בית"ר ירושלים',
-    p:26, w:17, d:6, l:3, gf:61, ga:29,
-    hw:7, hd:5, hl:1, hgf:21, hga:12,
-    aw:10, ad:1, al:2, agf:40, aga:17,
-    form:['W','W','W','D','L','W']
+  premier: {
+    id:'premier', name:'פרמייר ליג', emoji:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', color:'#8b5cf6', avgGoals:1.4,
+    accent:{bg:'rgba(139,92,246,.08)',border:'rgba(139,92,246,.3)',text:'#c4b5fd',glow:'rgba(139,92,246,.15)',card:'rgba(139,92,246,.05)'},
+    teams:[
+      {id:'ars',n:'Arsenal',p:32,w:21,d:7,l:4,gf:62,ga:24,hw:12,hd:2,hl:2,hgf:36,hga:11,aw:9,ad:5,al:2,agf:26,aga:13,form:['L','W','W','W','W','W']},
+      {id:'mnc',n:'Manchester City',p:31,w:19,d:7,l:5,gf:63,ga:28,hw:11,hd:3,hl:1,hgf:36,hga:11,aw:8,ad:4,al:4,agf:27,aga:17,form:['W','W','D','D','W','W']},
+      {id:'mun',n:'Manchester United',p:32,w:15,d:10,l:7,gf:57,ga:45,hw:10,hd:3,hl:3,hgf:31,hga:19,aw:5,ad:7,al:4,agf:26,aga:26,form:['W','L','W','D','L','W']},
+      {id:'avl',n:'Aston Villa',p:32,w:16,d:7,l:9,gf:43,ga:38,hw:10,hd:2,hl:4,hgf:23,hga:15,aw:6,ad:5,al:5,agf:20,aga:23,form:['L','L','L','W','D','L']},
+      {id:'liv',n:'Liverpool',p:32,w:15,d:7,l:10,gf:52,ga:42,hw:9,hd:4,hl:3,hgf:29,hga:17,aw:6,ad:3,al:7,agf:23,aga:25,form:['W','L','D','L','W','L']},
+      {id:'che',n:'Chelsea',p:32,w:13,d:9,l:10,gf:53,ga:41,hw:6,hd:5,hl:5,hgf:23,hga:20,aw:7,ad:4,al:5,agf:30,aga:21,form:['L','W','L','L','L','W']},
+      {id:'bre',n:'Brentford',p:32,w:13,d:8,l:11,gf:48,ga:44,hw:7,hd:6,hl:3,hgf:28,hga:19,aw:6,ad:2,al:8,agf:20,aga:25,form:['W','D','L','W','W','D']},
+      {id:'eve',n:'Everton',p:32,w:13,d:8,l:11,gf:39,ga:37,hw:6,hd:4,hl:6,hgf:21,hga:19,aw:7,ad:4,al:5,agf:18,aga:18,form:['D','W','L','W','W','D']},
+      {id:'bha',n:'Brighton',p:32,w:12,d:10,l:10,gf:43,ga:37,hw:5,hd:6,hl:5,hgf:21,hga:19,aw:7,ad:4,al:5,agf:22,aga:18,form:['W','L','W','W','W','D']},
+      {id:'sun',n:'Sunderland',p:32,w:12,d:10,l:10,gf:33,ga:36,hw:7,hd:4,hl:5,hgf:19,hga:16,aw:5,ad:6,al:5,agf:14,aga:20,form:['D','W','L','W','W','D']},
+      {id:'bou',n:'Bournemouth',p:32,w:10,d:15,l:7,gf:48,ga:49,hw:5,hd:8,hl:3,hgf:23,hga:19,aw:5,ad:7,al:4,agf:25,aga:30,form:['D','D','D','D','W','D']},
+      {id:'ful',n:'Fulham',p:32,w:13,d:5,l:14,gf:43,ga:46,hw:8,hd:2,hl:6,hgf:22,hga:22,aw:5,ad:3,al:8,agf:21,aga:24,form:['W','L','D','W','L','L']},
+      {id:'cry',n:'Crystal Palace',p:31,w:11,d:9,l:11,gf:35,ga:36,hw:4,hd:7,hl:5,hgf:16,hga:19,aw:7,ad:2,al:6,agf:19,aga:17,form:['W','L','W','D','W','L']},
+      {id:'new',n:'Newcastle',p:32,w:12,d:6,l:14,gf:45,ga:47,hw:8,hd:2,hl:6,hgf:29,hga:26,aw:4,ad:4,al:8,agf:16,aga:21,form:['L','W','W','L','L','W']},
+      {id:'lee',n:'Leeds United',p:32,w:8,d:12,l:12,gf:39,ga:49,hw:6,hd:5,hl:5,hgf:22,hga:20,aw:2,ad:7,al:7,agf:17,aga:29,form:['L','L','D','D','W','D']},
+      {id:'nfo',n:'Nottingham Forest',p:32,w:8,d:9,l:15,gf:32,ga:44,hw:3,hd:6,hl:7,hgf:14,hga:20,aw:5,ad:3,al:8,agf:18,aga:24,form:['L','D','D','W','D','L']},
+      {id:'whu',n:'West Ham',p:32,w:8,d:8,l:16,gf:40,ga:57,hw:4,hd:4,hl:8,hgf:22,hga:28,aw:4,ad:4,al:8,agf:18,aga:29,form:['L','W','D','L','W','L']},
+      {id:'tot',n:'Tottenham',p:32,w:7,d:9,l:16,gf:40,ga:51,hw:2,hd:4,hl:10,hgf:18,hga:28,aw:5,ad:5,al:6,agf:22,aga:23,form:['L','L','D','L','L','L']},
+      {id:'bur',n:'Burnley',p:32,w:4,d:8,l:20,gf:33,ga:63,hw:2,hd:5,hl:9,hgf:15,hga:25,aw:2,ad:3,al:11,agf:18,aga:38,form:['L','L','D','L','L','L']},
+      {id:'wol',n:'Wolverhampton',p:32,w:3,d:8,l:21,gf:24,ga:58,hw:3,hd:3,hl:10,hgf:17,hga:31,aw:0,ad:5,al:11,agf:7,aga:27,form:['L','W','W','D','L','L']},
+    ]
   },
-  {
-    id:'134315', name:'מכבי תל אביב',
-    p:26, w:14, d:7, l:5, gf:55, ga:32,
-    hw:7, hd:3, hl:3, hgf:27, hga:20,
-    aw:7, ad:4, al:2, agf:28, aga:12,
-    form:['L','W','W','D','W','W']
+  laliga: {
+    id:'laliga', name:'לה ליגה', emoji:'🇪🇸', color:'#ef4444', avgGoals:1.38,
+    accent:{bg:'rgba(239,68,68,.08)',border:'rgba(239,68,68,.3)',text:'#fca5a5',glow:'rgba(239,68,68,.12)',card:'rgba(239,68,68,.05)'},
+    teams:[
+      {id:'bar',n:'Barcelona',p:31,w:26,d:1,l:4,gf:84,ga:30,hw:16,hd:0,hl:0,hgf:51,hga:9,aw:10,ad:1,al:4,agf:33,aga:21,form:['W','W','W','W','W','W']},
+      {id:'rma',n:'Real Madrid',p:31,w:22,d:4,l:5,gf:65,ga:29,hw:13,hd:1,hl:2,hgf:37,hga:13,aw:9,ad:3,al:3,agf:28,aga:16,form:['W','W','D','W','W','W']},
+      {id:'vil',n:'Villarreal',p:31,w:19,d:4,l:8,gf:56,ga:36,hw:12,hd:1,hl:2,hgf:34,hga:13,aw:7,ad:3,al:6,agf:22,aga:23,form:['W','L','W','W','W','D']},
+      {id:'atm',n:'Atlético Madrid',p:31,w:17,d:6,l:8,gf:51,ga:32,hw:13,hd:1,hl:2,hgf:35,hga:14,aw:4,ad:5,al:6,agf:16,aga:18,form:['W','W','D','D','L','W']},
+      {id:'bet',n:'Real Betis',p:31,w:11,d:13,l:7,gf:45,ga:38,hw:7,hd:5,hl:3,hgf:26,hga:16,aw:4,ad:8,al:4,agf:19,aga:22,form:['D','D','W','D','D','W']},
+      {id:'cel',n:'Celta Vigo',p:31,w:11,d:11,l:9,gf:44,ga:40,hw:4,hd:5,hl:7,hgf:23,hga:24,aw:7,ad:6,al:2,agf:21,aga:16,form:['W','D','W','D','W','L']},
+      {id:'rso',n:'Real Sociedad',p:31,w:11,d:9,l:11,gf:49,ga:48,hw:8,hd:4,hl:4,hgf:32,hga:24,aw:3,ad:5,al:7,agf:17,aga:24,form:['W','D','L','W','D','L']},
+      {id:'get',n:'Getafe',p:31,w:12,d:5,l:14,gf:27,ga:32,hw:6,hd:3,hl:6,hgf:14,hga:11,aw:6,ad:2,al:8,agf:13,aga:21,form:['L','W','D','W','L','L']},
+      {id:'osa',n:'Osasuna',p:31,w:10,d:9,l:12,gf:37,ga:38,hw:8,hd:5,hl:2,hgf:26,hga:17,aw:2,ad:4,al:10,agf:11,aga:21,form:['D','L','W','D','W','L']},
+      {id:'ath',n:'Athletic Club',p:31,w:9,d:10,l:12,gf:36,ga:36,hw:8,hd:2,hl:6,hgf:20,hga:19,aw:1,ad:8,al:6,agf:16,aga:17,form:['D','W','D','L','D','W']},
+      {id:'esp',n:'Espanyol',p:31,w:9,d:9,l:13,gf:37,ga:48,hw:6,hd:3,hl:6,hgf:18,hga:21,aw:3,ad:6,al:7,agf:19,aga:27,form:['L','D','W','D','L','W']},
+      {id:'ray',n:'Rayo Vallecano',p:31,w:8,d:11,l:12,gf:29,ga:38,hw:5,hd:6,hl:4,hgf:16,hga:14,aw:3,ad:5,al:8,agf:13,aga:24,form:['D','D','W','L','D','D']},
+      {id:'val',n:'Valencia',p:31,w:9,d:8,l:14,gf:34,ga:46,hw:5,hd:4,hl:7,hgf:18,hga:19,aw:4,ad:4,al:7,agf:16,aga:27,form:['L','D','W','L','D','L']},
+      {id:'mal',n:'Mallorca',p:31,w:9,d:7,l:15,gf:39,ga:48,hw:8,hd:4,hl:4,hgf:26,hga:19,aw:1,ad:3,al:11,agf:13,aga:29,form:['W','D','L','L','D','W']},
+      {id:'sev',n:'Sevilla',p:31,w:9,d:7,l:15,gf:39,ga:51,hw:5,hd:4,hl:7,hgf:21,hga:23,aw:4,ad:3,al:8,agf:18,aga:28,form:['L','W','D','L','L','D']},
+      {id:'ala',n:'Alavés',p:31,w:8,d:9,l:14,gf:35,ga:46,hw:5,hd:6,hl:4,hgf:19,hga:18,aw:3,ad:3,al:10,agf:16,aga:28,form:['W','D','L','D','L','L']},
+      {id:'elc',n:'Elche',p:31,w:7,d:11,l:13,gf:39,ga:47,hw:7,hd:7,hl:2,hgf:25,hga:16,aw:0,ad:4,al:11,agf:14,aga:31,form:['D','W','D','D','L','L']},
+      {id:'gir',n:'Girona',p:31,w:7,d:9,l:15,gf:39,ga:57,hw:4,hd:2,hl:9,hgf:23,hga:33,aw:3,ad:7,al:6,agf:16,aga:24,form:['D','L','D','L','W','D']},
+      {id:'lev',n:'Levante',p:31,w:7,d:8,l:16,gf:35,ga:50,hw:5,hd:4,hl:7,hgf:21,hga:20,aw:2,ad:4,al:9,agf:14,aga:30,form:['L','D','D','W','L','L']},
+      {id:'ovi',n:'Real Oviedo',p:31,w:6,d:9,l:16,gf:27,ga:44,hw:4,hd:6,hl:6,hgf:14,hga:16,aw:2,ad:3,al:10,agf:13,aga:28,form:['D','L','L','D','D','L']},
+    ]
   },
-  {
-    id:'134124', name:'הפועל תל אביב',
-    p:26, w:15, d:6, l:5, gf:46, ga:26,
-    hw:12, hd:0, hl:1, hgf:27, hga:9,
-    aw:3, ad:6, al:4, agf:19, aga:17,
-    form:['D','W','D','W','W','W']
+  seriea: {
+    id:'seriea', name:'סרייה א', emoji:'🇮🇹', color:'#10b981', avgGoals:1.42,
+    accent:{bg:'rgba(16,185,129,.08)',border:'rgba(16,185,129,.3)',text:'#6ee7b7',glow:'rgba(16,185,129,.12)',card:'rgba(16,185,129,.05)'},
+    teams:[
+      {id:'int',n:'Inter Milan',p:32,w:24,d:3,l:5,gf:75,ga:29,hw:12,hd:2,hl:2,hgf:44,hga:15,aw:12,ad:1,al:3,agf:31,aga:14,form:['W','W','W','D','W','W']},
+      {id:'nap',n:'Napoli',p:32,w:20,d:6,l:6,gf:48,ga:31,hw:11,hd:4,hl:0,hgf:26,hga:13,aw:9,ad:2,al:6,agf:22,aga:18,form:['W','W','D','W','D','W']},
+      {id:'acm',n:'AC Milan',p:32,w:18,d:9,l:5,gf:47,ga:27,hw:9,hd:4,hl:3,hgf:22,hga:16,aw:9,ad:5,al:2,agf:25,aga:11,form:['W','D','W','W','D','W']},
+      {id:'juv',n:'Juventus',p:32,w:17,d:9,l:6,gf:55,ga:29,hw:9,hd:6,hl:1,hgf:32,hga:13,aw:8,ad:3,al:5,agf:23,aga:16,form:['D','W','D','D','W','W']},
+      {id:'com',n:'Como',p:32,w:16,d:10,l:6,gf:56,ga:26,hw:9,hd:5,hl:3,hgf:34,hga:15,aw:7,ad:5,al:3,agf:22,aga:11,form:['W','D','W','W','W','D']},
+      {id:'rom',n:'Roma',p:32,w:18,d:3,l:11,gf:45,ga:28,hw:11,hd:2,hl:3,hgf:26,hga:9,aw:7,ad:1,al:8,agf:19,aga:19,form:['W','L','D','W','W','L']},
+      {id:'ata',n:'Atalanta',p:32,w:14,d:11,l:7,gf:44,ga:28,hw:9,hd:5,hl:3,hgf:25,hga:14,aw:5,ad:6,al:4,agf:19,aga:14,form:['D','L','W','D','D','W']},
+      {id:'bol',n:'Bologna',p:32,w:14,d:6,l:12,gf:42,ga:37,hw:6,hd:2,hl:8,hgf:16,hga:18,aw:8,ad:4,al:4,agf:26,aga:19,form:['W','D','L','W','W','D']},
+      {id:'laz',n:'Lazio',p:32,w:11,d:11,l:10,gf:32,ga:30,hw:7,hd:5,hl:4,hgf:22,hga:18,aw:4,ad:6,al:6,agf:10,aga:12,form:['W','D','L','D','D','W']},
+      {id:'udi',n:'Udinese',p:32,w:12,d:7,l:13,gf:38,ga:42,hw:5,hd:5,hl:6,hgf:16,hga:19,aw:7,ad:2,al:7,agf:22,aga:23,form:['W','L','W','D','L','W']},
+      {id:'sas',n:'Sassuolo',p:32,w:12,d:6,l:14,gf:39,ga:43,hw:7,hd:2,hl:7,hgf:19,hga:22,aw:5,ad:4,al:7,agf:20,aga:21,form:['L','D','W','W','L','D']},
+      {id:'tor',n:'Torino',p:32,w:11,d:6,l:15,gf:37,ga:54,hw:7,hd:2,hl:7,hgf:21,hga:24,aw:4,ad:4,al:8,agf:16,aga:30,form:['L','W','D','W','L','L']},
+      {id:'gen',n:'Genoa',p:32,w:9,d:9,l:14,gf:38,ga:45,hw:6,hd:4,hl:7,hgf:21,hga:22,aw:3,ad:5,al:7,agf:17,aga:23,form:['D','L','W','D','D','L']},
+      {id:'par',n:'Parma',p:32,w:8,d:12,l:12,gf:23,ga:40,hw:5,hd:6,hl:5,hgf:11,hga:18,aw:3,ad:6,al:7,agf:12,aga:22,form:['D','L','L','D','D','D']},
+      {id:'fio',n:'Fiorentina',p:32,w:8,d:11,l:13,gf:37,ga:44,hw:4,hd:6,hl:6,hgf:20,hga:20,aw:4,ad:5,al:7,agf:17,aga:24,form:['D','L','W','D','L','W']},
+      {id:'cag',n:'Cagliari',p:32,w:8,d:9,l:15,gf:33,ga:44,hw:5,hd:4,hl:7,hgf:17,hga:18,aw:3,ad:5,al:8,agf:16,aga:26,form:['L','D','D','L','W','D']},
+      {id:'cre',n:'Cremonese',p:32,w:6,d:9,l:17,gf:26,ga:47,hw:3,hd:5,hl:8,hgf:14,hga:22,aw:3,ad:4,al:9,agf:12,aga:25,form:['L','D','L','L','W','D']},
+      {id:'lec',n:'Lecce',p:32,w:7,d:6,l:19,gf:21,ga:45,hw:4,hd:3,hl:9,hgf:12,hga:22,aw:3,ad:3,al:10,agf:9,aga:23,form:['L','W','L','L','D','L']},
+      {id:'ver',n:'Hellas Verona',p:32,w:3,d:9,l:20,gf:23,ga:55,hw:2,hd:5,hl:9,hgf:12,hga:26,aw:1,ad:4,al:11,agf:11,aga:29,form:['D','L','L','D','L','L']},
+      {id:'pis',n:'Pisa',p:32,w:2,d:12,l:18,gf:23,ga:58,hw:1,hd:7,hl:8,hgf:12,hga:27,aw:1,ad:5,al:10,agf:11,aga:31,form:['D','L','D','L','L','D']},
+    ]
   },
-  {
-    id:'134400', name:'מכבי חיפה',
-    p:26, w:11, d:9, l:6, gf:50, ga:28,
-    hw:8, hd:1, hl:4, hgf:33, hga:15,
-    aw:3, ad:8, al:2, agf:17, aga:13,
-    form:['W','L','L','W','D','W']
+  bundesliga: {
+    id:'bundesliga', name:'בונדסליגה', emoji:'🇩🇪', color:'#f59e0b', avgGoals:1.6,
+    accent:{bg:'rgba(245,158,11,.08)',border:'rgba(245,158,11,.3)',text:'#fcd34d',glow:'rgba(245,158,11,.12)',card:'rgba(245,158,11,.05)'},
+    teams:[
+      {id:'bay',n:'Bayern Munich',p:29,w:24,d:4,l:1,gf:105,ga:27,hw:12,hd:1,hl:1,hgf:56,hga:13,aw:12,ad:3,al:0,agf:49,aga:14,form:['W','W','W','W','W','D']},
+      {id:'dor',n:'Borussia Dortmund',p:29,w:19,d:7,l:3,gf:60,ga:29,hw:11,hd:2,hl:2,hgf:33,hga:14,aw:8,ad:5,al:1,agf:27,aga:15,form:['W','W','D','W','W','L']},
+      {id:'stu',n:'VfB Stuttgart',p:29,w:17,d:5,l:7,gf:60,ga:38,hw:11,hd:2,hl:2,hgf:26,hga:14,aw:6,ad:3,al:5,agf:34,aga:24,form:['W','W','W','L','W','D']},
+      {id:'lei',n:'RB Leipzig',p:29,w:17,d:4,l:8,gf:69,ga:43,hw:10,hd:2,hl:3,hgf:35,hga:18,aw:7,ad:2,al:5,agf:34,aga:25,form:['W','D','W','W','W','L']},
+      {id:'lev',n:'Bayer Leverkusen',p:29,w:15,d:7,l:7,gf:64,ga:34,hw:8,hd:3,hl:3,hgf:32,hga:15,aw:7,ad:4,al:4,agf:32,aga:19,form:['W','W','D','D','W','W']},
+      {id:'hof',n:'Hoffenheim',p:29,w:14,d:5,l:10,gf:55,ga:41,hw:8,hd:1,hl:5,hgf:29,hga:17,aw:6,ad:4,al:3,agf:26,aga:24,form:['W','W','L','D','L','W']},
+      {id:'fri',n:'SC Freiburg',p:29,w:11,d:7,l:11,gf:42,ga:47,hw:7,hd:4,hl:3,hgf:26,hga:19,aw:4,ad:3,al:8,agf:16,aga:28,form:['W','W','D','L','L','L']},
+      {id:'ein',n:'Eintracht Frankfurt',p:29,w:11,d:9,l:9,gf:54,ga:54,hw:7,hd:3,hl:4,hgf:25,hga:20,aw:4,ad:6,al:5,agf:29,aga:34,form:['L','W','W','W','D','D']},
+      {id:'aug',n:'FC Augsburg',p:29,w:9,d:6,l:14,gf:36,ga:53,hw:6,hd:4,hl:5,hgf:21,hga:26,aw:3,ad:2,al:9,agf:15,aga:27,form:['W','W','W','L','D','L']},
+      {id:'ham',n:'Hamburger SV',p:29,w:7,d:10,l:12,gf:32,ga:45,hw:5,hd:6,hl:4,hgf:21,hga:18,aw:2,ad:4,al:8,agf:11,aga:27,form:['W','L','L','D','D','W']},
+      {id:'kol',n:'1. FC Köln',p:29,w:7,d:9,l:13,gf:43,ga:50,hw:5,hd:4,hl:6,hgf:28,hga:25,aw:2,ad:5,al:7,agf:15,aga:25,form:['L','D','L','D','W','D']},
+      {id:'mai',n:'FSV Mainz',p:29,w:8,d:9,l:12,gf:35,ga:44,hw:4,hd:5,hl:6,hgf:17,hga:18,aw:4,ad:4,al:6,agf:18,aga:26,form:['W','D','D','W','L','D']},
+      {id:'mgl',n:'Mönchengladbach',p:29,w:7,d:9,l:13,gf:35,ga:49,hw:4,hd:5,hl:5,hgf:18,hga:23,aw:3,ad:4,al:8,agf:17,aga:26,form:['L','D','W','W','D','L']},
+      {id:'uni',n:'Union Berlin',p:29,w:7,d:8,l:14,gf:33,ga:50,hw:4,hd:6,hl:4,hgf:19,hga:22,aw:3,ad:2,al:10,agf:14,aga:28,form:['L','D','W','L','L','D']},
+      {id:'wer',n:'Werder Bremen',p:29,w:7,d:7,l:15,gf:32,ga:52,hw:4,hd:4,hl:6,hgf:15,hga:25,aw:3,ad:3,al:9,agf:17,aga:27,form:['L','L','W','W','L','L']},
+      {id:'pau',n:'St. Pauli',p:29,w:6,d:7,l:16,gf:25,ga:50,hw:4,hd:4,hl:6,hgf:14,hga:25,aw:2,ad:3,al:10,agf:11,aga:25,form:['L','L','W','L','D','W']},
+      {id:'hei',n:'Heidenheim',p:29,w:5,d:8,l:16,gf:35,ga:57,hw:3,hd:5,hl:7,hgf:21,hga:35,aw:2,ad:3,al:9,agf:14,aga:22,form:['W','D','L','D','L','L']},
+      {id:'wol',n:'Wolfsburg',p:29,w:5,d:6,l:18,gf:26,ga:58,hw:3,hd:3,hl:8,hgf:14,hga:25,aw:2,ad:3,al:10,agf:12,aga:33,form:['L','D','L','D','L','L']},
+    ]
   },
-  {
-    id:'141238', name:'הפועל פתח תקווה',
-    p:26, w:9, d:10, l:7, gf:41, ga:36,
-    hw:4, hd:5, hl:4, hgf:17, hga:16,
-    aw:5, ad:5, al:3, agf:24, aga:20,
-    form:['D','D','W','L','W','W']
-  },
-  {
-    id:'134087', name:'מכבי נתניה',
-    p:26, w:10, d:5, l:11, gf:45, ga:55,
-    hw:4, hd:5, hl:4, hgf:23, hga:25,
-    aw:6, ad:0, al:7, agf:22, aga:30,
-    form:['D','W','L','W','D','L']
-  },
-  {
-    id:'135994', name:'בני סכנין',
-    p:26, w:8, d:8, l:10, gf:27, ga:35,
-    hw:4, hd:5, hl:4, hgf:15, hga:16,
-    aw:4, ad:3, al:6, agf:12, aga:19,
-    form:['W','L','D','L','L','D']
-  },
-  {
-    id:'133950', name:'עירוני קרית שמונה',
-    p:26, w:7, d:6, l:13, gf:37, ga:46,
-    hw:4, hd:3, hl:6, hgf:18, hga:19,
-    aw:3, ad:3, al:7, agf:19, aga:27,
-    form:['L','W','W','D','D','L']
-  },
-  {
-    id:'135995', name:'הפועל חיפה',
-    p:26, w:6, d:7, l:13, gf:31, ga:44,
-    hw:2, hd:4, hl:7, hgf:19, hga:27,
-    aw:4, ad:3, al:6, agf:12, aga:17,
-    form:['D','L','D','W','L','L']
-  },
-  {
-    id:'135991', name:'מ.ס. אשדוד',
-    p:26, w:5, d:9, l:12, gf:32, ga:50,
-    hw:2, hd:4, hl:7, hgf:19, hga:30,
-    aw:3, ad:5, al:5, agf:13, aga:20,
-    form:['D','L','L','L','W','D']
-  },
-  {
-    id:'141235', name:'הפועל ירושלים',
-    p:26, w:4, d:9, l:13, gf:22, ga:37,
-    hw:2, hd:5, hl:6, hgf:12, hga:22,
-    aw:2, ad:4, al:7, agf:10, aga:15,
-    form:['L','D','L','L','D','L']
-  },
-  {
-    id:'146401', name:'עירוני טבריה',
-    p:26, w:7, d:6, l:13, gf:32, ga:52,
-    hw:5, hd:3, hl:5, hgf:17, hga:21,
-    aw:2, ad:3, al:8, agf:15, aga:31,
-    form:['D','L','W','D','L','L']
-  },
-  {
-    id:'141801', name:'מכבי בני ריינה',
-    p:26, w:3, d:3, l:20, gf:17, ga:59,
-    hw:2, hd:2, hl:9, hgf:10, hga:31,
-    aw:1, ad:1, al:11, agf:7, aga:28,
-    form:['L','D','L','L','L','L']
+  ucl: {
+    id:'ucl', name:"צ'מפיונס ליג", emoji:'⭐', color:'#f59e0b', avgGoals:1.7,
+    accent:{bg:'rgba(245,158,11,.1)',border:'rgba(245,158,11,.35)',text:'#fde68a',glow:'rgba(245,158,11,.18)',card:'rgba(245,158,11,.07)'},
+    teams:[
+      {id:'ars',n:'Arsenal',p:8,w:8,d:0,l:0,gf:23,ga:4,hw:4,hd:0,hl:0,hgf:12,hga:1,aw:4,ad:0,al:0,agf:11,aga:3,form:['W','W','W','W','W','W']},
+      {id:'bay',n:'Bayern Munich',p:8,w:7,d:0,l:1,gf:22,ga:8,hw:4,hd:0,hl:0,hgf:12,hga:4,aw:3,ad:0,al:1,agf:10,aga:4,form:['W','W','W','W','W','L']},
+      {id:'liv',n:'Liverpool',p:8,w:6,d:0,l:2,gf:20,ga:8,hw:3,hd:0,hl:1,hgf:10,hga:5,aw:3,ad:0,al:1,agf:10,aga:3,form:['W','W','W','W','L','W']},
+      {id:'tot',n:'Tottenham',p:8,w:5,d:2,l:1,gf:17,ga:7,hw:3,hd:1,hl:0,hgf:9,hga:3,aw:2,ad:1,al:1,agf:8,aga:4,form:['W','D','W','W','W','D']},
+      {id:'bar',n:'Barcelona',p:8,w:5,d:1,l:2,gf:22,ga:14,hw:2,hd:1,hl:1,hgf:10,hga:7,aw:3,ad:0,al:1,agf:12,aga:7,form:['W','W','D','W','L','W']},
+      {id:'che',n:'Chelsea',p:8,w:5,d:1,l:2,gf:17,ga:10,hw:3,hd:0,hl:1,hgf:9,hga:5,aw:2,ad:1,al:1,agf:8,aga:5,form:['L','W','W','W','D','W']},
+      {id:'mnc',n:'Manchester City',p:8,w:5,d:1,l:2,gf:15,ga:9,hw:2,hd:1,hl:1,hgf:8,hga:5,aw:3,ad:0,al:1,agf:7,aga:4,form:['W','W','D','W','W','L']},
+      {id:'rma',n:'Real Madrid',p:8,w:5,d:0,l:3,gf:21,ga:12,hw:3,hd:0,hl:1,hgf:11,hga:5,aw:2,ad:0,al:2,agf:10,aga:7,form:['W','W','L','W','L','W']},
+      {id:'int',n:'Inter Milan',p:8,w:5,d:0,l:3,gf:15,ga:7,hw:3,hd:0,hl:1,hgf:9,hga:3,aw:2,ad:0,al:2,agf:6,aga:4,form:['W','W','L','W','W','L']},
+      {id:'psg',n:'PSG',p:8,w:4,d:2,l:2,gf:21,ga:11,hw:2,hd:1,hl:1,hgf:10,hga:5,aw:2,ad:1,al:1,agf:11,aga:6,form:['W','D','W','D','W','L']},
+      {id:'new',n:'Newcastle',p:8,w:4,d:2,l:2,gf:17,ga:7,hw:2,hd:1,hl:1,hgf:9,hga:3,aw:2,ad:1,al:1,agf:8,aga:4,form:['W','D','W','D','L','W']},
+      {id:'juv',n:'Juventus',p:8,w:3,d:4,l:1,gf:14,ga:10,hw:2,hd:2,hl:0,hgf:8,hga:4,aw:1,ad:2,al:1,agf:6,aga:6,form:['D','W','D','D','W','L']},
+      {id:'atm',n:'Atlético Madrid',p:8,w:4,d:1,l:3,gf:17,ga:15,hw:2,hd:1,hl:1,hgf:9,hga:7,aw:2,ad:0,al:2,agf:8,aga:8,form:['W','L','D','W','L','W']},
+      {id:'ata',n:'Atalanta',p:8,w:4,d:1,l:3,gf:10,ga:10,hw:2,hd:1,hl:1,hgf:5,hga:5,aw:2,ad:0,al:2,agf:5,aga:5,form:['D','L','W','W','L','W']},
+      {id:'lev4',n:'Bayer Leverkusen',p:8,w:3,d:3,l:2,gf:13,ga:14,hw:2,hd:1,hl:1,hgf:7,hga:6,aw:1,ad:2,al:1,agf:6,aga:8,form:['D','W','D','D','W','L']},
+      {id:'dor4',n:'Borussia Dortmund',p:8,w:3,d:2,l:3,gf:19,ga:17,hw:2,hd:1,hl:1,hgf:11,hga:8,aw:1,ad:1,al:2,agf:8,aga:9,form:['W','D','W','W','L','L']},
+      {id:'acm',n:'AC Milan',p:8,w:5,d:0,l:3,gf:14,ga:11,hw:3,hd:0,hl:1,hgf:8,hga:5,aw:2,ad:0,al:2,agf:6,aga:6,form:['W','L','W','W','L','W']},
+    ]
   }
-];
+};
 
-const LEAGUE_AVG_GOALS = 1.35; // ממוצע ליגתי לקבוצה
-
-function getTeamStats(team, isHome) {
-  const p = team.p || 26;
-  // ממוצע התקפה והגנה מופרד לבית/חוץ
-  const hGames = team.hw + team.hd + team.hl;
-  const aGames = team.aw + team.ad + team.al;
-  return {
-    played: p,
-    wins: team.w, draws: team.d, losses: team.l,
-    points: team.w * 3 + team.d,
-    goalsFor: team.gf, goalsAgainst: team.ga,
-    avgGoalsFor: team.gf / p,
-    avgGoalsAgainst: team.ga / p,
-    homeAvgFor: hGames > 0 ? team.hgf / hGames : team.gf / p,
-    homeAvgAgainst: hGames > 0 ? team.hga / hGames : team.ga / p,
-    awayAvgFor: aGames > 0 ? team.agf / aGames : team.gf / p,
-    awayAvgAgainst: aGames > 0 ? team.aga / aGames : team.ga / p,
-    form: team.form || [],
-    formScore: (team.form || []).slice(0,5).reduce((s,r) => s + (r==='W'?3:r==='D'?1:0), 0)
-  };
+// ══════════════════════════════════════════════════
+// ACCENT CSS injection per league
+// ══════════════════════════════════════════════════
+let currentLeague = 'israel';
+function applyAccent(a){
+  const r=document.documentElement.style;
+  r.setProperty('--accent-bg',a.bg);
+  r.setProperty('--accent-border',a.border);
+  r.setProperty('--accent-text',a.text);
+  r.setProperty('--accent-glow',a.glow);
+  r.setProperty('--accent-card',a.card);
 }
 
-function poissonPMF(lambda, k) {
-  if (lambda <= 0) lambda = 0.1;
-  let result = Math.exp(-lambda);
-  for (let i = 1; i <= k; i++) result *= lambda / i;
-  return result;
+// ══════════════════════════════════════════════════
+// POISSON ENGINE
+// ══════════════════════════════════════════════════
+function poissonPMF(λ,k){
+  if(λ<=0)λ=0.1;
+  let v=Math.exp(-λ);
+  for(let i=1;i<=k;i++)v*=λ/i;
+  return v;
 }
-
-function calculateProbabilities(homeTeam, awayTeam) {
-  const hs = getTeamStats(homeTeam, true);
-  const as = getTeamStats(awayTeam, false);
-
-  // מודל Dixon-Coles מפושט עם יתרון בית
-  const HOME_ADVANTAGE = 1.20;
-  const leagueAvg = LEAGUE_AVG_GOALS;
-
-  // attack/defense strength based on home/away splits
-  const homeAttack = hs.homeAvgFor / leagueAvg;
-  const homeDefense = hs.homeAvgAgainst / leagueAvg;
-  const awayAttack = as.awayAvgFor / leagueAvg;
-  const awayDefense = as.awayAvgAgainst / leagueAvg;
-
-  // Form multiplier (last 5 games)
-  const homeFormMult = 0.85 + (hs.formScore / 15) * 0.30;
-  const awayFormMult = 0.85 + (as.formScore / 15) * 0.30;
-
-  // Expected goals
-  const expectedHome = Math.max(0.3, homeAttack * awayDefense * leagueAvg * HOME_ADVANTAGE * homeFormMult);
-  const expectedAway = Math.max(0.3, awayAttack * homeDefense * leagueAvg * awayFormMult);
-
-  let homeWin = 0, draw = 0, awayWin = 0;
-  for (let h = 0; h <= 8; h++) {
-    for (let a = 0; a <= 8; a++) {
-      const p = poissonPMF(expectedHome, h) * poissonPMF(expectedAway, a);
-      if (h > a) homeWin += p;
-      else if (h === a) draw += p;
-      else awayWin += p;
-    }
+function predict(ht,at,lg){
+  const lAvg=lg.avgGoals;
+  const hG=ht.hw+ht.hd+ht.hl||1, aG=at.aw+at.ad+at.al||1;
+  const hHA=ht.hgf/hG/lAvg, hHD=ht.hga/hG/lAvg;
+  const aAA=at.agf/aG/lAvg, aAD=at.aga/aG/lAvg;
+  const hForm=(ht.form||[]).slice(0,5).reduce((s,r)=>s+(r==='W'?3:r==='D'?1:0),0);
+  const aForm=(at.form||[]).slice(0,5).reduce((s,r)=>s+(r==='W'?3:r==='D'?1:0),0);
+  const hFm=0.85+(hForm/15)*.3, aFm=0.85+(aForm/15)*.3;
+  const HOME_ADV=1.18;
+  const xH=Math.max(.25,hHA*aAD*lAvg*HOME_ADV*hFm);
+  const xA=Math.max(.25,aAA*hHD*lAvg*aFm);
+  let hw=0,dr=0,aw=0;
+  for(let h=0;h<=9;h++)for(let a=0;a<=9;a++){
+    const p=poissonPMF(xH,h)*poissonPMF(xA,a);
+    if(h>a)hw+=p;else if(h===a)dr+=p;else aw+=p;
   }
-  const total = homeWin + draw + awayWin;
-  return {
-    home: homeWin / total * 100,
-    draw: draw / total * 100,
-    away: awayWin / total * 100,
-    expectedHome,
-    expectedAway,
-    homeStats: hs,
-    awayStats: as
-  };
+  const tot=hw+dr+aw;
+  return{home:hw/tot*100,draw:dr/tot*100,away:aw/tot*100,xH,xA,
+    hForm,aForm,
+    hAvgG:ht.gf/ht.p,hAvgGA:ht.ga/ht.p,
+    aAvgG:at.gf/at.p,aAvgGA:at.ga/at.p,
+    hPts:ht.w*3+ht.d,aPts:at.w*3+at.d};
 }
 
-function generateInsights(ht, at, p) {
-  const hs = p.homeStats, as = p.awayStats;
-  const ins = [];
-
-  if (p.home > p.away + 20) ins.push(`<strong>${ht.name}</strong> פייבוריטית ברורה — ${p.home.toFixed(0)}% סיכוי לניצחון בית`);
-  else if (p.away > p.home + 20) ins.push(`<strong>${at.name}</strong> פייבוריטית גם כקבוצת חוץ — ${p.away.toFixed(0)}% סיכוי`);
-  else if (Math.abs(p.home - p.away) < 8) ins.push(`משחק מאוזן במיוחד — ההפרש בין הסיכויים קטן מ-8%, תוצאה פתוחה`);
-  else ins.push(`<strong>${p.home > p.away ? ht.name : at.name}</strong> מעט עדיפה עם ${Math.max(p.home,p.away).toFixed(0)}% סיכוי`);
-
-  if (hs.formScore >= 12) ins.push(`${ht.name} בצורה מעולה — ${hs.formScore}/15 נקודות ב-5 משחקים אחרונים`);
-  else if (hs.formScore <= 4) ins.push(`${ht.name} במשבר — רק ${hs.formScore}/15 נקודות ב-5 משחקים אחרונים`);
-
-  if (as.formScore >= 12) ins.push(`${at.name} בצורה מעולה — ${as.formScore}/15 נקודות ב-5 משחקים אחרונים`);
-  else if (as.formScore <= 4) ins.push(`${at.name} במשבר — רק ${as.formScore}/15 נקודות ב-5 משחקים אחרונים`);
-
-  const totalExpected = p.expectedHome + p.expectedAway;
-  if (totalExpected > 3.2) ins.push(`צפי ל<strong>משחק עתיר שערים</strong> — ${totalExpected.toFixed(1)} שערים צפויים`);
-  else if (totalExpected < 2.0) ins.push(`צפי ל<strong>משחק שמרני</strong> — פחות מ-2 שערים צפויים`);
-  else ins.push(`צפי ל-${totalExpected.toFixed(1)} שערים במשחק`);
-
-  if (hs.homeAvgFor > 2.2) ins.push(`${ht.name} אדירה בבית — ממוצע ${hs.homeAvgFor.toFixed(1)} שערים לזכות בבית`);
-  if (as.awayAvgFor > 2.0) ins.push(`${at.name} מסוכנת גם בחוץ — ${as.awayAvgFor.toFixed(1)} שערים בממוצע`);
-
-  ins.push(`תחזית תוצאה סבירה: <strong>${Math.round(p.expectedHome)}-${Math.round(p.expectedAway)}</strong>`);
-  return ins;
+// ══════════════════════════════════════════════════
+// ODDS (implied from probs + 5% margin)
+// ══════════════════════════════════════════════════
+function toOdds(pct){
+  const p=Math.max(1,pct)/100;
+  return(1/(p*0.95)).toFixed(2);
 }
 
-function renderTeamStats(team, stats) {
-  const formBadges = stats.form.slice(0,6).map(r =>
-    `<div class="form-badge ${r}">${r==='W'?'נ':r==='D'?'ת':'ה'}</div>`
-  ).join('');
-  return `<div class="stat-block">
-    <h3>${team.name}</h3>
-    <div class="stat-row"><span class="label">משחקים בעונה</span><span class="value">${stats.played}</span></div>
-    <div class="stat-row"><span class="label">נ / ת / ה</span><span class="value">${stats.wins} / ${stats.draws} / ${stats.losses}</span></div>
-    <div class="stat-row"><span class="label">שערים</span><span class="value">${stats.goalsFor} : ${stats.goalsAgainst}</span></div>
-    <div class="stat-row"><span class="label">ממוצע התקפה</span><span class="value">${stats.avgGoalsFor.toFixed(2)}/מ'</span></div>
-    <div class="stat-row"><span class="label">ממוצע הגנה</span><span class="value">${stats.avgGoalsAgainst.toFixed(2)}/מ'</span></div>
-    <div class="stat-row"><span class="label">צורה (6 אחרונים)</span><span class="value">${stats.formScore}/15</span></div>
-    <div class="form-badges">${formBadges}</div>
-  </div>`;
+// ══════════════════════════════════════════════════
+// INSIGHTS
+// ══════════════════════════════════════════════════
+function buildInsights(ht,at,r,lg){
+  const i=[];
+  const max=Math.max(r.home,r.draw,r.away);
+  if(r.home===max)i.push(`<strong>${ht.n}</strong> — הצד המועדף עם ${r.home.toFixed(0)}% סיכוי לניצחון בית`);
+  else if(r.away===max)i.push(`<strong>${at.n}</strong> — פייבוריטית גם כקבוצת חוץ: ${r.away.toFixed(0)}%`);
+  else i.push(`משחק מאוזן — ההפרש בסיכויים קטן מ-${Math.abs(r.home-r.away).toFixed(0)}%`);
+  if(r.hForm>=12)i.push(`${ht.n} בצורה מרשימה — ${r.hForm}/15 נקודות ב-5 המשחקים האחרונים`);
+  else if(r.hForm<=4)i.push(`${ht.n} במשבר — רק ${r.hForm}/15 נקודות ב-5 משחקים אחרונים`);
+  if(r.aForm>=12)i.push(`${at.n} בכושר מעולה — ${r.aForm}/15 נקודות ב-5 אחרונים`);
+  else if(r.aForm<=4)i.push(`${at.n} ענייה בצורה — ${r.aForm}/15 נקודות`);
+  const tot=r.xH+r.xA;
+  if(tot>3.2)i.push(`משחק עתיר שערים — ${tot.toFixed(1)} שערים צפויים, ה-Over 2.5 אטרקטיבי`);
+  else if(tot<1.8)i.push(`משחק שמרני — ${tot.toFixed(1)} שערים צפויים, כנראה מעט גולים`);
+  else i.push(`סך שערים צפויים: ${tot.toFixed(1)} — שתי קבוצות צפויות לסיים עם גולים`);
+  if(Math.abs(r.hPts-r.aPts)>15)i.push(`פער נקודות ניכר — ${r.hPts-r.aPts>0?ht.n:at.n} מובילה ב-${Math.abs(r.hPts-r.aPts)} נקודות בליגה`);
+  i.push(`תחזית מובילה: <strong>${Math.round(r.xH)} – ${Math.round(r.xA)}</strong>`);
+  return i;
 }
 
-function renderResults(homeTeam, awayTeam, probs) {
-  document.getElementById('homeNameDisplay').textContent = homeTeam.name;
-  document.getElementById('awayNameDisplay').textContent = awayTeam.name;
+// ══════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════
+function renderResults(ht,at,r,lg){
+  document.getElementById('homeDisplay').textContent=ht.n;
+  document.getElementById('awayDisplay').textContent=at.n;
+  document.getElementById('matchLeagueLabel').textContent=lg.emoji+' '+lg.name+' · עונה 2025/26';
 
-  const mx = Math.max(probs.home, probs.draw, probs.away);
-  document.getElementById('probsBox').innerHTML = `
-    <div class="prob-item ${probs.home===mx?'winner':''}">
-      <div class="prob-label">ניצחון בית</div>
-      <div class="prob-team">${homeTeam.name}</div>
-      <div class="prob-value home">${probs.home.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
-      <div class="prob-bar"><div class="prob-bar-fill home" style="width:${probs.home}%"></div></div>
+  const max=Math.max(r.home,r.draw,r.away);
+  document.getElementById('probGrid').innerHTML=[
+    {cls:'home',lbl:'ניצחון בית',tm:ht.n,val:r.home},
+    {cls:'draw',lbl:'תיקו',tm:'X',val:r.draw},
+    {cls:'away',lbl:'ניצחון חוץ',tm:at.n,val:r.away}
+  ].map(({cls,lbl,tm,val})=>`
+    <div class="prob-card${val===max?' best':''}">
+      <div class="prob-label">${lbl}</div>
+      <div class="prob-team-name">${tm}</div>
+      <div class="prob-pct ${cls}">${val.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
+      <div class="prob-bar"><div class="prob-bar-fill ${cls}" style="width:0" data-w="${val}"></div></div>
+    </div>`).join('');
+
+  document.getElementById('oddsRow').innerHTML=[
+    {lbl:'קורס בית',val:toOdds(r.home),col:'#34d399'},
+    {lbl:'קורס תיקו',val:toOdds(r.draw),col:'#fbbf24'},
+    {lbl:'קורס חוץ',val:toOdds(r.away),col:'#f472b6'},
+    {lbl:'שערים צפויים',val:(r.xH+r.xA).toFixed(2),col:'#a78bfa'}
+  ].map(({lbl,val,col})=>`
+    <div class="odd-box">
+      <div class="odd-label">${lbl}</div>
+      <div class="odd-val" style="color:${col}">${val}</div>
+    </div>`).join('');
+
+  const xMax=Math.max(r.xH,r.xA,0.1);
+  document.getElementById('xgContent').innerHTML=`
+    <div class="xg-bar-row">
+      <div class="xg-team-label">${ht.n.length>14?ht.n.substring(0,12)+'…':ht.n}</div>
+      <div class="xg-track"><div class="xg-fill-home" style="width:0" data-w="${r.xH/xMax*100}%"></div></div>
+      <div class="xg-val home">${r.xH.toFixed(2)}</div>
     </div>
-    <div class="prob-item ${probs.draw===mx?'winner':''}">
-      <div class="prob-label">תיקו</div>
-      <div class="prob-team">X</div>
-      <div class="prob-value draw">${probs.draw.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
-      <div class="prob-bar"><div class="prob-bar-fill draw" style="width:${probs.draw}%"></div></div>
-    </div>
-    <div class="prob-item ${probs.away===mx?'winner':''}">
-      <div class="prob-label">ניצחון חוץ</div>
-      <div class="prob-team">${awayTeam.name}</div>
-      <div class="prob-value away">${probs.away.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
-      <div class="prob-bar"><div class="prob-bar-fill away" style="width:${probs.away}%"></div></div>
+    <div class="xg-bar-row">
+      <div class="xg-team-label">${at.n.length>14?at.n.substring(0,12)+'…':at.n}</div>
+      <div class="xg-track"><div class="xg-fill-away" style="width:0" data-w="${r.xA/xMax*100}%"></div></div>
+      <div class="xg-val away">${r.xA.toFixed(2)}</div>
     </div>`;
 
-  document.getElementById('statsGrid').innerHTML =
-    renderTeamStats(homeTeam, probs.homeStats) +
-    renderTeamStats(awayTeam, probs.awayStats);
-
-  const insights = generateInsights(homeTeam, awayTeam, probs);
-  document.getElementById('insightsList').innerHTML =
-    insights.map(i => `<div class="insight-item">${i}</div>`).join('');
-
-  document.getElementById('resultsBox').classList.add('active');
-  setTimeout(() => {
-    document.getElementById('resultsBox').scrollIntoView({behavior:'smooth', block:'start'});
-  }, 100);
-}
-
-function initSelects() {
-  const h = document.getElementById('homeTeam');
-  const a = document.getElementById('awayTeam');
-  const btn = document.getElementById('predictBtn');
-
-  const sorted = [...TEAMS].sort((x,y) => x.name.localeCompare(y.name, 'he'));
-  sorted.forEach(t => {
-    h.add(new Option(t.name, t.id));
-    a.add(new Option(t.name, t.id));
-  });
-
-  function update() {
-    const same = h.value && a.value && h.value === a.value;
-    btn.disabled = !h.value || !a.value || same;
-    if (same) showError('לא ניתן לבחור את אותה קבוצה פעמיים');
-    else hideError();
+  function statCard(t,r,isHome){
+    const fb=(t.form||[]).slice(0,6).map(x=>`<div class="f-badge ${x}">${x==='W'?'נ':x==='D'?'ת':'ה'}</div>`).join('');
+    const hg=t.hw+t.hd+t.hl||1,ag=t.aw+t.ad+t.al||1;
+    const avgF=isHome?(t.hgf/hg).toFixed(2):(t.agf/ag).toFixed(2);
+    const avgA=isHome?(t.hga/hg).toFixed(2):(t.aga/ag).toFixed(2);
+    return`<div class="stat-card">
+      <h3>${t.n}</h3>
+      <div class="stat-row"><span class="lbl">נ / ת / ה</span><span class="val">${t.w} / ${t.d} / ${t.l}</span></div>
+      <div class="stat-row"><span class="lbl">שערים</span><span class="val">${t.gf} : ${t.ga}</span></div>
+      <div class="stat-row"><span class="lbl">ממוצע התקפה</span><span class="val">${(t.gf/t.p).toFixed(2)}/מ'</span></div>
+      <div class="stat-row"><span class="lbl">ממוצע ${isHome?'בית':'חוץ'} התקפה</span><span class="val">${avgF}/מ'</span></div>
+      <div class="stat-row"><span class="lbl">ממוצע ${isHome?'בית':'חוץ'} הגנה</span><span class="val">${avgA}/מ'</span></div>
+      <div class="stat-row"><span class="lbl">נקודות בעונה</span><span class="val">${t.w*3+t.d}</span></div>
+      <div class="form-row">${fb}</div>
+    </div>`;
   }
-  h.addEventListener('change', update);
-  a.addEventListener('change', update);
+  document.getElementById('statsGrid').innerHTML=statCard(ht,r,true)+statCard(at,r,false);
 
-  btn.addEventListener('click', () => {
-    const ht = TEAMS.find(t => t.id === h.value);
-    const at = TEAMS.find(t => t.id === a.value);
-    if (!ht || !at) return;
-    hideError();
-    const probs = calculateProbabilities(ht, at);
-    renderResults(ht, at, probs);
+  document.getElementById('insightsList').innerHTML=
+    buildInsights(ht,at,r,lg).map(s=>`<div class="insight-item"><div class="insight-dot"></div><div>${s}</div></div>`).join('');
+
+  const res=document.getElementById('results');
+  res.classList.add('active');
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.prob-bar-fill').forEach(el=>{el.style.width=el.dataset.w+'%'});
+    document.querySelectorAll('.xg-fill-home,.xg-fill-away').forEach(el=>{el.style.width=el.dataset.w});
+    setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'start'}),120);
   });
 }
 
-function showError(m) { const b=document.getElementById('errorBox'); b.textContent=m; b.classList.add('active'); }
-function hideError() { document.getElementById('errorBox').classList.remove('active'); }
+// ══════════════════════════════════════════════════
+// TABS + SELECT POPULATION
+// ══════════════════════════════════════════════════
+function populateSelects(lgId){
+  const lg=LEAGUES[lgId];
+  applyAccent(lg.accent);
+  currentLeague=lgId;
+  const sorted=[...lg.teams].sort((a,b)=>a.n.localeCompare(b.n,'he'));
+  ['homeTeam','awayTeam'].forEach(id=>{
+    const s=document.getElementById(id);
+    s.innerHTML='<option value="">בחר קבוצה...</option>';
+    sorted.forEach(t=>s.add(new Option(t.n,t.id)));
+  });
+  document.getElementById('results').classList.remove('active');
+  checkBtn();
+}
+function checkBtn(){
+  const h=document.getElementById('homeTeam').value;
+  const a=document.getElementById('awayTeam').value;
+  const same=h&&a&&h===a;
+  document.getElementById('predictBtn').disabled=!h||!a||same;
+  const eb=document.getElementById('errBox');
+  if(same){eb.textContent='לא ניתן לבחור את אותה קבוצה פעמיים';eb.classList.add('active')}
+  else eb.classList.remove('active');
+}
 
-document.addEventListener('DOMContentLoaded', initSelects);
+function buildTabs(){
+  const wrap=document.getElementById('leagueTabs');
+  Object.values(LEAGUES).forEach(lg=>{
+    const btn=document.createElement('button');
+    btn.className='tab-btn'+(lg.id==='israel'?' active':'');
+    btn.dataset.lg=lg.id;
+    btn.innerHTML=`<span class="tab-flag">${lg.emoji}</span>${lg.name}`;
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      populateSelects(lg.id);
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+// ══════════════════════════════════════════════════
+// PREDICT
+// ══════════════════════════════════════════════════
+document.getElementById('predictBtn').addEventListener('click',()=>{
+  const hId=document.getElementById('homeTeam').value;
+  const aId=document.getElementById('awayTeam').value;
+  const lg=LEAGUES[currentLeague];
+  const ht=lg.teams.find(t=>t.id===hId);
+  const at=lg.teams.find(t=>t.id===aId);
+  if(!ht||!at)return;
+  const r=predict(ht,at,lg);
+  renderResults(ht,at,r,lg);
+});
+['homeTeam','awayTeam'].forEach(id=>document.getElementById(id).addEventListener('change',checkBtn));
+
+// ══════════════════════════════════════════════════
+// THEME TOGGLE
+// ══════════════════════════════════════════════════
+(function(){
+  const btn=document.querySelector('[data-theme-toggle]');
+  const root=document.documentElement;
+  let theme=root.getAttribute('data-theme')||'dark';
+  const moon='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const sun='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  if(btn)btn.innerHTML=theme==='dark'?moon:sun;
+  if(btn)btn.addEventListener('click',()=>{
+    theme=theme==='dark'?'light':'dark';
+    root.setAttribute('data-theme',theme);
+    btn.innerHTML=theme==='dark'?moon:sun;
+  });
+})();
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+buildTabs();
+populateSelects('israel');
+applyAccent(LEAGUES['israel'].accent);
 </script>
 </body>
 </html>
