@@ -221,6 +221,46 @@ footer a:hover{color:var(--text)}
 .hero h1{font-size:1.7rem}
 .prob-pct{font-size:2rem}
 }
+
+/* ── H2H SECTION ── */
+.h2h-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
+.h2h-card h3{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.h2h-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.h2h-team-col{text-align:center}
+.h2h-team-name{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:6px}
+.h2h-wins-big{font-family:var(--font-display);font-size:2.4rem;font-weight:700;line-height:1;letter-spacing:-.04em}
+.h2h-wins-big.home-wins{color:#34d399}
+.h2h-wins-big.away-wins{color:#f472b6}
+.h2h-wins-big.draws{color:#fbbf24}
+.h2h-wins-label{font-size:.72rem;color:var(--text-muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.h2h-center-col{text-align:center}
+.h2h-bar-track{height:8px;background:var(--s3);border-radius:100px;overflow:hidden;display:flex;margin:12px 0}
+.h2h-bar-home{height:100%;background:linear-gradient(90deg,#059669,#34d399);transition:width .8s cubic-bezier(.34,1.56,.64,1)}
+.h2h-bar-draw{height:100%;background:#d97706}
+.h2h-bar-away{height:100%;background:linear-gradient(90deg,#f472b6,#be185d)}
+.h2h-matches{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.h2h-match-row{display:grid;grid-template-columns:90px 1fr auto 1fr 90px;align-items:center;gap:8px;padding:10px 12px;background:var(--s2);border-radius:var(--r-md);border:1px solid var(--border);font-size:.88rem;transition:background var(--trans)}
+.h2h-match-row:hover{background:var(--s3)}
+.h2h-match-row.home-win{border-right:3px solid #34d399}
+.h2h-match-row.away-win{border-left:3px solid #f472b6}
+.h2h-match-row.draw-result{border-right:3px solid #fbbf24}
+.h2h-date{font-size:.75rem;color:var(--text-muted);font-weight:500}
+.h2h-team-home{font-weight:600;color:var(--text);text-align:right}
+.h2h-score{font-family:var(--font-display);font-weight:700;font-size:1.05rem;text-align:center;padding:4px 12px;background:var(--s3);border-radius:var(--r-sm);white-space:nowrap;min-width:64px}
+.h2h-team-away{font-weight:600;color:var(--text)}
+.h2h-winner-badge{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:100px;text-align:center}
+.h2h-winner-badge.hw{background:rgba(52,211,153,.15);color:#34d399}
+.h2h-winner-badge.aw{background:rgba(244,114,182,.15);color:#f472b6}
+.h2h-winner-badge.dr{background:rgba(251,191,36,.12);color:#fbbf24}
+.h2h-trend{background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(56,189,248,.04));border:1px solid rgba(167,139,250,.2);border-radius:var(--r-md);padding:14px 16px;font-size:.88rem;color:var(--text-dim);line-height:1.6}
+.h2h-trend strong{color:var(--text)}
+.h2h-no-data{text-align:center;padding:32px 16px;color:var(--text-muted);font-size:.9rem;background:var(--s2);border-radius:var(--r-md)}
+@media(max-width:600px){
+.h2h-match-row{grid-template-columns:70px 1fr auto 1fr 60px;gap:4px;padding:8px}
+.h2h-date{font-size:.68rem}
+.h2h-score{padding:3px 8px;font-size:.95rem;min-width:54px}
+.h2h-winner-badge{display:none}
+}
 </style>
 </head>
 <body>
@@ -333,6 +373,7 @@ footer a:hover{color:var(--text)}
 <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>ניתוח AI</h3>
 <div id="insightsList"></div>
 </div>
+<div class="h2h-card" id="h2hCard"><h3>🆚 היסטוריית עימותים ישירים</h3><div id="h2hContent"></div></div>
 <div class="disclaimer">⚠️ כלי בידורי ומידעי בלבד — אינו מהווה המלצה להימורים</div>
 </div>
 
@@ -580,7 +621,7 @@ function buildInsights(ht,at,r,lg){
 // ══════════════════════════════════════════════════
 // RENDER
 // ══════════════════════════════════════════════════
-function renderResults(ht,at,r,lg){
+function renderResults(ht,at,r,lg,hId,aId){
   document.getElementById('homeDisplay').textContent=ht.n;
   document.getElementById('awayDisplay').textContent=at.n;
   document.getElementById('matchLeagueLabel').textContent=lg.emoji+' '+lg.name+' · עונה 2025/26';
@@ -642,6 +683,8 @@ function renderResults(ht,at,r,lg){
 
   document.getElementById('insightsList').innerHTML=
     buildInsights(ht,at,r,lg).map(s=>`<div class="insight-item"><div class="insight-dot"></div><div>${s}</div></div>`).join('');
+
+  renderH2H(hId,aId,currentLeague);
 
   const res=document.getElementById('results');
   res.classList.add('active');
@@ -705,7 +748,7 @@ document.getElementById('predictBtn').addEventListener('click',()=>{
   const at=lg.teams.find(t=>t.id===aId);
   if(!ht||!at)return;
   const r=predict(ht,at,lg);
-  renderResults(ht,at,r,lg);
+  renderResults(ht,at,r,lg,hId,aId);
 });
 ['homeTeam','awayTeam'].forEach(id=>document.getElementById(id).addEventListener('change',checkBtn));
 
@@ -732,6 +775,202 @@ document.getElementById('predictBtn').addEventListener('click',()=>{
 buildTabs();
 populateSelects('israel');
 applyAccent(LEAGUES['israel'].accent);
+
+// ══════════════════════════════════════════════════
+// H2H DATABASE — real data 2021-2026
+// ══════════════════════════════════════════════════
+const H2H_DB = [
+  {
+    teams:['bar','rma'],
+    nickname:'El Clásico',
+    meetings:[
+      {date:'2025-10-26',homeId:'rma',awayId:'bar',hg:2,ag:1},
+      {date:'2025-05-11',homeId:'bar',awayId:'rma',hg:4,ag:3},
+      {date:'2024-10-26',homeId:'rma',awayId:'bar',hg:0,ag:4},
+      {date:'2024-04-21',homeId:'rma',awayId:'bar',hg:3,ag:2},
+      {date:'2023-10-28',homeId:'bar',awayId:'rma',hg:1,ag:2},
+      {date:'2023-03-19',homeId:'bar',awayId:'rma',hg:2,ag:1},
+      {date:'2022-10-16',homeId:'rma',awayId:'bar',hg:3,ag:1},
+      {date:'2022-03-20',homeId:'rma',awayId:'bar',hg:0,ag:4},
+    ]
+  },
+  {
+    teams:['ars','mnc'],
+    meetings:[
+      {date:'2024-09-22',homeId:'mnc',awayId:'ars',hg:2,ag:2},
+      {date:'2024-03-31',homeId:'mnc',awayId:'ars',hg:0,ag:0},
+      {date:'2023-10-08',homeId:'ars',awayId:'mnc',hg:1,ag:0},
+      {date:'2023-04-26',homeId:'mnc',awayId:'ars',hg:4,ag:1},
+      {date:'2023-02-15',homeId:'ars',awayId:'mnc',hg:1,ag:3},
+      {date:'2022-01-01',homeId:'ars',awayId:'mnc',hg:1,ag:2},
+      {date:'2021-08-28',homeId:'mnc',awayId:'ars',hg:5,ag:0},
+      {date:'2021-02-21',homeId:'mnc',awayId:'ars',hg:1,ag:0},
+    ]
+  },
+  {
+    teams:['int','acm'],
+    nickname:'Derby della Madonnina',
+    meetings:[
+      {date:'2025-11-23',homeId:'int',awayId:'acm',hg:0,ag:1},
+      {date:'2024-09-21',homeId:'int',awayId:'acm',hg:1,ag:2},
+      {date:'2024-04-22',homeId:'acm',awayId:'int',hg:1,ag:2},
+      {date:'2023-09-16',homeId:'int',awayId:'acm',hg:5,ag:1},
+      {date:'2023-02-05',homeId:'int',awayId:'acm',hg:1,ag:0},
+      {date:'2022-09-03',homeId:'acm',awayId:'int',hg:3,ag:2},
+      {date:'2022-02-05',homeId:'int',awayId:'acm',hg:1,ag:2},
+      {date:'2021-11-07',homeId:'acm',awayId:'int',hg:1,ag:1},
+    ]
+  },
+  {
+    teams:['bay','dor'],
+    nickname:'Der Klassiker',
+    meetings:[
+      {date:'2025-10-18',homeId:'bay',awayId:'dor',hg:2,ag:1},
+      {date:'2025-04-12',homeId:'bay',awayId:'dor',hg:2,ag:2},
+      {date:'2024-11-30',homeId:'dor',awayId:'bay',hg:1,ag:1},
+      {date:'2024-03-29',homeId:'bay',awayId:'dor',hg:0,ag:2},
+      {date:'2023-11-03',homeId:'dor',awayId:'bay',hg:0,ag:4},
+      {date:'2023-03-31',homeId:'bay',awayId:'dor',hg:4,ag:2},
+      {date:'2022-10-07',homeId:'dor',awayId:'bay',hg:2,ag:2},
+      {date:'2022-04-22',homeId:'bay',awayId:'dor',hg:3,ag:1},
+    ]
+  },
+  {
+    teams:['hbs','mta'],
+    meetings:[
+      {date:'2026-04-12',homeId:'mta',awayId:'hbs',hg:1,ag:3},
+      {date:'2025-12-07',homeId:'hbs',awayId:'mta',hg:1,ag:0},
+      {date:'2025-05-05',homeId:'mta',awayId:'hbs',hg:1,ag:1},
+      {date:'2025-03-31',homeId:'hbs',awayId:'mta',hg:1,ag:3},
+      {date:'2025-01-01',homeId:'hbs',awayId:'mta',hg:2,ag:2},
+      {date:'2024-09-14',homeId:'mta',awayId:'hbs',hg:1,ag:0},
+      {date:'2024-05-18',homeId:'mta',awayId:'hbs',hg:3,ag:0},
+      {date:'2024-04-15',homeId:'hbs',awayId:'mta',hg:1,ag:0},
+    ]
+  },
+  {
+    teams:['liv','mun'],
+    meetings:[
+      {date:'2025-10-19',homeId:'liv',awayId:'mun',hg:1,ag:2},
+      {date:'2025-01-05',homeId:'liv',awayId:'mun',hg:2,ag:2},
+      {date:'2024-09-01',homeId:'liv',awayId:'mun',hg:3,ag:0},
+      {date:'2024-04-07',homeId:'mun',awayId:'liv',hg:2,ag:2},
+      {date:'2023-03-05',homeId:'liv',awayId:'mun',hg:7,ag:0},
+      {date:'2022-08-22',homeId:'mun',awayId:'liv',hg:2,ag:1},
+      {date:'2022-04-19',homeId:'liv',awayId:'mun',hg:4,ag:0},
+      {date:'2021-10-24',homeId:'mun',awayId:'liv',hg:0,ag:5},
+    ]
+  }
+];
+
+function findH2H(idA, idB){
+  return H2H_DB.find(h=>(h.teams.includes(idA)&&h.teams.includes(idB)));
+}
+
+function getTeamName(lgId, teamId){
+  const lg=LEAGUES[lgId];
+  const t=lg&&lg.teams.find(x=>x.id===teamId);
+  return t?t.n:teamId;
+}
+
+function renderH2H(homeId, awayId, lgId){
+  const box=document.getElementById('h2hContent');
+  const data=findH2H(homeId,awayId);
+  if(!data){
+    box.innerHTML='<div class="h2h-no-data">אין נתוני עימות ישיר זמינים עבור זוג קבוצות זה</div>';
+    return;
+  }
+  const lg=LEAGUES[lgId];
+  const getName=id=>{const t=lg.teams.find(x=>x.id===id);return t?t.n:id};
+  const hn=getName(homeId), an=getName(awayId);
+  
+  // Count results from selected home perspective
+  let hw=0,aw=0,dr=0,homeGF=0,awayGF=0;
+  data.meetings.forEach(m=>{
+    const isHome=(m.homeId===homeId);
+    const hgForSelected=isHome?m.hg:m.ag;
+    const agForSelected=isHome?m.ag:m.hg;
+    homeGF+=hgForSelected; awayGF+=agForSelected;
+    if(hgForSelected>agForSelected)hw++;
+    else if(hgForSelected<agForSelected)aw++;
+    else dr++;
+  });
+  const total=data.meetings.length;
+  const hwPct=hw/total*100, drPct=dr/total*100, awPct=aw/total*100;
+
+  // Trend analysis
+  const last3=data.meetings.slice(0,3);
+  let l3home=0,l3away=0,l3draw=0;
+  last3.forEach(m=>{
+    const isHome=(m.homeId===homeId);
+    const hg=isHome?m.hg:m.ag, ag=isHome?m.ag:m.hg;
+    if(hg>ag)l3home++;else if(hg<ag)l3away++;else l3draw++;
+  });
+  
+  let trendText='';
+  if(l3home===3)trendText=`<strong>${hn}</strong> ניצחה ב-3 הפגישות האחרונות — מגמה חזקה לבית`;
+  else if(l3away===3)trendText=`<strong>${an}</strong> ניצחה ב-3 הפגישות האחרונות — מגמה חזקה לחוץ`;
+  else if(l3home>=2)trendText=`<strong>${hn}</strong> ניצחה ב-${l3home} מתוך 3 אחרונים — יתרון לבית`;
+  else if(l3away>=2)trendText=`<strong>${an}</strong> ניצחה ב-${l3away} מתוך 3 אחרונים — יתרון לחוץ`;
+  else if(hw>aw+2)trendText=`<strong>${hn}</strong> שולטת בסדרת העימותים עם ${hw}/${total} ניצחונות`;
+  else if(aw>hw+2)trendText=`<strong>${an}</strong> שולטת בסדרת העימותים עם ${aw}/${total} ניצחונות`;
+  else trendText=`סדרה מאוזנת — ${hn} ${hw} | תיקו ${dr} | ${an} ${aw}. קשה לזהות מגמה ברורה`;
+  if(data.nickname)trendText+=' · <strong>'+data.nickname+'</strong>';
+
+  // Home advantage in H2H
+  let haWins=0;
+  data.meetings.forEach(m=>{if(m.hg>m.ag)haWins++;});
+  const haPct=haWins/total*100;
+  if(haPct>=62)trendText+=` · יתרון בית חזק בסדרה זו (${haPct.toFixed(0)}% מנצחת הבית)`;
+  else if(haPct<=37)trendText+=` · יתרון בית חלש — ${(100-haPct).toFixed(0)}% מהתוצאות לזכות הקבוצה הביקורת`;
+
+  // Rows
+  const rows=data.meetings.map(m=>{
+    const isHome=(m.homeId===homeId);
+    const selHG=isHome?m.hg:m.ag, selAG=isHome?m.ag:m.hg;
+    const actualHName=getName(m.homeId), actualAName=getName(m.awayId);
+    const score=m.hg+'-'+m.ag;
+    let cls='draw-result', badge='<span class="h2h-winner-badge dr">תיקו</span>';
+    if(m.hg>m.ag){cls='home-win';badge='<span class="h2h-winner-badge hw">'+actualHName.substring(0,10)+'</span>';}
+    else if(m.hg<m.ag){cls='away-win';badge='<span class="h2h-winner-badge aw">'+actualAName.substring(0,10)+'</span>';}
+    const d=new Date(m.date);
+    const dateStr=d.toLocaleDateString('he-IL',{month:'short',year:'2-digit'});
+    return`<div class="h2h-match-row ${cls}">
+      <span class="h2h-date">${dateStr}</span>
+      <span class="h2h-team-home">${actualHName}</span>
+      <span class="h2h-score">${score}</span>
+      <span class="h2h-team-away">${actualAName}</span>
+      ${badge}
+    </div>`;
+  }).join('');
+
+  box.innerHTML=`
+    <div class="h2h-header">
+      <div class="h2h-team-col">
+        <div class="h2h-team-name">${hn}</div>
+        <div class="h2h-wins-big home-wins">${hw}</div>
+        <div class="h2h-wins-label">ניצחונות</div>
+      </div>
+      <div class="h2h-center-col">
+        <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:6px">תיקו</div>
+        <div class="h2h-wins-big draws">${dr}</div>
+        <div class="h2h-bar-track" style="margin-top:12px">
+          <div class="h2h-bar-home" style="width:${hwPct}%"></div>
+          <div class="h2h-bar-draw" style="width:${drPct}%"></div>
+          <div class="h2h-bar-away" style="width:${awPct}%"></div>
+        </div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:4px">${total} משחקים</div>
+      </div>
+      <div class="h2h-team-col">
+        <div class="h2h-team-name">${an}</div>
+        <div class="h2h-wins-big away-wins">${aw}</div>
+        <div class="h2h-wins-label">ניצחונות</div>
+      </div>
+    </div>
+    <div class="h2h-matches">${rows}</div>
+    <div class="h2h-trend">${trendText}</div>`;
+}
+
 </script>
 </body>
 </html>
