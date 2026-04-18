@@ -288,9 +288,54 @@ footer a:hover{color:var(--text)}
 .nba-ou-label{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
 .nba-ou-val{font-family:var(--font-display);font-size:1.35rem;font-weight:700}
 [data-sport="nba"] .vs-divider-text{display:none}
+
+/* ── ACCESSIBILITY ── */
+.a11y-toggle{position:fixed;bottom:20px;left:20px;width:52px;height:52px;border-radius:50%;background:#1d4ed8;color:#fff;border:2px solid #fff;box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:9998;transition:transform var(--trans)}
+.a11y-toggle:hover,.a11y-toggle:focus{transform:scale(1.08);outline:3px solid #fbbf24;outline-offset:2px}
+.a11y-toggle svg{width:28px;height:28px}
+.a11y-panel{position:fixed;bottom:84px;left:20px;width:290px;max-width:calc(100vw - 40px);background:var(--s1);color:var(--text);border:1px solid var(--border-bright);border-radius:var(--r-xl);box-shadow:0 20px 60px rgba(0,0,0,.45);z-index:9999;padding:18px;display:none;max-height:calc(100vh - 120px);overflow-y:auto}
+.a11y-panel.open{display:block}
+.a11y-panel h2{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--text)}
+.a11y-panel .a11y-close{position:absolute;top:10px;left:10px;width:28px;height:28px;border-radius:50%;background:var(--s3);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:1.1rem;line-height:1}
+.a11y-panel .a11y-close:focus{outline:2px solid #fbbf24}
+.a11y-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.a11y-opt{padding:10px 8px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--s2);color:var(--text);font-size:.82rem;font-weight:600;text-align:center;cursor:pointer;transition:all var(--trans)}
+.a11y-opt:hover{border-color:var(--border-bright);background:var(--s3)}
+.a11y-opt.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.a11y-opt:focus{outline:2px solid #fbbf24;outline-offset:1px}
+.a11y-reset{width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--s3);color:var(--text);font-weight:600;font-size:.88rem;margin-bottom:10px;cursor:pointer}
+.a11y-reset:hover{background:var(--s2)}
+.a11y-statement-link{display:block;text-align:center;color:#a78bfa;font-size:.85rem;text-decoration:underline;background:none;border:none;width:100%;padding:6px;cursor:pointer}
+.a11y-statement-link:focus{outline:2px solid #fbbf24}
+
+/* Accessibility modes */
+body.a11y-font-lg{font-size:18px}
+body.a11y-font-xl{font-size:20px}
+body.a11y-grayscale{filter:grayscale(1)}
+body.a11y-contrast{filter:contrast(1.35)}
+body.a11y-highlight-links a,body.a11y-highlight-links button:not(.a11y-opt):not(.a11y-reset):not(.a11y-close){outline:2px dashed #fbbf24 !important;outline-offset:2px}
+body.a11y-readable,body.a11y-readable *{font-family:Arial,Verdana,sans-serif !important;letter-spacing:.02em}
+body.a11y-no-motion *,body.a11y-no-motion *::before,body.a11y-no-motion *::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+
+.a11y-skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;background:#1d4ed8;color:#fff;padding:10px 16px;border-radius:var(--r-md);z-index:10000}
+.a11y-skip:focus{left:10px;top:10px;width:auto;height:auto;outline:3px solid #fbbf24}
+
+*:focus-visible{outline:2px solid #fbbf24;outline-offset:2px;border-radius:4px}
+
+/* Modal */
+.a11y-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.a11y-modal-backdrop.open{display:flex}
+.a11y-modal{background:var(--s1);color:var(--text);border:1px solid var(--border-bright);border-radius:var(--r-xl);max-width:720px;width:100%;padding:28px;position:relative}
+.a11y-modal h2{font-family:var(--font-display);font-size:1.4rem;margin-bottom:14px}
+.a11y-modal h3{font-size:1rem;margin:16px 0 6px;color:var(--text)}
+.a11y-modal p,.a11y-modal li{font-size:.92rem;line-height:1.7;color:var(--text-dim)}
+.a11y-modal ul{padding-inline-start:20px;margin:4px 0}
+.a11y-modal a{color:#a78bfa}
+.a11y-modal .a11y-close{position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;background:var(--s3);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
 </style>
 </head>
 <body>
+<a href="#main-content" class="a11y-skip">דלג לתוכן המרכזי</a>
 <div class="bg-layer">
 <div class="bg-blob bg-blob-1"></div>
 <div class="bg-blob bg-blob-2"></div>
@@ -324,7 +369,7 @@ footer a:hover{color:var(--text)}
 </div>
 </header>
 
-<main>
+<main id="main-content">
 <section class="hero">
 <div class="container">
 <div class="hero-label">
@@ -417,8 +462,59 @@ footer a:hover{color:var(--text)}
 <div class="container">
 <div>פותח על ידי <a href="#">lior_Ai</a> · מודל Poisson Distribution + Form Index + Home Advantage</div>
 <div style="margin-top:6px">נתוני עונה 2025/26 · עדכון אחרון: אפריל 2026</div>
+<div style="margin-top:8px"><button type="button" class="a11y-statement-link" id="openA11yStatementFooter" style="display:inline;color:#a78bfa;background:none;border:none;padding:0;font:inherit;cursor:pointer;text-decoration:underline">הצהרת נגישות</button></div>
 </div>
 </footer>
+</div>
+
+<!-- ACCESSIBILITY WIDGET -->
+<button type="button" class="a11y-toggle" id="a11yToggle" aria-label="פתח כלי נגישות" aria-expanded="false" aria-controls="a11yPanel">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 5h-5v15h-2v-7h-2v7H8V7H3V5h18v2z"/></svg>
+</button>
+
+<div class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="false" aria-labelledby="a11yPanelTitle">
+  <button type="button" class="a11y-close" id="a11yPanelClose" aria-label="סגור כלי נגישות">×</button>
+  <h2 id="a11yPanelTitle">כלי נגישות</h2>
+  <div class="a11y-options" role="group" aria-label="אפשרויות נגישות">
+    <button type="button" class="a11y-opt" data-a11y="font-lg" aria-pressed="false">טקסט גדול</button>
+    <button type="button" class="a11y-opt" data-a11y="font-xl" aria-pressed="false">טקסט ענק</button>
+    <button type="button" class="a11y-opt" data-a11y="contrast" aria-pressed="false">ניגודיות גבוהה</button>
+    <button type="button" class="a11y-opt" data-a11y="grayscale" aria-pressed="false">גווני אפור</button>
+    <button type="button" class="a11y-opt" data-a11y="highlight-links" aria-pressed="false">הדגש קישורים</button>
+    <button type="button" class="a11y-opt" data-a11y="readable" aria-pressed="false">פונט קריא</button>
+    <button type="button" class="a11y-opt" data-a11y="no-motion" aria-pressed="false">עצור אנימציות</button>
+  </div>
+  <button type="button" class="a11y-reset" id="a11yReset">איפוס הגדרות</button>
+  <button type="button" class="a11y-statement-link" id="openA11yStatement">הצהרת נגישות</button>
+</div>
+
+<!-- ACCESSIBILITY STATEMENT MODAL -->
+<div class="a11y-modal-backdrop" id="a11yStatementBackdrop" role="dialog" aria-modal="true" aria-labelledby="a11yStatementTitle">
+  <div class="a11y-modal">
+    <button type="button" class="a11y-close" id="a11yStatementClose" aria-label="סגור הצהרת נגישות">×</button>
+    <h2 id="a11yStatementTitle">הצהרת נגישות</h2>
+    <p>אתר <strong>FootPredict</strong> (win.lior-ai.com) מושקע במתן חוויית גלישה שוויונית, נגישה ונוחה לכלל הגולשים, לרבות אנשים עם מוגבלויות. האתר עומד בדרישות תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), תשע"ג-2013, ולתקן הישראלי ת"י 5568 ברמה AA המבוסס על הנחיות WCAG 2.1.</p>
+    <h3>התאמות נגישות באתר</h3>
+    <ul>
+      <li>תמיכה בניווט באמצעות מקלדת (Tab / Shift+Tab / Enter).</li>
+      <li>מבנה כותרות סמנטי ותיאורי ARIA בכל הרכיבים האינטראקטיביים.</li>
+      <li>הגדלת טקסט, ניגודיות גבוהה, גווני אפור, הדגשת קישורים, עצירת אנימציות ופונט קריא — דרך תפריט כלי הנגישות.</li>
+      <li>קישור "דלג לתוכן" (Skip to content) בתחילת הדף.</li>
+      <li>מיקוד (focus) ברור ונראה על כל רכיב פעיל.</li>
+      <li>שימוש בצבעים בעלי ניגודיות מספקת בין טקסט לרקע.</li>
+      <li>האתר רספונסיבי ומותאם למגוון גדלי מסך ומכשירים.</li>
+    </ul>
+    <h3>מגבלות ידועות</h3>
+    <p>ייתכן שחלק מהתוכן המשתנה באופן דינמי (תחזיות חיות, נתוני ESPN) עשוי להתעדכן מבלי שההתקן המסייע יעדכן אוטומטית — במקרה כזה רענון הדף יסייע. אנו פועלים באופן שוטף לשיפור הנגישות ונשמח לקבל כל הערה.</p>
+    <h3>פנייה בנושא נגישות</h3>
+    <p>אם נתקלת בבעיית נגישות או שיש לך הצעה לשיפור, נשמח שתפנה אלינו:</p>
+    <ul>
+      <li>דוא״ל: <a href="mailto:lior.ai.contact@gmail.com">lior.ai.contact@gmail.com</a></li>
+      <li>נשתדל להשיב תוך 14 ימי עסקים.</li>
+    </ul>
+    <h3>עדכון אחרון</h3>
+    <p>הצהרה זו עודכנה לאחרונה בתאריך 18 באפריל 2026.</p>
+  </div>
 </div>
 
 <script>
@@ -1123,7 +1219,7 @@ function h2hTrend(matches,id1,id2,n1,n2){
   return{hw,aw,dr,tot,haPct,trend:t};
 }
 
-async function renderH2H(ht,at,lgId){
+async function _renderH2HEspn(ht,at,lgId){
   const box=document.getElementById('h2hContent');
   const lg=ESPN_LG[lgId];
   const e1=ht.espnId, e2=at.espnId;
@@ -1174,6 +1270,68 @@ buildTabs();
 populateSelects('israel');
 applyAccent(LEAGUES['israel'].accent);
 initSportToggle();
+
+// ══════════════════════════════════════════════════
+// ACCESSIBILITY WIDGET
+// ══════════════════════════════════════════════════
+(function initA11y(){
+  const toggle=document.getElementById('a11yToggle');
+  const panel=document.getElementById('a11yPanel');
+  const panelClose=document.getElementById('a11yPanelClose');
+  const resetBtn=document.getElementById('a11yReset');
+  const opts=document.querySelectorAll('.a11y-opt');
+  const body=document.body;
+  const STORAGE_KEY='a11y_prefs_v1';
+  const SINGLE_FONT=['font-lg','font-xl'];
+
+  function loadPrefs(){
+    try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||[];}catch(e){return[];}
+  }
+  function savePrefs(list){
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(list));}catch(e){}
+  }
+  function applyPrefs(list){
+    opts.forEach(b=>{
+      const key=b.dataset.a11y;
+      const on=list.indexOf(key)!==-1;
+      b.classList.toggle('active',on);
+      b.setAttribute('aria-pressed',on?'true':'false');
+      body.classList.toggle('a11y-'+key,on);
+    });
+  }
+  function togglePref(key){
+    let list=loadPrefs();
+    if(SINGLE_FONT.indexOf(key)!==-1){
+      list=list.filter(k=>SINGLE_FONT.indexOf(k)===-1||k===key);
+    }
+    const idx=list.indexOf(key);
+    if(idx>=0) list.splice(idx,1); else list.push(key);
+    savePrefs(list);
+    applyPrefs(list);
+  }
+  opts.forEach(b=>b.addEventListener('click',()=>togglePref(b.dataset.a11y)));
+  resetBtn.addEventListener('click',()=>{savePrefs([]);applyPrefs([]);});
+  function openPanel(){panel.classList.add('open');toggle.setAttribute('aria-expanded','true');}
+  function closePanel(){panel.classList.remove('open');toggle.setAttribute('aria-expanded','false');}
+  toggle.addEventListener('click',()=>panel.classList.contains('open')?closePanel():openPanel());
+  panelClose.addEventListener('click',closePanel);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
+  document.addEventListener('click',e=>{
+    if(panel.classList.contains('open')&&!panel.contains(e.target)&&!toggle.contains(e.target))closePanel();
+  });
+  applyPrefs(loadPrefs());
+
+  // Accessibility statement modal
+  const backdrop=document.getElementById('a11yStatementBackdrop');
+  const stmtClose=document.getElementById('a11yStatementClose');
+  const openLinks=[document.getElementById('openA11yStatement'),document.getElementById('openA11yStatementFooter')];
+  function openStmt(){backdrop.classList.add('open');closePanel();}
+  function closeStmt(){backdrop.classList.remove('open');}
+  openLinks.forEach(el=>el&&el.addEventListener('click',openStmt));
+  stmtClose.addEventListener('click',closeStmt);
+  backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeStmt();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeStmt();});
+})();
 
 // ══════════════════════════════════════════════════
 // H2H DATABASE — real data 2021-2026
@@ -1272,16 +1430,29 @@ function getTeamName(lgId, teamId){
   return t?t.n:teamId;
 }
 
-function renderH2H(homeId, awayId, lgId){
+async function renderH2H(ht, at, lgId){
   const box=document.getElementById('h2hContent');
-  const data=findH2H(homeId,awayId);
-  if(!data){
-    box.innerHTML='<div class="h2h-no-data">אין נתוני עימות ישיר זמינים עבור זוג קבוצות זה</div>';
-    return;
+  if(!box||!ht||!at) return;
+  const local=ht.id&&at.id?findH2H(ht.id,at.id):null;
+  if(local){ _renderH2HLocal(ht,at,lgId,local); return; }
+  if(ht.espnId&&at.espnId&&ESPN_LG[lgId]){
+    return _renderH2HEspn(ht,at,lgId);
   }
+  box.innerHTML='<div class="h2h-no-data">אין נתוני עימות ישיר זמינים עבור זוג קבוצות זה</div>';
+}
+
+function _renderH2HLocal(ht, at, lgId, data){
+  const box=document.getElementById('h2hContent');
+  const homeId=ht.id, awayId=at.id;
   const lg=LEAGUES[lgId];
-  const getName=id=>{const t=lg.teams.find(x=>x.id===id);return t?t.n:id};
-  const hn=getName(homeId), an=getName(awayId);
+  const getName=id=>{
+    const t=lg&&lg.teams&&lg.teams.find(x=>x.id===id);
+    if(t) return t.n;
+    if(id===homeId) return ht.n;
+    if(id===awayId) return at.n;
+    return id;
+  };
+  const hn=ht.n||getName(homeId), an=at.n||getName(awayId);
   
   // Count results from selected home perspective
   let hw=0,aw=0,dr=0,homeGF=0,awayGF=0;
