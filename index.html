@@ -779,6 +779,7 @@ function checkBtn(){
 
 function buildTabs(){
   const wrap=document.getElementById('leagueTabs');
+  wrap.innerHTML='';
   Object.values(LEAGUES).forEach(lg=>{
     const btn=document.createElement('button');
     btn.className='tab-btn'+(lg.id==='israel'?' active':'');
@@ -838,6 +839,40 @@ document.getElementById('predictBtn').addEventListener('click',()=>{
 })();
 
 
+
+const NBA_TEAMS = [
+  {id:'cle',espnId:'5',n:'Cleveland Cavaliers',abbr:'CLE',conf:'East',gp:82,w:64,l:18,ppg:121.9,papg:112.4,hw:34,hl:7,aw:30,al:11,winPct:0.78,form:['L','W','L','W','L']},
+      {id:'bos',espnId:'2',n:'Boston Celtics',abbr:'BOS',conf:'East',gp:82,w:61,l:21,ppg:116.3,papg:107.2,hw:28,hl:13,aw:33,al:8,winPct:0.744,form:['W','W','L','W','W']},
+      {id:'ny',espnId:'18',n:'New York Knicks',abbr:'NY',conf:'East',gp:82,w:51,l:31,ppg:115.8,papg:111.7,hw:27,hl:14,aw:24,al:17,winPct:0.622,form:['W','L','L','L','W']},
+      {id:'ind',espnId:'11',n:'Indiana Pacers',abbr:'IND',conf:'East',gp:82,w:50,l:32,ppg:117.4,papg:115.1,hw:29,hl:12,aw:21,al:20,winPct:0.61,form:['W','L','W','W','W']},
+      {id:'mil',espnId:'15',n:'Milwaukee Bucks',abbr:'MIL',conf:'East',gp:82,w:48,l:34,ppg:115.5,papg:113.0,hw:28,hl:14,aw:20,al:20,winPct:0.585,form:['W','W','W','W','W']},
+      {id:'det',espnId:'8',n:'Detroit Pistons',abbr:'DET',conf:'East',gp:82,w:44,l:38,ppg:115.5,papg:113.6,hw:22,hl:19,aw:22,al:19,winPct:0.537,form:['L','L','W','L','L']},
+      {id:'orl',espnId:'19',n:'Orlando Magic',abbr:'ORL',conf:'East',gp:82,w:41,l:41,ppg:105.4,papg:105.5,hw:22,hl:19,aw:19,al:22,winPct:0.5,form:['L','W','W','W','W']},
+      {id:'atl',espnId:'1',n:'Atlanta Hawks',abbr:'ATL',conf:'East',gp:82,w:40,l:42,ppg:118.2,papg:119.3,hw:21,hl:19,aw:19,al:23,winPct:0.488,form:['W','W','W','L','W']},
+      {id:'chi',espnId:'4',n:'Chicago Bulls',abbr:'CHI',conf:'East',gp:82,w:39,l:43,ppg:117.8,papg:119.4,hw:18,hl:23,aw:21,al:20,winPct:0.476,form:['W','W','W','L','W']},
+      {id:'mia',espnId:'14',n:'Miami Heat',abbr:'MIA',conf:'East',gp:82,w:37,l:45,ppg:110.6,papg:110.0,hw:19,hl:22,aw:18,al:23,winPct:0.451,form:['L','W','L','W','L']},
+      {id:'tor',espnId:'28',n:'Toronto Raptors',abbr:'TOR',conf:'East',gp:82,w:30,l:52,ppg:110.9,papg:115.2,hw:18,hl:23,aw:12,al:29,winPct:0.366,form:['L','L','W','W','L']},
+      {id:'bkn',espnId:'17',n:'Brooklyn Nets',abbr:'BKN',conf:'East',gp:82,w:26,l:56,ppg:105.1,papg:112.2,hw:12,hl:29,aw:14,al:27,winPct:0.317,form:['L','L','L','W','L']},
+      {id:'phi',espnId:'20',n:'Philadelphia 76ers',abbr:'PHI',conf:'East',gp:82,w:24,l:58,ppg:109.6,papg:115.8,hw:12,hl:29,aw:12,al:29,winPct:0.293,form:['L','L','W','L','L']},
+      {id:'cha',espnId:'30',n:'Charlotte Hornets',abbr:'CHA',conf:'East',gp:82,w:19,l:63,ppg:105.1,papg:114.2,hw:12,hl:29,aw:7,al:34,winPct:0.232,form:['L','L','L','L','L']},
+      {id:'wsh',espnId:'27',n:'Washington Wizards',abbr:'WSH',conf:'East',gp:82,w:18,l:64,ppg:108.0,papg:120.4,hw:8,hl:33,aw:10,al:31,winPct:0.22,form:['W','L','L','L','L']},
+      {id:'okc',espnId:'25',n:'Oklahoma City Thunder',abbr:'OKC',conf:'West',gp:82,w:68,l:14,ppg:120.5,papg:107.6,hw:36,hl:6,aw:32,al:8,winPct:0.829,form:['W','W','W','W','L']},
+      {id:'hou',espnId:'10',n:'Houston Rockets',abbr:'HOU',conf:'West',gp:82,w:52,l:30,ppg:114.3,papg:109.8,hw:29,hl:12,aw:23,al:18,winPct:0.634,form:['L','L','L','W','W']},
+      {id:'lal',espnId:'13',n:'Los Angeles Lakers',abbr:'LAL',conf:'West',gp:82,w:50,l:32,ppg:113.4,papg:112.2,hw:31,hl:10,aw:19,al:22,winPct:0.61,form:['L','W','W','L','W']},
+      {id:'den',espnId:'7',n:'Denver Nuggets',abbr:'DEN',conf:'West',gp:82,w:50,l:32,ppg:120.8,papg:116.9,hw:26,hl:15,aw:24,al:17,winPct:0.61,form:['W','W','W','L','L']},
+      {id:'lac',espnId:'12',n:'Los Angeles Clippers',abbr:'LAC',conf:'West',gp:82,w:50,l:32,ppg:112.9,papg:108.2,hw:30,hl:11,aw:20,al:21,winPct:0.61,form:['W','W','W','W','W']},
+      {id:'min',espnId:'16',n:'Minnesota Timberwolves',abbr:'MIN',conf:'West',gp:82,w:49,l:33,ppg:114.3,papg:109.3,hw:25,hl:16,aw:24,al:17,winPct:0.598,form:['W','W','W','L','W']},
+      {id:'gs',espnId:'9',n:'Golden State Warriors',abbr:'GS',conf:'West',gp:82,w:48,l:34,ppg:113.8,papg:110.5,hw:24,hl:17,aw:24,al:17,winPct:0.585,form:['L','W','L','W','L']},
+      {id:'mem',espnId:'29',n:'Memphis Grizzlies',abbr:'MEM',conf:'West',gp:82,w:48,l:34,ppg:121.7,papg:116.9,hw:26,hl:15,aw:22,al:19,winPct:0.585,form:['W','L','L','W','W']},
+      {id:'sac',espnId:'23',n:'Sacramento Kings',abbr:'SAC',conf:'West',gp:82,w:40,l:42,ppg:115.7,papg:115.3,hw:20,hl:21,aw:20,al:21,winPct:0.488,form:['W','L','L','W','W']},
+      {id:'dal',espnId:'6',n:'Dallas Mavericks',abbr:'DAL',conf:'West',gp:82,w:39,l:43,ppg:114.2,papg:115.4,hw:22,hl:18,aw:17,al:25,winPct:0.476,form:['L','W','L','L','L']},
+      {id:'phx',espnId:'21',n:'Phoenix Suns',abbr:'PHX',conf:'West',gp:82,w:36,l:46,ppg:113.6,papg:116.6,hw:24,hl:17,aw:12,al:29,winPct:0.439,form:['L','W','L','L','L']},
+      {id:'por',espnId:'22',n:'Portland Trail Blazers',abbr:'POR',conf:'West',gp:82,w:36,l:46,ppg:110.9,papg:113.9,hw:22,hl:19,aw:14,al:27,winPct:0.439,form:['W','L','L','W','L']},
+      {id:'sa',espnId:'24',n:'San Antonio Spurs',abbr:'SA',conf:'West',gp:82,w:34,l:48,ppg:113.9,papg:116.7,hw:20,hl:21,aw:14,al:27,winPct:0.415,form:['W','L','W','L','L']},
+      {id:'no',espnId:'3',n:'New Orleans Pelicans',abbr:'NO',conf:'West',gp:82,w:21,l:61,ppg:109.8,papg:119.3,hw:14,hl:27,aw:7,al:34,winPct:0.256,form:['L','L','L','L','L']},
+      {id:'utah',espnId:'26',n:'Utah Jazz',abbr:'UTAH',conf:'West',gp:82,w:17,l:65,ppg:111.9,papg:121.2,hw:10,hl:31,aw:7,al:34,winPct:0.207,form:['L','L','W','L','L']}
+];
+
 // ══════════════════════════════════════════════════
 // NBA ENGINE
 // ══════════════════════════════════════════════════
@@ -851,9 +886,9 @@ function populateNBASelects(){
     const s=document.getElementById(id);
     s.innerHTML='<option value="">בחר קבוצה...</option>';
     const og1=document.createElement('optgroup'); og1.label='Eastern Conference';
-    east.forEach(t=>og1.add(new Option(t.n,t.id)));
+    east.forEach(t=>{const o=new Option(t.n,t.id);og1.appendChild(o);});
     const og2=document.createElement('optgroup'); og2.label='Western Conference';
-    west.forEach(t=>og2.add(new Option(t.n,t.id)));
+    west.forEach(t=>{const o=new Option(t.n,t.id);og2.appendChild(o);});
     s.appendChild(og1); s.appendChild(og2);
   });
   document.getElementById('results').classList.remove('active');
@@ -1007,18 +1042,6 @@ function initSportToggle(){
   });
 }
 
-// Override predict button for NBA
-const _origPredictClick = document.getElementById('predictBtn').onclick;
-//SKIP_document.getElementById('predictBtn').addEventListener('click',()=>{
-  const hId=//SKIP_document.getElementById('homeTeam').value;
-  const aId=//SKIP_document.getElementById('awayTeam').value;
-  const lg=LEAGUES[currentLeague];
-  const ht=lg.teams.find(t=>t.id===hId);
-  const at=lg.teams.find(t=>t.id===aId);
-  if(!ht||!at)return;
-  const r=predict(ht,at,lg);
-  renderResults(ht,at,r,lg);
-});
 // ══════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════
@@ -1033,38 +1056,6 @@ initSportToggle();
 // ══════════════════════════════════════════════════
 // NBA TEAMS — 2024/25 SEASON
 // ══════════════════════════════════════════════════
-const NBA_TEAMS = [
-  {id:'cle',espnId:'5',n:'Cleveland Cavaliers',abbr:'CLE',conf:'East',gp:82,w:64,l:18,ppg:121.9,papg:112.4,hw:34,hl:7,aw:30,al:11,winPct:0.78,form:['L','W','L','W','L']},
-      {id:'bos',espnId:'2',n:'Boston Celtics',abbr:'BOS',conf:'East',gp:82,w:61,l:21,ppg:116.3,papg:107.2,hw:28,hl:13,aw:33,al:8,winPct:0.744,form:['W','W','L','W','W']},
-      {id:'ny',espnId:'18',n:'New York Knicks',abbr:'NY',conf:'East',gp:82,w:51,l:31,ppg:115.8,papg:111.7,hw:27,hl:14,aw:24,al:17,winPct:0.622,form:['W','L','L','L','W']},
-      {id:'ind',espnId:'11',n:'Indiana Pacers',abbr:'IND',conf:'East',gp:82,w:50,l:32,ppg:117.4,papg:115.1,hw:29,hl:12,aw:21,al:20,winPct:0.61,form:['W','L','W','W','W']},
-      {id:'mil',espnId:'15',n:'Milwaukee Bucks',abbr:'MIL',conf:'East',gp:82,w:48,l:34,ppg:115.5,papg:113.0,hw:28,hl:14,aw:20,al:20,winPct:0.585,form:['W','W','W','W','W']},
-      {id:'det',espnId:'8',n:'Detroit Pistons',abbr:'DET',conf:'East',gp:82,w:44,l:38,ppg:115.5,papg:113.6,hw:22,hl:19,aw:22,al:19,winPct:0.537,form:['L','L','W','L','L']},
-      {id:'orl',espnId:'19',n:'Orlando Magic',abbr:'ORL',conf:'East',gp:82,w:41,l:41,ppg:105.4,papg:105.5,hw:22,hl:19,aw:19,al:22,winPct:0.5,form:['L','W','W','W','W']},
-      {id:'atl',espnId:'1',n:'Atlanta Hawks',abbr:'ATL',conf:'East',gp:82,w:40,l:42,ppg:118.2,papg:119.3,hw:21,hl:19,aw:19,al:23,winPct:0.488,form:['W','W','W','L','W']},
-      {id:'chi',espnId:'4',n:'Chicago Bulls',abbr:'CHI',conf:'East',gp:82,w:39,l:43,ppg:117.8,papg:119.4,hw:18,hl:23,aw:21,al:20,winPct:0.476,form:['W','W','W','L','W']},
-      {id:'mia',espnId:'14',n:'Miami Heat',abbr:'MIA',conf:'East',gp:82,w:37,l:45,ppg:110.6,papg:110.0,hw:19,hl:22,aw:18,al:23,winPct:0.451,form:['L','W','L','W','L']},
-      {id:'tor',espnId:'28',n:'Toronto Raptors',abbr:'TOR',conf:'East',gp:82,w:30,l:52,ppg:110.9,papg:115.2,hw:18,hl:23,aw:12,al:29,winPct:0.366,form:['L','L','W','W','L']},
-      {id:'bkn',espnId:'17',n:'Brooklyn Nets',abbr:'BKN',conf:'East',gp:82,w:26,l:56,ppg:105.1,papg:112.2,hw:12,hl:29,aw:14,al:27,winPct:0.317,form:['L','L','L','W','L']},
-      {id:'phi',espnId:'20',n:'Philadelphia 76ers',abbr:'PHI',conf:'East',gp:82,w:24,l:58,ppg:109.6,papg:115.8,hw:12,hl:29,aw:12,al:29,winPct:0.293,form:['L','L','W','L','L']},
-      {id:'cha',espnId:'30',n:'Charlotte Hornets',abbr:'CHA',conf:'East',gp:82,w:19,l:63,ppg:105.1,papg:114.2,hw:12,hl:29,aw:7,al:34,winPct:0.232,form:['L','L','L','L','L']},
-      {id:'wsh',espnId:'27',n:'Washington Wizards',abbr:'WSH',conf:'East',gp:82,w:18,l:64,ppg:108.0,papg:120.4,hw:8,hl:33,aw:10,al:31,winPct:0.22,form:['W','L','L','L','L']},
-      {id:'okc',espnId:'25',n:'Oklahoma City Thunder',abbr:'OKC',conf:'West',gp:82,w:68,l:14,ppg:120.5,papg:107.6,hw:36,hl:6,aw:32,al:8,winPct:0.829,form:['W','W','W','W','L']},
-      {id:'hou',espnId:'10',n:'Houston Rockets',abbr:'HOU',conf:'West',gp:82,w:52,l:30,ppg:114.3,papg:109.8,hw:29,hl:12,aw:23,al:18,winPct:0.634,form:['L','L','L','W','W']},
-      {id:'lal',espnId:'13',n:'Los Angeles Lakers',abbr:'LAL',conf:'West',gp:82,w:50,l:32,ppg:113.4,papg:112.2,hw:31,hl:10,aw:19,al:22,winPct:0.61,form:['L','W','W','L','W']},
-      {id:'den',espnId:'7',n:'Denver Nuggets',abbr:'DEN',conf:'West',gp:82,w:50,l:32,ppg:120.8,papg:116.9,hw:26,hl:15,aw:24,al:17,winPct:0.61,form:['W','W','W','L','L']},
-      {id:'lac',espnId:'12',n:'Los Angeles Clippers',abbr:'LAC',conf:'West',gp:82,w:50,l:32,ppg:112.9,papg:108.2,hw:30,hl:11,aw:20,al:21,winPct:0.61,form:['W','W','W','W','W']},
-      {id:'min',espnId:'16',n:'Minnesota Timberwolves',abbr:'MIN',conf:'West',gp:82,w:49,l:33,ppg:114.3,papg:109.3,hw:25,hl:16,aw:24,al:17,winPct:0.598,form:['W','W','W','L','W']},
-      {id:'gs',espnId:'9',n:'Golden State Warriors',abbr:'GS',conf:'West',gp:82,w:48,l:34,ppg:113.8,papg:110.5,hw:24,hl:17,aw:24,al:17,winPct:0.585,form:['L','W','L','W','L']},
-      {id:'mem',espnId:'29',n:'Memphis Grizzlies',abbr:'MEM',conf:'West',gp:82,w:48,l:34,ppg:121.7,papg:116.9,hw:26,hl:15,aw:22,al:19,winPct:0.585,form:['W','L','L','W','W']},
-      {id:'sac',espnId:'23',n:'Sacramento Kings',abbr:'SAC',conf:'West',gp:82,w:40,l:42,ppg:115.7,papg:115.3,hw:20,hl:21,aw:20,al:21,winPct:0.488,form:['W','L','L','W','W']},
-      {id:'dal',espnId:'6',n:'Dallas Mavericks',abbr:'DAL',conf:'West',gp:82,w:39,l:43,ppg:114.2,papg:115.4,hw:22,hl:18,aw:17,al:25,winPct:0.476,form:['L','W','L','L','L']},
-      {id:'phx',espnId:'21',n:'Phoenix Suns',abbr:'PHX',conf:'West',gp:82,w:36,l:46,ppg:113.6,papg:116.6,hw:24,hl:17,aw:12,al:29,winPct:0.439,form:['L','W','L','L','L']},
-      {id:'por',espnId:'22',n:'Portland Trail Blazers',abbr:'POR',conf:'West',gp:82,w:36,l:46,ppg:110.9,papg:113.9,hw:22,hl:19,aw:14,al:27,winPct:0.439,form:['W','L','L','W','L']},
-      {id:'sa',espnId:'24',n:'San Antonio Spurs',abbr:'SA',conf:'West',gp:82,w:34,l:48,ppg:113.9,papg:116.7,hw:20,hl:21,aw:14,al:27,winPct:0.415,form:['W','L','W','L','L']},
-      {id:'no',espnId:'3',n:'New Orleans Pelicans',abbr:'NO',conf:'West',gp:82,w:21,l:61,ppg:109.8,papg:119.3,hw:14,hl:27,aw:7,al:34,winPct:0.256,form:['L','L','L','L','L']},
-      {id:'utah',espnId:'26',n:'Utah Jazz',abbr:'UTAH',conf:'West',gp:82,w:17,l:65,ppg:111.9,papg:121.2,hw:10,hl:31,aw:7,al:34,winPct:0.207,form:['L','L','W','L','L']}
-];
 
 const ESPN_LG = {
   israel:'isr.1',premier:'eng.1',laliga:'esp.1',
@@ -1176,187 +1167,6 @@ async function renderH2H(ht,at,lgId){
 }
 
 
-// ══════════════════════════════════════════════════
-// NBA ENGINE
-// ══════════════════════════════════════════════════
-let currentSport = 'soccer';
-
-function populateNBASelects(){
-  const sorted=[...NBA_TEAMS].sort((a,b)=>a.n.localeCompare(b.n,'en'));
-  const east=sorted.filter(t=>t.conf==='East');
-  const west=sorted.filter(t=>t.conf==='West');
-  ['homeTeam','awayTeam'].forEach(id=>{
-    const s=document.getElementById(id);
-    s.innerHTML='<option value="">בחר קבוצה...</option>';
-    const og1=document.createElement('optgroup'); og1.label='Eastern Conference';
-    east.forEach(t=>og1.add(new Option(t.n,t.id)));
-    const og2=document.createElement('optgroup'); og2.label='Western Conference';
-    west.forEach(t=>og2.add(new Option(t.n,t.id)));
-    s.appendChild(og1); s.appendChild(og2);
-  });
-  document.getElementById('results').classList.remove('active');
-  document.querySelectorAll('.select-group label')[0].innerHTML='🏠 <span>קבוצת בית</span>';
-  document.querySelectorAll('.select-group label')[1].innerHTML='✈️ <span>קבוצת חוץ</span>';
-  document.getElementById('predictBtn').querySelector('span') && (document.getElementById('predictBtn').childNodes[2].textContent=' נתח את המשחק');
-  checkBtn();
-}
-
-function predictNBA(ht, at){
-  // Elo-style win probability based on win% + home/away splits + form
-  const hHomeWinPct = ht.hw / (ht.hw + ht.hl);
-  const aAwayWinPct = at.aw / (at.aw + at.al);
-  const hForm = (ht.form||[]).slice(0,5).filter(x=>x==='W').length / 5;
-  const aForm = (at.form||[]).slice(0,5).filter(x=>x==='W').length / 5;
-  const HOME_BOOST = 0.06;
-
-  // Bradley-Terry model
-  const hStr = ht.winPct * 0.5 + hHomeWinPct * 0.3 + hForm * 0.2 + HOME_BOOST;
-  const aStr = at.winPct * 0.5 + aAwayWinPct * 0.3 + aForm * 0.2;
-  const total = hStr + aStr;
-  const homeWin = hStr / total;
-  const awayWin = 1 - homeWin;
-
-  // Expected points
-  const avgPts = (ht.ppg + at.papg) / 2;
-  const avgPtsAway = (at.ppg + ht.papg) / 2;
-  const homeAdj = 1.03; // ~3pt home advantage
-  const xHome = avgPts * homeAdj;
-  const xAway = avgPtsAway / homeAdj;
-  const ou = xHome + xAway;
-
-  // Form scores
-  const hFormScore = (ht.form||[]).slice(0,5).filter(x=>x==='W').length;
-  const aFormScore = (at.form||[]).slice(0,5).filter(x=>x==='W').length;
-
-  return{homeWin:homeWin*100, awayWin:awayWin*100,
-    xHome, xAway, ou,
-    hFormScore, aFormScore,
-    hPpg:ht.ppg, hPapg:ht.papg,
-    aPpg:at.ppg, aPapg:at.papg};
-}
-
-function buildNBAInsights(ht, at, r){
-  const ins=[];
-  if(r.homeWin>60) ins.push(`<strong>${ht.n}</strong> — פייבוריטית ברורה עם ${r.homeWin.toFixed(0)}% סיכוי לניצחון`);
-  else if(r.awayWin>60) ins.push(`<strong>${at.n}</strong> — פייבוריטית גם כאורחת: ${r.awayWin.toFixed(0)}%`);
-  else ins.push(`משחק פתוח — פחות מ-${Math.round(Math.max(r.homeWin,r.awayWin))}% הפרש, כל תוצאה אפשרית`);
-  if(r.hFormScore>=4) ins.push(`${ht.n} בכושר מעולה — ${r.hFormScore}/5 ניצחונות אחרונים`);
-  else if(r.hFormScore<=1) ins.push(`${ht.n} בקשיים — רק ${r.hFormScore}/5 ניצחונות אחרונים`);
-  if(r.aFormScore>=4) ins.push(`${at.n} לוהטת — ${r.aFormScore}/5 ניצחונות אחרונים`);
-  else if(r.aFormScore<=1) ins.push(`${at.n} בנפילה — רק ${r.aFormScore}/5 ניצחונות אחרונים`);
-  if(r.ou>230) ins.push(`<strong>O/U גבוה</strong> — ${r.ou.toFixed(0)} נקודות צפויות, שתי הקבוצות תוקפניות`);
-  else if(r.ou<210) ins.push(`<strong>O/U נמוך</strong> — ${r.ou.toFixed(0)} נקודות צפויות, משחק הגנתי`);
-  else ins.push(`O/U צפוי: ${r.ou.toFixed(0)} נקודות`);
-  const spread = Math.abs(r.xHome - r.xAway).toFixed(1);
-  ins.push(`פרש צפוי: <strong>${spread} נקודות</strong> לטובת ${r.xHome>r.xAway?ht.n:at.n}`);
-  ins.push(`תחזית: <strong>${Math.round(r.xHome)} – ${Math.round(r.xAway)}</strong>`);
-  return ins;
-}
-
-function renderNBAResults(ht, at, r){
-  document.getElementById('homeDisplay').textContent = ht.n;
-  document.getElementById('awayDisplay').textContent = at.n;
-  document.getElementById('matchLeagueLabel').textContent = '🏀 NBA · עונה 2024/25';
-
-  const max = Math.max(r.homeWin, r.awayWin);
-  document.getElementById('probGrid').innerHTML=[
-    {cls:'home',lbl:'ניצחון בית',tm:ht.n,val:r.homeWin},
-    {cls:'away',lbl:'ניצחון חוץ',tm:at.n,val:r.awayWin}
-  ].map(({cls,lbl,tm,val})=>`
-    <div class="prob-card${val===max?' best':''}">
-      <div class="prob-label">${lbl}</div>
-      <div class="prob-team-name">${tm}</div>
-      <div class="prob-pct ${cls}">${val.toFixed(0)}<span style="font-size:1.2rem">%</span></div>
-      <div class="prob-bar"><div class="prob-bar-fill ${cls}" style="width:0" data-w="${val}"></div></div>
-    </div>`).join('');
-
-  document.getElementById('oddsRow').innerHTML=[
-    {lbl:'קורס בית',val:(1/(r.homeWin/100*0.95)).toFixed(2),col:'#34d399'},
-    {lbl:'קורס חוץ',val:(1/(r.awayWin/100*0.95)).toFixed(2),col:'#f472b6'},
-    {lbl:'O/U',val:r.ou.toFixed(1),col:'#a78bfa'},
-    {lbl:'פרש',val:Math.abs(r.xHome-r.xAway).toFixed(1),col:'#fbbf24'}
-  ].map(({lbl,val,col})=>`<div class="odd-box"><div class="odd-label">${lbl}</div><div class="odd-val" style="color:${col}">${val}</div></div>`).join('');
-
-  const xMax=Math.max(r.xHome,r.xAway,1);
-  document.getElementById('xgContent').innerHTML=`
-    <div class="xg-bar-row">
-      <div class="xg-team-label">${ht.n.length>16?ht.abbr||ht.n.substring(0,14)+'…':ht.n}</div>
-      <div class="xg-track"><div class="xg-fill-home" style="width:0" data-w="${r.xHome/xMax*100}%"></div></div>
-      <div class="xg-val home">${r.xHome.toFixed(1)}</div>
-    </div>
-    <div class="xg-bar-row">
-      <div class="xg-team-label">${at.n.length>16?at.abbr||at.n.substring(0,14)+'…':at.n}</div>
-      <div class="xg-track"><div class="xg-fill-away" style="width:0" data-w="${r.xAway/xMax*100}%"></div></div>
-      <div class="xg-val away">${r.xAway.toFixed(1)}</div>
-    </div>`;
-  document.querySelector('.xg-section h3').textContent='⚡ נקודות צפויות';
-
-  const statCard=(t,isHome)=>{
-    const fb=(t.form||[]).slice(0,5).map(x=>`<div class="nba-f-badge ${x}">${x}</div>`).join('');
-    const hRec=isHome?`${t.hw}-${t.hl}`:`${t.aw}-${t.al}`;
-    const oppRec=isHome?`${t.aw}-${t.al}`:`${t.hw}-${t.hl}`;
-    return`<div class="stat-card">
-      <h3>${t.n} <span style="font-size:.75rem;color:var(--text-muted)">${t.conf}</span></h3>
-      <div class="stat-row"><span class="lbl">רשומה</span><span class="val">${t.w}-${t.l}</span></div>
-      <div class="stat-row"><span class="lbl">Win%</span><span class="val">${(t.winPct*100).toFixed(1)}%</span></div>
-      <div class="stat-row"><span class="lbl">PPG</span><span class="val">${t.ppg}</span></div>
-      <div class="stat-row"><span class="lbl">PAPG</span><span class="val">${t.papg}</span></div>
-      <div class="stat-row"><span class="lbl">רשומת ${isHome?'בית':'חוץ'}</span><span class="val">${hRec}</span></div>
-      <div class="stat-row"><span class="lbl">רשומת ${isHome?'חוץ':'בית'}</span><span class="val">${oppRec}</span></div>
-      <div class="form-row">${fb}</div>
-    </div>`;
-  };
-  document.getElementById('statsGrid').innerHTML = statCard(ht,true)+statCard(at,false);
-
-  document.getElementById('insightsList').innerHTML=
-    buildNBAInsights(ht,at,r).map(s=>`<div class="insight-item"><div class="insight-dot"></div><div>${s}</div></div>`).join('');
-
-  // H2H
-  renderH2H(ht,at,'nba');
-
-  const res=document.getElementById('results');
-  res.classList.add('active');
-  requestAnimationFrame(()=>{
-    document.querySelectorAll('.prob-bar-fill').forEach(el=>{el.style.width=el.dataset.w+'%'});
-    document.querySelectorAll('.xg-fill-home,.xg-fill-away').forEach(el=>{el.style.width=el.dataset.w});
-    setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'start'}),120);
-  });
-}
-
-// Sport toggle logic
-function initSportToggle(){
-  document.querySelectorAll('.sport-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.sport-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const sport=btn.dataset.sport;
-      currentSport=sport;
-      const tabsWrap=document.getElementById('leagueTabsWrap');
-      if(sport==='nba'){
-        tabsWrap.style.display='none';
-        populateNBASelects();
-        applyAccent({bg:'rgba(234,88,12,.08)',border:'rgba(234,88,12,.3)',text:'#fb923c',glow:'rgba(234,88,12,.15)',card:'rgba(234,88,12,.05)'});
-      } else {
-        tabsWrap.style.display='';
-        const activeLg=document.querySelector('.tab-btn.active')?.dataset.lg||'israel';
-        populateSelects(activeLg);
-      }
-    });
-  });
-}
-
-// Override predict button for NBA
-const _origPredictClick = document.getElementById('predictBtn').onclick;
-//SKIP_document.getElementById('predictBtn').addEventListener('click',()=>{
-  const hId=//SKIP_document.getElementById('homeTeam').value;
-  const aId=//SKIP_document.getElementById('awayTeam').value;
-  const lg=LEAGUES[currentLeague];
-  const ht=lg.teams.find(t=>t.id===hId);
-  const at=lg.teams.find(t=>t.id===aId);
-  if(!ht||!at)return;
-  const r=predict(ht,at,lg);
-  renderResults(ht,at,r,lg);
-});
 // ══════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════
