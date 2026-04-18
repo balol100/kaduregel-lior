@@ -313,6 +313,7 @@ body.a11y-font-lg{font-size:18px}
 body.a11y-font-xl{font-size:20px}
 body.a11y-grayscale{filter:grayscale(1)}
 body.a11y-contrast{filter:contrast(1.35)}
+body.a11y-grayscale.a11y-contrast{filter:grayscale(1) contrast(1.35)}
 body.a11y-highlight-links a,body.a11y-highlight-links button:not(.a11y-opt):not(.a11y-reset):not(.a11y-close){outline:2px dashed #fbbf24 !important;outline-offset:2px}
 body.a11y-readable,body.a11y-readable *{font-family:Arial,Verdana,sans-serif !important;letter-spacing:.02em}
 body.a11y-no-motion *,body.a11y-no-motion *::before,body.a11y-no-motion *::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
@@ -1154,8 +1155,9 @@ initSportToggle();
 // ══════════════════════════════════════════════════
 
 const ESPN_LG = {
-  israel:'isr.1',premier:'eng.1',laliga:'esp.1',
-  seriea:'ita.1',bundesliga:'ger.1',ligue1:'fra.1',ucl:'eng.1',nba:'basketball/nba'
+  israel:'soccer/isr.1',premier:'soccer/eng.1',laliga:'soccer/esp.1',
+  seriea:'soccer/ita.1',bundesliga:'soccer/ger.1',ligue1:'soccer/fra.1',
+  ucl:'soccer/eng.1',nba:'basketball/nba'
 };
 let _h2hCache={};
 
@@ -1167,7 +1169,7 @@ async function fetchH2H(lg,id1,id2){
   for(const s of seasons){
     if(res.length>=8) break;
     try{
-      const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${lg}/teams/${id1}/schedule?season=${s}&limit=60`;
+      const url=`https://site.api.espn.com/apis/site/v2/sports/${lg}/teams/${id1}/schedule?season=${s}&limit=60`;
       const d=await(await fetch(url)).json();
       for(const ev of(d.events||[])){
         if(res.length>=8) break;
