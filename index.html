@@ -261,6 +261,10 @@ footer a:hover{color:var(--text)}
 .h2h-score{padding:3px 8px;font-size:.95rem;min-width:54px}
 .h2h-winner-badge{display:none}
 }
+
+.h2h-loading{display:flex;align-items:center;gap:12px;padding:28px 16px;color:var(--text-muted);font-size:.9rem}
+.h2h-spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:#a78bfa;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -399,121 +403,121 @@ const LEAGUES = {
     id:'israel', name:'ליגת העל', emoji:'🇮🇱', color:'#3b82f6', avgGoals:1.35,
     accent:{bg:'rgba(59,130,246,.08)',border:'rgba(59,130,246,.3)',text:'#60a5fa',glow:'rgba(59,130,246,.15)',card:'rgba(59,130,246,.05)'},
     teams:[
-      {id:'hbs',n:'הפועל באר שבע',p:26,w:18,d:5,l:3,gf:58,ga:25,hw:9,hd:4,hl:0,hgf:29,hga:10,aw:9,ad:1,al:3,agf:29,aga:15,form:['W','W','D','D','W','W']},
-      {id:'bjr',n:'בית"ר ירושלים',p:26,w:17,d:6,l:3,gf:61,ga:29,hw:7,hd:5,hl:1,hgf:21,hga:12,aw:10,ad:1,al:2,agf:40,aga:17,form:['W','W','W','D','L','W']},
-      {id:'mta',n:'מכבי תל אביב',p:26,w:14,d:7,l:5,gf:55,ga:32,hw:7,hd:3,hl:3,hgf:27,hga:20,aw:7,ad:4,al:2,agf:28,aga:12,form:['L','W','W','D','W','W']},
+      {id:'hbs',espnId:'13083',n:'הפועל באר שבע',p:26,w:18,d:5,l:3,gf:58,ga:25,hw:9,hd:4,hl:0,hgf:29,hga:10,aw:9,ad:1,al:3,agf:29,aga:15,form:['W','W','D','D','W','W']},
+      {id:'bjr',espnId:'5218',n:'בית"ר ירושלים',p:26,w:17,d:6,l:3,gf:61,ga:29,hw:7,hd:5,hl:1,hgf:21,hga:12,aw:10,ad:1,al:2,agf:40,aga:17,form:['W','W','W','D','L','W']},
+      {id:'mta',espnId:'524',n:'מכבי תל אביב',p:26,w:14,d:7,l:5,gf:55,ga:32,hw:7,hd:3,hl:3,hgf:27,hga:20,aw:7,ad:4,al:2,agf:28,aga:12,form:['L','W','W','D','W','W']},
       {id:'hta',n:'הפועל תל אביב',p:26,w:15,d:6,l:5,gf:46,ga:26,hw:12,hd:0,hl:1,hgf:27,hga:9,aw:3,ad:6,al:4,agf:19,aga:17,form:['D','W','D','W','W','W']},
-      {id:'mha',n:'מכבי חיפה',p:26,w:11,d:9,l:6,gf:50,ga:28,hw:8,hd:1,hl:4,hgf:33,hga:15,aw:3,ad:8,al:2,agf:17,aga:13,form:['W','L','L','W','D','W']},
+      {id:'mha',espnId:'611',n:'מכבי חיפה',p:26,w:11,d:9,l:6,gf:50,ga:28,hw:8,hd:1,hl:4,hgf:33,hga:15,aw:3,ad:8,al:2,agf:17,aga:13,form:['W','L','L','W','D','W']},
       {id:'hpt',n:'הפועל פתח תקווה',p:26,w:9,d:10,l:7,gf:41,ga:36,hw:4,hd:5,hl:4,hgf:17,hga:16,aw:5,ad:5,al:3,agf:24,aga:20,form:['D','D','W','L','W','W']},
-      {id:'mne',n:'מכבי נתניה',p:26,w:10,d:5,l:11,gf:45,ga:55,hw:4,hd:5,hl:4,hgf:23,hga:25,aw:6,ad:0,al:7,agf:22,aga:30,form:['D','W','L','W','D','L']},
-      {id:'bsa',n:'בני סכנין',p:26,w:8,d:8,l:10,gf:27,ga:35,hw:4,hd:5,hl:4,hgf:15,hga:16,aw:4,ad:3,al:6,agf:12,aga:19,form:['W','L','D','L','L','D']},
-      {id:'qsh',n:'עירוני קרית שמונה',p:26,w:7,d:6,l:13,gf:37,ga:46,hw:4,hd:3,hl:6,hgf:18,hga:19,aw:3,ad:3,al:7,agf:19,aga:27,form:['L','W','W','D','D','L']},
-      {id:'hhai',n:'הפועל חיפה',p:26,w:6,d:7,l:13,gf:31,ga:44,hw:2,hd:4,hl:7,hgf:19,hga:27,aw:4,ad:3,al:6,agf:12,aga:17,form:['D','L','D','W','L','L']},
+      {id:'mne',espnId:'5945',n:'מכבי נתניה',p:26,w:10,d:5,l:11,gf:45,ga:55,hw:4,hd:5,hl:4,hgf:23,hga:25,aw:6,ad:0,al:7,agf:22,aga:30,form:['D','W','L','W','D','L']},
+      {id:'bsa',espnId:'8329',n:'בני סכנין',p:26,w:8,d:8,l:10,gf:27,ga:35,hw:4,hd:5,hl:4,hgf:15,hga:16,aw:4,ad:3,al:6,agf:12,aga:19,form:['W','L','D','L','L','D']},
+      {id:'qsh',espnId:'8327',n:'עירוני קרית שמונה',p:26,w:7,d:6,l:13,gf:37,ga:46,hw:4,hd:3,hl:6,hgf:18,hga:19,aw:3,ad:3,al:7,agf:19,aga:27,form:['L','W','W','D','D','L']},
+      {id:'hhai',espnId:'9577',n:'הפועל חיפה',p:26,w:6,d:7,l:13,gf:31,ga:44,hw:2,hd:4,hl:7,hgf:19,hga:27,aw:4,ad:3,al:6,agf:12,aga:17,form:['D','L','D','W','L','L']},
       {id:'asd',n:'מ.ס. אשדוד',p:26,w:5,d:9,l:12,gf:32,ga:50,hw:2,hd:4,hl:7,hgf:19,hga:30,aw:3,ad:5,al:5,agf:13,aga:20,form:['D','L','L','L','W','D']},
-      {id:'hjr',n:'הפועל ירושלים',p:26,w:4,d:9,l:13,gf:22,ga:37,hw:2,hd:5,hl:6,hgf:12,hga:22,aw:2,ad:4,al:7,agf:10,aga:15,form:['L','D','L','L','D','L']},
-      {id:'tib',n:'עירוני טבריה',p:26,w:7,d:6,l:13,gf:32,ga:52,hw:5,hd:3,hl:5,hgf:17,hga:21,aw:2,ad:3,al:8,agf:15,aga:31,form:['D','L','W','D','L','L']},
-      {id:'mbr',n:'מכבי בני ריינה',p:26,w:3,d:3,l:20,gf:17,ga:59,hw:2,hd:2,hl:9,hgf:10,hga:31,aw:1,ad:1,al:11,agf:7,aga:28,form:['L','D','L','L','L','L']},
+      {id:'hjr',espnId:'20970',n:'הפועל ירושלים',p:26,w:4,d:9,l:13,gf:22,ga:37,hw:2,hd:5,hl:6,hgf:12,hga:22,aw:2,ad:4,al:7,agf:10,aga:15,form:['L','D','L','L','D','L']},
+      {id:'tib',espnId:'22311',n:'עירוני טבריה',p:26,w:7,d:6,l:13,gf:32,ga:52,hw:5,hd:3,hl:5,hgf:17,hga:21,aw:2,ad:3,al:8,agf:15,aga:31,form:['D','L','W','D','L','L']},
+      {id:'mbr',espnId:'21517',n:'מכבי בני ריינה',p:26,w:3,d:3,l:20,gf:17,ga:59,hw:2,hd:2,hl:9,hgf:10,hga:31,aw:1,ad:1,al:11,agf:7,aga:28,form:['L','D','L','L','L','L']},
     ]
   },
   premier: {
     id:'premier', name:'פרמייר ליג', emoji:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', color:'#8b5cf6', avgGoals:1.4,
     accent:{bg:'rgba(139,92,246,.08)',border:'rgba(139,92,246,.3)',text:'#c4b5fd',glow:'rgba(139,92,246,.15)',card:'rgba(139,92,246,.05)'},
     teams:[
-      {id:'ars',n:'Arsenal',p:32,w:21,d:7,l:4,gf:62,ga:24,hw:12,hd:2,hl:2,hgf:36,hga:11,aw:9,ad:5,al:2,agf:26,aga:13,form:['L','W','W','W','W','W']},
-      {id:'mnc',n:'Manchester City',p:31,w:19,d:7,l:5,gf:63,ga:28,hw:11,hd:3,hl:1,hgf:36,hga:11,aw:8,ad:4,al:4,agf:27,aga:17,form:['W','W','D','D','W','W']},
-      {id:'mun',n:'Manchester United',p:32,w:15,d:10,l:7,gf:57,ga:45,hw:10,hd:3,hl:3,hgf:31,hga:19,aw:5,ad:7,al:4,agf:26,aga:26,form:['W','L','W','D','L','W']},
-      {id:'avl',n:'Aston Villa',p:32,w:16,d:7,l:9,gf:43,ga:38,hw:10,hd:2,hl:4,hgf:23,hga:15,aw:6,ad:5,al:5,agf:20,aga:23,form:['L','L','L','W','D','L']},
-      {id:'liv',n:'Liverpool',p:32,w:15,d:7,l:10,gf:52,ga:42,hw:9,hd:4,hl:3,hgf:29,hga:17,aw:6,ad:3,al:7,agf:23,aga:25,form:['W','L','D','L','W','L']},
-      {id:'che',n:'Chelsea',p:32,w:13,d:9,l:10,gf:53,ga:41,hw:6,hd:5,hl:5,hgf:23,hga:20,aw:7,ad:4,al:5,agf:30,aga:21,form:['L','W','L','L','L','W']},
-      {id:'bre',n:'Brentford',p:32,w:13,d:8,l:11,gf:48,ga:44,hw:7,hd:6,hl:3,hgf:28,hga:19,aw:6,ad:2,al:8,agf:20,aga:25,form:['W','D','L','W','W','D']},
-      {id:'eve',n:'Everton',p:32,w:13,d:8,l:11,gf:39,ga:37,hw:6,hd:4,hl:6,hgf:21,hga:19,aw:7,ad:4,al:5,agf:18,aga:18,form:['D','W','L','W','W','D']},
-      {id:'bha',n:'Brighton',p:32,w:12,d:10,l:10,gf:43,ga:37,hw:5,hd:6,hl:5,hgf:21,hga:19,aw:7,ad:4,al:5,agf:22,aga:18,form:['W','L','W','W','W','D']},
-      {id:'sun',n:'Sunderland',p:32,w:12,d:10,l:10,gf:33,ga:36,hw:7,hd:4,hl:5,hgf:19,hga:16,aw:5,ad:6,al:5,agf:14,aga:20,form:['D','W','L','W','W','D']},
-      {id:'bou',n:'Bournemouth',p:32,w:10,d:15,l:7,gf:48,ga:49,hw:5,hd:8,hl:3,hgf:23,hga:19,aw:5,ad:7,al:4,agf:25,aga:30,form:['D','D','D','D','W','D']},
-      {id:'ful',n:'Fulham',p:32,w:13,d:5,l:14,gf:43,ga:46,hw:8,hd:2,hl:6,hgf:22,hga:22,aw:5,ad:3,al:8,agf:21,aga:24,form:['W','L','D','W','L','L']},
-      {id:'cry',n:'Crystal Palace',p:31,w:11,d:9,l:11,gf:35,ga:36,hw:4,hd:7,hl:5,hgf:16,hga:19,aw:7,ad:2,al:6,agf:19,aga:17,form:['W','L','W','D','W','L']},
-      {id:'new',n:'Newcastle',p:32,w:12,d:6,l:14,gf:45,ga:47,hw:8,hd:2,hl:6,hgf:29,hga:26,aw:4,ad:4,al:8,agf:16,aga:21,form:['L','W','W','L','L','W']},
-      {id:'lee',n:'Leeds United',p:32,w:8,d:12,l:12,gf:39,ga:49,hw:6,hd:5,hl:5,hgf:22,hga:20,aw:2,ad:7,al:7,agf:17,aga:29,form:['L','L','D','D','W','D']},
-      {id:'nfo',n:'Nottingham Forest',p:32,w:8,d:9,l:15,gf:32,ga:44,hw:3,hd:6,hl:7,hgf:14,hga:20,aw:5,ad:3,al:8,agf:18,aga:24,form:['L','D','D','W','D','L']},
-      {id:'whu',n:'West Ham',p:32,w:8,d:8,l:16,gf:40,ga:57,hw:4,hd:4,hl:8,hgf:22,hga:28,aw:4,ad:4,al:8,agf:18,aga:29,form:['L','W','D','L','W','L']},
-      {id:'tot',n:'Tottenham',p:32,w:7,d:9,l:16,gf:40,ga:51,hw:2,hd:4,hl:10,hgf:18,hga:28,aw:5,ad:5,al:6,agf:22,aga:23,form:['L','L','D','L','L','L']},
-      {id:'bur',n:'Burnley',p:32,w:4,d:8,l:20,gf:33,ga:63,hw:2,hd:5,hl:9,hgf:15,hga:25,aw:2,ad:3,al:11,agf:18,aga:38,form:['L','L','D','L','L','L']},
-      {id:'wol',n:'Wolverhampton',p:32,w:3,d:8,l:21,gf:24,ga:58,hw:3,hd:3,hl:10,hgf:17,hga:31,aw:0,ad:5,al:11,agf:7,aga:27,form:['L','W','W','D','L','L']},
+      {id:'ars',espnId:'359',n:'Arsenal',p:32,w:21,d:7,l:4,gf:62,ga:24,hw:12,hd:2,hl:2,hgf:36,hga:11,aw:9,ad:5,al:2,agf:26,aga:13,form:['L','W','W','W','W','W']},
+      {id:'mnc',espnId:'382',n:'Manchester City',p:31,w:19,d:7,l:5,gf:63,ga:28,hw:11,hd:3,hl:1,hgf:36,hga:11,aw:8,ad:4,al:4,agf:27,aga:17,form:['W','W','D','D','W','W']},
+      {id:'mun',espnId:'360',n:'Manchester United',p:32,w:15,d:10,l:7,gf:57,ga:45,hw:10,hd:3,hl:3,hgf:31,hga:19,aw:5,ad:7,al:4,agf:26,aga:26,form:['W','L','W','D','L','W']},
+      {id:'avl',espnId:'362',n:'Aston Villa',p:32,w:16,d:7,l:9,gf:43,ga:38,hw:10,hd:2,hl:4,hgf:23,hga:15,aw:6,ad:5,al:5,agf:20,aga:23,form:['L','L','L','W','D','L']},
+      {id:'liv',espnId:'364',n:'Liverpool',p:32,w:15,d:7,l:10,gf:52,ga:42,hw:9,hd:4,hl:3,hgf:29,hga:17,aw:6,ad:3,al:7,agf:23,aga:25,form:['W','L','D','L','W','L']},
+      {id:'che',espnId:'363',n:'Chelsea',p:32,w:13,d:9,l:10,gf:53,ga:41,hw:6,hd:5,hl:5,hgf:23,hga:20,aw:7,ad:4,al:5,agf:30,aga:21,form:['L','W','L','L','L','W']},
+      {id:'bre',espnId:'337',n:'Brentford',p:32,w:13,d:8,l:11,gf:48,ga:44,hw:7,hd:6,hl:3,hgf:28,hga:19,aw:6,ad:2,al:8,agf:20,aga:25,form:['W','D','L','W','W','D']},
+      {id:'eve',espnId:'368',n:'Everton',p:32,w:13,d:8,l:11,gf:39,ga:37,hw:6,hd:4,hl:6,hgf:21,hga:19,aw:7,ad:4,al:5,agf:18,aga:18,form:['D','W','L','W','W','D']},
+      {id:'bha',espnId:'331',n:'Brighton',p:32,w:12,d:10,l:10,gf:43,ga:37,hw:5,hd:6,hl:5,hgf:21,hga:19,aw:7,ad:4,al:5,agf:22,aga:18,form:['W','L','W','W','W','D']},
+      {id:'sun',espnId:'366',n:'Sunderland',p:32,w:12,d:10,l:10,gf:33,ga:36,hw:7,hd:4,hl:5,hgf:19,hga:16,aw:5,ad:6,al:5,agf:14,aga:20,form:['D','W','L','W','W','D']},
+      {id:'bou',espnId:'349',n:'Bournemouth',p:32,w:10,d:15,l:7,gf:48,ga:49,hw:5,hd:8,hl:3,hgf:23,hga:19,aw:5,ad:7,al:4,agf:25,aga:30,form:['D','D','D','D','W','D']},
+      {id:'ful',espnId:'370',n:'Fulham',p:32,w:13,d:5,l:14,gf:43,ga:46,hw:8,hd:2,hl:6,hgf:22,hga:22,aw:5,ad:3,al:8,agf:21,aga:24,form:['W','L','D','W','L','L']},
+      {id:'cry',espnId:'384',n:'Crystal Palace',p:31,w:11,d:9,l:11,gf:35,ga:36,hw:4,hd:7,hl:5,hgf:16,hga:19,aw:7,ad:2,al:6,agf:19,aga:17,form:['W','L','W','D','W','L']},
+      {id:'new',espnId:'361',n:'Newcastle',p:32,w:12,d:6,l:14,gf:45,ga:47,hw:8,hd:2,hl:6,hgf:29,hga:26,aw:4,ad:4,al:8,agf:16,aga:21,form:['L','W','W','L','L','W']},
+      {id:'lee',espnId:'357',n:'Leeds United',p:32,w:8,d:12,l:12,gf:39,ga:49,hw:6,hd:5,hl:5,hgf:22,hga:20,aw:2,ad:7,al:7,agf:17,aga:29,form:['L','L','D','D','W','D']},
+      {id:'nfo',espnId:'393',n:'Nottingham Forest',p:32,w:8,d:9,l:15,gf:32,ga:44,hw:3,hd:6,hl:7,hgf:14,hga:20,aw:5,ad:3,al:8,agf:18,aga:24,form:['L','D','D','W','D','L']},
+      {id:'whu',espnId:'371',n:'West Ham',p:32,w:8,d:8,l:16,gf:40,ga:57,hw:4,hd:4,hl:8,hgf:22,hga:28,aw:4,ad:4,al:8,agf:18,aga:29,form:['L','W','D','L','W','L']},
+      {id:'tot',espnId:'367',n:'Tottenham',p:32,w:7,d:9,l:16,gf:40,ga:51,hw:2,hd:4,hl:10,hgf:18,hga:28,aw:5,ad:5,al:6,agf:22,aga:23,form:['L','L','D','L','L','L']},
+      {id:'bur',espnId:'379',n:'Burnley',p:32,w:4,d:8,l:20,gf:33,ga:63,hw:2,hd:5,hl:9,hgf:15,hga:25,aw:2,ad:3,al:11,agf:18,aga:38,form:['L','L','D','L','L','L']},
+      {id:'wol',espnId:'380',n:'Wolverhampton',p:32,w:3,d:8,l:21,gf:24,ga:58,hw:3,hd:3,hl:10,hgf:17,hga:31,aw:0,ad:5,al:11,agf:7,aga:27,form:['L','W','W','D','L','L']},
     ]
   },
   laliga: {
     id:'laliga', name:'לה ליגה', emoji:'🇪🇸', color:'#ef4444', avgGoals:1.38,
     accent:{bg:'rgba(239,68,68,.08)',border:'rgba(239,68,68,.3)',text:'#fca5a5',glow:'rgba(239,68,68,.12)',card:'rgba(239,68,68,.05)'},
     teams:[
-      {id:'bar',n:'Barcelona',p:31,w:26,d:1,l:4,gf:84,ga:30,hw:16,hd:0,hl:0,hgf:51,hga:9,aw:10,ad:1,al:4,agf:33,aga:21,form:['W','W','W','W','W','W']},
-      {id:'rma',n:'Real Madrid',p:31,w:22,d:4,l:5,gf:65,ga:29,hw:13,hd:1,hl:2,hgf:37,hga:13,aw:9,ad:3,al:3,agf:28,aga:16,form:['W','W','D','W','W','W']},
-      {id:'vil',n:'Villarreal',p:31,w:19,d:4,l:8,gf:56,ga:36,hw:12,hd:1,hl:2,hgf:34,hga:13,aw:7,ad:3,al:6,agf:22,aga:23,form:['W','L','W','W','W','D']},
-      {id:'atm',n:'Atlético Madrid',p:31,w:17,d:6,l:8,gf:51,ga:32,hw:13,hd:1,hl:2,hgf:35,hga:14,aw:4,ad:5,al:6,agf:16,aga:18,form:['W','W','D','D','L','W']},
-      {id:'bet',n:'Real Betis',p:31,w:11,d:13,l:7,gf:45,ga:38,hw:7,hd:5,hl:3,hgf:26,hga:16,aw:4,ad:8,al:4,agf:19,aga:22,form:['D','D','W','D','D','W']},
-      {id:'cel',n:'Celta Vigo',p:31,w:11,d:11,l:9,gf:44,ga:40,hw:4,hd:5,hl:7,hgf:23,hga:24,aw:7,ad:6,al:2,agf:21,aga:16,form:['W','D','W','D','W','L']},
-      {id:'rso',n:'Real Sociedad',p:31,w:11,d:9,l:11,gf:49,ga:48,hw:8,hd:4,hl:4,hgf:32,hga:24,aw:3,ad:5,al:7,agf:17,aga:24,form:['W','D','L','W','D','L']},
-      {id:'get',n:'Getafe',p:31,w:12,d:5,l:14,gf:27,ga:32,hw:6,hd:3,hl:6,hgf:14,hga:11,aw:6,ad:2,al:8,agf:13,aga:21,form:['L','W','D','W','L','L']},
-      {id:'osa',n:'Osasuna',p:31,w:10,d:9,l:12,gf:37,ga:38,hw:8,hd:5,hl:2,hgf:26,hga:17,aw:2,ad:4,al:10,agf:11,aga:21,form:['D','L','W','D','W','L']},
-      {id:'ath',n:'Athletic Club',p:31,w:9,d:10,l:12,gf:36,ga:36,hw:8,hd:2,hl:6,hgf:20,hga:19,aw:1,ad:8,al:6,agf:16,aga:17,form:['D','W','D','L','D','W']},
-      {id:'esp',n:'Espanyol',p:31,w:9,d:9,l:13,gf:37,ga:48,hw:6,hd:3,hl:6,hgf:18,hga:21,aw:3,ad:6,al:7,agf:19,aga:27,form:['L','D','W','D','L','W']},
-      {id:'ray',n:'Rayo Vallecano',p:31,w:8,d:11,l:12,gf:29,ga:38,hw:5,hd:6,hl:4,hgf:16,hga:14,aw:3,ad:5,al:8,agf:13,aga:24,form:['D','D','W','L','D','D']},
-      {id:'val',n:'Valencia',p:31,w:9,d:8,l:14,gf:34,ga:46,hw:5,hd:4,hl:7,hgf:18,hga:19,aw:4,ad:4,al:7,agf:16,aga:27,form:['L','D','W','L','D','L']},
-      {id:'mal',n:'Mallorca',p:31,w:9,d:7,l:15,gf:39,ga:48,hw:8,hd:4,hl:4,hgf:26,hga:19,aw:1,ad:3,al:11,agf:13,aga:29,form:['W','D','L','L','D','W']},
-      {id:'sev',n:'Sevilla',p:31,w:9,d:7,l:15,gf:39,ga:51,hw:5,hd:4,hl:7,hgf:21,hga:23,aw:4,ad:3,al:8,agf:18,aga:28,form:['L','W','D','L','L','D']},
-      {id:'ala',n:'Alavés',p:31,w:8,d:9,l:14,gf:35,ga:46,hw:5,hd:6,hl:4,hgf:19,hga:18,aw:3,ad:3,al:10,agf:16,aga:28,form:['W','D','L','D','L','L']},
-      {id:'elc',n:'Elche',p:31,w:7,d:11,l:13,gf:39,ga:47,hw:7,hd:7,hl:2,hgf:25,hga:16,aw:0,ad:4,al:11,agf:14,aga:31,form:['D','W','D','D','L','L']},
-      {id:'gir',n:'Girona',p:31,w:7,d:9,l:15,gf:39,ga:57,hw:4,hd:2,hl:9,hgf:23,hga:33,aw:3,ad:7,al:6,agf:16,aga:24,form:['D','L','D','L','W','D']},
-      {id:'lev',n:'Levante',p:31,w:7,d:8,l:16,gf:35,ga:50,hw:5,hd:4,hl:7,hgf:21,hga:20,aw:2,ad:4,al:9,agf:14,aga:30,form:['L','D','D','W','L','L']},
-      {id:'ovi',n:'Real Oviedo',p:31,w:6,d:9,l:16,gf:27,ga:44,hw:4,hd:6,hl:6,hgf:14,hga:16,aw:2,ad:3,al:10,agf:13,aga:28,form:['D','L','L','D','D','L']},
+      {id:'bar',espnId:'83',n:'Barcelona',p:31,w:26,d:1,l:4,gf:84,ga:30,hw:16,hd:0,hl:0,hgf:51,hga:9,aw:10,ad:1,al:4,agf:33,aga:21,form:['W','W','W','W','W','W']},
+      {id:'rma',espnId:'86',n:'Real Madrid',p:31,w:22,d:4,l:5,gf:65,ga:29,hw:13,hd:1,hl:2,hgf:37,hga:13,aw:9,ad:3,al:3,agf:28,aga:16,form:['W','W','D','W','W','W']},
+      {id:'vil',espnId:'102',n:'Villarreal',p:31,w:19,d:4,l:8,gf:56,ga:36,hw:12,hd:1,hl:2,hgf:34,hga:13,aw:7,ad:3,al:6,agf:22,aga:23,form:['W','L','W','W','W','D']},
+      {id:'atm',espnId:'1068',n:'Atlético Madrid',p:31,w:17,d:6,l:8,gf:51,ga:32,hw:13,hd:1,hl:2,hgf:35,hga:14,aw:4,ad:5,al:6,agf:16,aga:18,form:['W','W','D','D','L','W']},
+      {id:'bet',espnId:'244',n:'Real Betis',p:31,w:11,d:13,l:7,gf:45,ga:38,hw:7,hd:5,hl:3,hgf:26,hga:16,aw:4,ad:8,al:4,agf:19,aga:22,form:['D','D','W','D','D','W']},
+      {id:'cel',espnId:'85',n:'Celta Vigo',p:31,w:11,d:11,l:9,gf:44,ga:40,hw:4,hd:5,hl:7,hgf:23,hga:24,aw:7,ad:6,al:2,agf:21,aga:16,form:['W','D','W','D','W','L']},
+      {id:'rso',espnId:'89',n:'Real Sociedad',p:31,w:11,d:9,l:11,gf:49,ga:48,hw:8,hd:4,hl:4,hgf:32,hga:24,aw:3,ad:5,al:7,agf:17,aga:24,form:['W','D','L','W','D','L']},
+      {id:'get',espnId:'2922',n:'Getafe',p:31,w:12,d:5,l:14,gf:27,ga:32,hw:6,hd:3,hl:6,hgf:14,hga:11,aw:6,ad:2,al:8,agf:13,aga:21,form:['L','W','D','W','L','L']},
+      {id:'osa',espnId:'97',n:'Osasuna',p:31,w:10,d:9,l:12,gf:37,ga:38,hw:8,hd:5,hl:2,hgf:26,hga:17,aw:2,ad:4,al:10,agf:11,aga:21,form:['D','L','W','D','W','L']},
+      {id:'ath',espnId:'93',n:'Athletic Club',p:31,w:9,d:10,l:12,gf:36,ga:36,hw:8,hd:2,hl:6,hgf:20,hga:19,aw:1,ad:8,al:6,agf:16,aga:17,form:['D','W','D','L','D','W']},
+      {id:'esp',espnId:'88',n:'Espanyol',p:31,w:9,d:9,l:13,gf:37,ga:48,hw:6,hd:3,hl:6,hgf:18,hga:21,aw:3,ad:6,al:7,agf:19,aga:27,form:['L','D','W','D','L','W']},
+      {id:'ray',espnId:'101',n:'Rayo Vallecano',p:31,w:8,d:11,l:12,gf:29,ga:38,hw:5,hd:6,hl:4,hgf:16,hga:14,aw:3,ad:5,al:8,agf:13,aga:24,form:['D','D','W','L','D','D']},
+      {id:'val',espnId:'94',n:'Valencia',p:31,w:9,d:8,l:14,gf:34,ga:46,hw:5,hd:4,hl:7,hgf:18,hga:19,aw:4,ad:4,al:7,agf:16,aga:27,form:['L','D','W','L','D','L']},
+      {id:'mal',espnId:'84',n:'Mallorca',p:31,w:9,d:7,l:15,gf:39,ga:48,hw:8,hd:4,hl:4,hgf:26,hga:19,aw:1,ad:3,al:11,agf:13,aga:29,form:['W','D','L','L','D','W']},
+      {id:'sev',espnId:'243',n:'Sevilla',p:31,w:9,d:7,l:15,gf:39,ga:51,hw:5,hd:4,hl:7,hgf:21,hga:23,aw:4,ad:3,al:8,agf:18,aga:28,form:['L','W','D','L','L','D']},
+      {id:'ala',espnId:'96',n:'Alavés',p:31,w:8,d:9,l:14,gf:35,ga:46,hw:5,hd:6,hl:4,hgf:19,hga:18,aw:3,ad:3,al:10,agf:16,aga:28,form:['W','D','L','D','L','L']},
+      {id:'elc',espnId:'3751',n:'Elche',p:31,w:7,d:11,l:13,gf:39,ga:47,hw:7,hd:7,hl:2,hgf:25,hga:16,aw:0,ad:4,al:11,agf:14,aga:31,form:['D','W','D','D','L','L']},
+      {id:'gir',espnId:'9812',n:'Girona',p:31,w:7,d:9,l:15,gf:39,ga:57,hw:4,hd:2,hl:9,hgf:23,hga:33,aw:3,ad:7,al:6,agf:16,aga:24,form:['D','L','D','L','W','D']},
+      {id:'lev',espnId:'1538',n:'Levante',p:31,w:7,d:8,l:16,gf:35,ga:50,hw:5,hd:4,hl:7,hgf:21,hga:20,aw:2,ad:4,al:9,agf:14,aga:30,form:['L','D','D','W','L','L']},
+      {id:'ovi',espnId:'92',n:'Real Oviedo',p:31,w:6,d:9,l:16,gf:27,ga:44,hw:4,hd:6,hl:6,hgf:14,hga:16,aw:2,ad:3,al:10,agf:13,aga:28,form:['D','L','L','D','D','L']},
     ]
   },
   seriea: {
     id:'seriea', name:'סרייה א', emoji:'🇮🇹', color:'#10b981', avgGoals:1.42,
     accent:{bg:'rgba(16,185,129,.08)',border:'rgba(16,185,129,.3)',text:'#6ee7b7',glow:'rgba(16,185,129,.12)',card:'rgba(16,185,129,.05)'},
     teams:[
-      {id:'int',n:'Inter Milan',p:32,w:24,d:3,l:5,gf:75,ga:29,hw:12,hd:2,hl:2,hgf:44,hga:15,aw:12,ad:1,al:3,agf:31,aga:14,form:['W','W','W','D','W','W']},
-      {id:'nap',n:'Napoli',p:32,w:20,d:6,l:6,gf:48,ga:31,hw:11,hd:4,hl:0,hgf:26,hga:13,aw:9,ad:2,al:6,agf:22,aga:18,form:['W','W','D','W','D','W']},
-      {id:'acm',n:'AC Milan',p:32,w:18,d:9,l:5,gf:47,ga:27,hw:9,hd:4,hl:3,hgf:22,hga:16,aw:9,ad:5,al:2,agf:25,aga:11,form:['W','D','W','W','D','W']},
-      {id:'juv',n:'Juventus',p:32,w:17,d:9,l:6,gf:55,ga:29,hw:9,hd:6,hl:1,hgf:32,hga:13,aw:8,ad:3,al:5,agf:23,aga:16,form:['D','W','D','D','W','W']},
-      {id:'com',n:'Como',p:32,w:16,d:10,l:6,gf:56,ga:26,hw:9,hd:5,hl:3,hgf:34,hga:15,aw:7,ad:5,al:3,agf:22,aga:11,form:['W','D','W','W','W','D']},
-      {id:'rom',n:'Roma',p:32,w:18,d:3,l:11,gf:45,ga:28,hw:11,hd:2,hl:3,hgf:26,hga:9,aw:7,ad:1,al:8,agf:19,aga:19,form:['W','L','D','W','W','L']},
-      {id:'ata',n:'Atalanta',p:32,w:14,d:11,l:7,gf:44,ga:28,hw:9,hd:5,hl:3,hgf:25,hga:14,aw:5,ad:6,al:4,agf:19,aga:14,form:['D','L','W','D','D','W']},
-      {id:'bol',n:'Bologna',p:32,w:14,d:6,l:12,gf:42,ga:37,hw:6,hd:2,hl:8,hgf:16,hga:18,aw:8,ad:4,al:4,agf:26,aga:19,form:['W','D','L','W','W','D']},
-      {id:'laz',n:'Lazio',p:32,w:11,d:11,l:10,gf:32,ga:30,hw:7,hd:5,hl:4,hgf:22,hga:18,aw:4,ad:6,al:6,agf:10,aga:12,form:['W','D','L','D','D','W']},
-      {id:'udi',n:'Udinese',p:32,w:12,d:7,l:13,gf:38,ga:42,hw:5,hd:5,hl:6,hgf:16,hga:19,aw:7,ad:2,al:7,agf:22,aga:23,form:['W','L','W','D','L','W']},
-      {id:'sas',n:'Sassuolo',p:32,w:12,d:6,l:14,gf:39,ga:43,hw:7,hd:2,hl:7,hgf:19,hga:22,aw:5,ad:4,al:7,agf:20,aga:21,form:['L','D','W','W','L','D']},
-      {id:'tor',n:'Torino',p:32,w:11,d:6,l:15,gf:37,ga:54,hw:7,hd:2,hl:7,hgf:21,hga:24,aw:4,ad:4,al:8,agf:16,aga:30,form:['L','W','D','W','L','L']},
-      {id:'gen',n:'Genoa',p:32,w:9,d:9,l:14,gf:38,ga:45,hw:6,hd:4,hl:7,hgf:21,hga:22,aw:3,ad:5,al:7,agf:17,aga:23,form:['D','L','W','D','D','L']},
-      {id:'par',n:'Parma',p:32,w:8,d:12,l:12,gf:23,ga:40,hw:5,hd:6,hl:5,hgf:11,hga:18,aw:3,ad:6,al:7,agf:12,aga:22,form:['D','L','L','D','D','D']},
-      {id:'fio',n:'Fiorentina',p:32,w:8,d:11,l:13,gf:37,ga:44,hw:4,hd:6,hl:6,hgf:20,hga:20,aw:4,ad:5,al:7,agf:17,aga:24,form:['D','L','W','D','L','W']},
-      {id:'cag',n:'Cagliari',p:32,w:8,d:9,l:15,gf:33,ga:44,hw:5,hd:4,hl:7,hgf:17,hga:18,aw:3,ad:5,al:8,agf:16,aga:26,form:['L','D','D','L','W','D']},
-      {id:'cre',n:'Cremonese',p:32,w:6,d:9,l:17,gf:26,ga:47,hw:3,hd:5,hl:8,hgf:14,hga:22,aw:3,ad:4,al:9,agf:12,aga:25,form:['L','D','L','L','W','D']},
-      {id:'lec',n:'Lecce',p:32,w:7,d:6,l:19,gf:21,ga:45,hw:4,hd:3,hl:9,hgf:12,hga:22,aw:3,ad:3,al:10,agf:9,aga:23,form:['L','W','L','L','D','L']},
-      {id:'ver',n:'Hellas Verona',p:32,w:3,d:9,l:20,gf:23,ga:55,hw:2,hd:5,hl:9,hgf:12,hga:26,aw:1,ad:4,al:11,agf:11,aga:29,form:['D','L','L','D','L','L']},
-      {id:'pis',n:'Pisa',p:32,w:2,d:12,l:18,gf:23,ga:58,hw:1,hd:7,hl:8,hgf:12,hga:27,aw:1,ad:5,al:10,agf:11,aga:31,form:['D','L','D','L','L','D']},
+      {id:'int',espnId:'110',n:'Inter Milan',p:32,w:24,d:3,l:5,gf:75,ga:29,hw:12,hd:2,hl:2,hgf:44,hga:15,aw:12,ad:1,al:3,agf:31,aga:14,form:['W','W','W','D','W','W']},
+      {id:'nap',espnId:'114',n:'Napoli',p:32,w:20,d:6,l:6,gf:48,ga:31,hw:11,hd:4,hl:0,hgf:26,hga:13,aw:9,ad:2,al:6,agf:22,aga:18,form:['W','W','D','W','D','W']},
+      {id:'acm',espnId:'103',n:'AC Milan',p:32,w:18,d:9,l:5,gf:47,ga:27,hw:9,hd:4,hl:3,hgf:22,hga:16,aw:9,ad:5,al:2,agf:25,aga:11,form:['W','D','W','W','D','W']},
+      {id:'juv',espnId:'111',n:'Juventus',p:32,w:17,d:9,l:6,gf:55,ga:29,hw:9,hd:6,hl:1,hgf:32,hga:13,aw:8,ad:3,al:5,agf:23,aga:16,form:['D','W','D','D','W','W']},
+      {id:'com',espnId:'2572',n:'Como',p:32,w:16,d:10,l:6,gf:56,ga:26,hw:9,hd:5,hl:3,hgf:34,hga:15,aw:7,ad:5,al:3,agf:22,aga:11,form:['W','D','W','W','W','D']},
+      {id:'rom',espnId:'104',n:'Roma',p:32,w:18,d:3,l:11,gf:45,ga:28,hw:11,hd:2,hl:3,hgf:26,hga:9,aw:7,ad:1,al:8,agf:19,aga:19,form:['W','L','D','W','W','L']},
+      {id:'ata',espnId:'105',n:'Atalanta',p:32,w:14,d:11,l:7,gf:44,ga:28,hw:9,hd:5,hl:3,hgf:25,hga:14,aw:5,ad:6,al:4,agf:19,aga:14,form:['D','L','W','D','D','W']},
+      {id:'bol',espnId:'107',n:'Bologna',p:32,w:14,d:6,l:12,gf:42,ga:37,hw:6,hd:2,hl:8,hgf:16,hga:18,aw:8,ad:4,al:4,agf:26,aga:19,form:['W','D','L','W','W','D']},
+      {id:'laz',espnId:'112',n:'Lazio',p:32,w:11,d:11,l:10,gf:32,ga:30,hw:7,hd:5,hl:4,hgf:22,hga:18,aw:4,ad:6,al:6,agf:10,aga:12,form:['W','D','L','D','D','W']},
+      {id:'udi',espnId:'118',n:'Udinese',p:32,w:12,d:7,l:13,gf:38,ga:42,hw:5,hd:5,hl:6,hgf:16,hga:19,aw:7,ad:2,al:7,agf:22,aga:23,form:['W','L','W','D','L','W']},
+      {id:'sas',espnId:'3997',n:'Sassuolo',p:32,w:12,d:6,l:14,gf:39,ga:43,hw:7,hd:2,hl:7,hgf:19,hga:22,aw:5,ad:4,al:7,agf:20,aga:21,form:['L','D','W','W','L','D']},
+      {id:'tor',espnId:'239',n:'Torino',p:32,w:11,d:6,l:15,gf:37,ga:54,hw:7,hd:2,hl:7,hgf:21,hga:24,aw:4,ad:4,al:8,agf:16,aga:30,form:['L','W','D','W','L','L']},
+      {id:'gen',espnId:'3263',n:'Genoa',p:32,w:9,d:9,l:14,gf:38,ga:45,hw:6,hd:4,hl:7,hgf:21,hga:22,aw:3,ad:5,al:7,agf:17,aga:23,form:['D','L','W','D','D','L']},
+      {id:'par',espnId:'115',n:'Parma',p:32,w:8,d:12,l:12,gf:23,ga:40,hw:5,hd:6,hl:5,hgf:11,hga:18,aw:3,ad:6,al:7,agf:12,aga:22,form:['D','L','L','D','D','D']},
+      {id:'fio',espnId:'109',n:'Fiorentina',p:32,w:8,d:11,l:13,gf:37,ga:44,hw:4,hd:6,hl:6,hgf:20,hga:20,aw:4,ad:5,al:7,agf:17,aga:24,form:['D','L','W','D','L','W']},
+      {id:'cag',espnId:'2925',n:'Cagliari',p:32,w:8,d:9,l:15,gf:33,ga:44,hw:5,hd:4,hl:7,hgf:17,hga:18,aw:3,ad:5,al:8,agf:16,aga:26,form:['L','D','D','L','W','D']},
+      {id:'cre',espnId:'4050',n:'Cremonese',p:32,w:6,d:9,l:17,gf:26,ga:47,hw:3,hd:5,hl:8,hgf:14,hga:22,aw:3,ad:4,al:9,agf:12,aga:25,form:['L','D','L','L','W','D']},
+      {id:'lec',espnId:'113',n:'Lecce',p:32,w:7,d:6,l:19,gf:21,ga:45,hw:4,hd:3,hl:9,hgf:12,hga:22,aw:3,ad:3,al:10,agf:9,aga:23,form:['L','W','L','L','D','L']},
+      {id:'ver',espnId:'119',n:'Hellas Verona',p:32,w:3,d:9,l:20,gf:23,ga:55,hw:2,hd:5,hl:9,hgf:12,hga:26,aw:1,ad:4,al:11,agf:11,aga:29,form:['D','L','L','D','L','L']},
+      {id:'pis',espnId:'3956',n:'Pisa',p:32,w:2,d:12,l:18,gf:23,ga:58,hw:1,hd:7,hl:8,hgf:12,hga:27,aw:1,ad:5,al:10,agf:11,aga:31,form:['D','L','D','L','L','D']},
     ]
   },
   bundesliga: {
     id:'bundesliga', name:'בונדסליגה', emoji:'🇩🇪', color:'#f59e0b', avgGoals:1.6,
     accent:{bg:'rgba(245,158,11,.08)',border:'rgba(245,158,11,.3)',text:'#fcd34d',glow:'rgba(245,158,11,.12)',card:'rgba(245,158,11,.05)'},
     teams:[
-      {id:'bay',n:'Bayern Munich',p:29,w:24,d:4,l:1,gf:105,ga:27,hw:12,hd:1,hl:1,hgf:56,hga:13,aw:12,ad:3,al:0,agf:49,aga:14,form:['W','W','W','W','W','D']},
-      {id:'dor',n:'Borussia Dortmund',p:29,w:19,d:7,l:3,gf:60,ga:29,hw:11,hd:2,hl:2,hgf:33,hga:14,aw:8,ad:5,al:1,agf:27,aga:15,form:['W','W','D','W','W','L']},
-      {id:'stu',n:'VfB Stuttgart',p:29,w:17,d:5,l:7,gf:60,ga:38,hw:11,hd:2,hl:2,hgf:26,hga:14,aw:6,ad:3,al:5,agf:34,aga:24,form:['W','W','W','L','W','D']},
-      {id:'lei',n:'RB Leipzig',p:29,w:17,d:4,l:8,gf:69,ga:43,hw:10,hd:2,hl:3,hgf:35,hga:18,aw:7,ad:2,al:5,agf:34,aga:25,form:['W','D','W','W','W','L']},
+      {id:'bay',espnId:'132',n:'Bayern Munich',p:29,w:24,d:4,l:1,gf:105,ga:27,hw:12,hd:1,hl:1,hgf:56,hga:13,aw:12,ad:3,al:0,agf:49,aga:14,form:['W','W','W','W','W','D']},
+      {id:'dor',espnId:'124',n:'Borussia Dortmund',p:29,w:19,d:7,l:3,gf:60,ga:29,hw:11,hd:2,hl:2,hgf:33,hga:14,aw:8,ad:5,al:1,agf:27,aga:15,form:['W','W','D','W','W','L']},
+      {id:'stu',espnId:'134',n:'VfB Stuttgart',p:29,w:17,d:5,l:7,gf:60,ga:38,hw:11,hd:2,hl:2,hgf:26,hga:14,aw:6,ad:3,al:5,agf:34,aga:24,form:['W','W','W','L','W','D']},
+      {id:'lei',espnId:'11420',n:'RB Leipzig',p:29,w:17,d:4,l:8,gf:69,ga:43,hw:10,hd:2,hl:3,hgf:35,hga:18,aw:7,ad:2,al:5,agf:34,aga:25,form:['W','D','W','W','W','L']},
       {id:'lev',n:'Bayer Leverkusen',p:29,w:15,d:7,l:7,gf:64,ga:34,hw:8,hd:3,hl:3,hgf:32,hga:15,aw:7,ad:4,al:4,agf:32,aga:19,form:['W','W','D','D','W','W']},
-      {id:'hof',n:'Hoffenheim',p:29,w:14,d:5,l:10,gf:55,ga:41,hw:8,hd:1,hl:5,hgf:29,hga:17,aw:6,ad:4,al:3,agf:26,aga:24,form:['W','W','L','D','L','W']},
-      {id:'fri',n:'SC Freiburg',p:29,w:11,d:7,l:11,gf:42,ga:47,hw:7,hd:4,hl:3,hgf:26,hga:19,aw:4,ad:3,al:8,agf:16,aga:28,form:['W','W','D','L','L','L']},
-      {id:'ein',n:'Eintracht Frankfurt',p:29,w:11,d:9,l:9,gf:54,ga:54,hw:7,hd:3,hl:4,hgf:25,hga:20,aw:4,ad:6,al:5,agf:29,aga:34,form:['L','W','W','W','D','D']},
-      {id:'aug',n:'FC Augsburg',p:29,w:9,d:6,l:14,gf:36,ga:53,hw:6,hd:4,hl:5,hgf:21,hga:26,aw:3,ad:2,al:9,agf:15,aga:27,form:['W','W','W','L','D','L']},
-      {id:'ham',n:'Hamburger SV',p:29,w:7,d:10,l:12,gf:32,ga:45,hw:5,hd:6,hl:4,hgf:21,hga:18,aw:2,ad:4,al:8,agf:11,aga:27,form:['W','L','L','D','D','W']},
-      {id:'kol',n:'1. FC Köln',p:29,w:7,d:9,l:13,gf:43,ga:50,hw:5,hd:4,hl:6,hgf:28,hga:25,aw:2,ad:5,al:7,agf:15,aga:25,form:['L','D','L','D','W','D']},
-      {id:'mai',n:'FSV Mainz',p:29,w:8,d:9,l:12,gf:35,ga:44,hw:4,hd:5,hl:6,hgf:17,hga:18,aw:4,ad:4,al:6,agf:18,aga:26,form:['W','D','D','W','L','D']},
-      {id:'mgl',n:'Mönchengladbach',p:29,w:7,d:9,l:13,gf:35,ga:49,hw:4,hd:5,hl:5,hgf:18,hga:23,aw:3,ad:4,al:8,agf:17,aga:26,form:['L','D','W','W','D','L']},
-      {id:'uni',n:'Union Berlin',p:29,w:7,d:8,l:14,gf:33,ga:50,hw:4,hd:6,hl:4,hgf:19,hga:22,aw:3,ad:2,al:10,agf:14,aga:28,form:['L','D','W','L','L','D']},
-      {id:'wer',n:'Werder Bremen',p:29,w:7,d:7,l:15,gf:32,ga:52,hw:4,hd:4,hl:6,hgf:15,hga:25,aw:3,ad:3,al:9,agf:17,aga:27,form:['L','L','W','W','L','L']},
-      {id:'pau',n:'St. Pauli',p:29,w:6,d:7,l:16,gf:25,ga:50,hw:4,hd:4,hl:6,hgf:14,hga:25,aw:2,ad:3,al:10,agf:11,aga:25,form:['L','L','W','L','D','W']},
-      {id:'hei',n:'Heidenheim',p:29,w:5,d:8,l:16,gf:35,ga:57,hw:3,hd:5,hl:7,hgf:21,hga:35,aw:2,ad:3,al:9,agf:14,aga:22,form:['W','D','L','D','L','L']},
+      {id:'hof',espnId:'7911',n:'Hoffenheim',p:29,w:14,d:5,l:10,gf:55,ga:41,hw:8,hd:1,hl:5,hgf:29,hga:17,aw:6,ad:4,al:3,agf:26,aga:24,form:['W','W','L','D','L','W']},
+      {id:'fri',espnId:'126',n:'SC Freiburg',p:29,w:11,d:7,l:11,gf:42,ga:47,hw:7,hd:4,hl:3,hgf:26,hga:19,aw:4,ad:3,al:8,agf:16,aga:28,form:['W','W','D','L','L','L']},
+      {id:'ein',espnId:'125',n:'Eintracht Frankfurt',p:29,w:11,d:9,l:9,gf:54,ga:54,hw:7,hd:3,hl:4,hgf:25,hga:20,aw:4,ad:6,al:5,agf:29,aga:34,form:['L','W','W','W','D','D']},
+      {id:'aug',espnId:'3841',n:'FC Augsburg',p:29,w:9,d:6,l:14,gf:36,ga:53,hw:6,hd:4,hl:5,hgf:21,hga:26,aw:3,ad:2,al:9,agf:15,aga:27,form:['W','W','W','L','D','L']},
+      {id:'ham',espnId:'127',n:'Hamburger SV',p:29,w:7,d:10,l:12,gf:32,ga:45,hw:5,hd:6,hl:4,hgf:21,hga:18,aw:2,ad:4,al:8,agf:11,aga:27,form:['W','L','L','D','D','W']},
+      {id:'kol',espnId:'122',n:'1. FC Köln',p:29,w:7,d:9,l:13,gf:43,ga:50,hw:5,hd:4,hl:6,hgf:28,hga:25,aw:2,ad:5,al:7,agf:15,aga:25,form:['L','D','L','D','W','D']},
+      {id:'mai',espnId:'2950',n:'FSV Mainz',p:29,w:8,d:9,l:12,gf:35,ga:44,hw:4,hd:5,hl:6,hgf:17,hga:18,aw:4,ad:4,al:6,agf:18,aga:26,form:['W','D','D','W','L','D']},
+      {id:'mgl',espnId:'268',n:'Mönchengladbach',p:29,w:7,d:9,l:13,gf:35,ga:49,hw:4,hd:5,hl:5,hgf:18,hga:23,aw:3,ad:4,al:8,agf:17,aga:26,form:['L','D','W','W','D','L']},
+      {id:'uni',espnId:'598',n:'Union Berlin',p:29,w:7,d:8,l:14,gf:33,ga:50,hw:4,hd:6,hl:4,hgf:19,hga:22,aw:3,ad:2,al:10,agf:14,aga:28,form:['L','D','W','L','L','D']},
+      {id:'wer',espnId:'137',n:'Werder Bremen',p:29,w:7,d:7,l:15,gf:32,ga:52,hw:4,hd:4,hl:6,hgf:15,hga:25,aw:3,ad:3,al:9,agf:17,aga:27,form:['L','L','W','W','L','L']},
+      {id:'pau',espnId:'270',n:'St. Pauli',p:29,w:6,d:7,l:16,gf:25,ga:50,hw:4,hd:4,hl:6,hgf:14,hga:25,aw:2,ad:3,al:10,agf:11,aga:25,form:['L','L','W','L','D','W']},
+      {id:'hei',espnId:'6418',n:'Heidenheim',p:29,w:5,d:8,l:16,gf:35,ga:57,hw:3,hd:5,hl:7,hgf:21,hga:35,aw:2,ad:3,al:9,agf:14,aga:22,form:['W','D','L','D','L','L']},
       {id:'wol',n:'Wolfsburg',p:29,w:5,d:6,l:18,gf:26,ga:58,hw:3,hd:3,hl:8,hgf:14,hga:25,aw:2,ad:3,al:10,agf:12,aga:33,form:['L','D','L','D','L','L']},
     ]
   },
@@ -530,13 +534,13 @@ const LEAGUES = {
       {id:'mnc',n:'Manchester City',p:8,w:5,d:1,l:2,gf:15,ga:9,hw:2,hd:1,hl:1,hgf:8,hga:5,aw:3,ad:0,al:1,agf:7,aga:4,form:['W','W','D','W','W','L']},
       {id:'rma',n:'Real Madrid',p:8,w:5,d:0,l:3,gf:21,ga:12,hw:3,hd:0,hl:1,hgf:11,hga:5,aw:2,ad:0,al:2,agf:10,aga:7,form:['W','W','L','W','L','W']},
       {id:'int',n:'Inter Milan',p:8,w:5,d:0,l:3,gf:15,ga:7,hw:3,hd:0,hl:1,hgf:9,hga:3,aw:2,ad:0,al:2,agf:6,aga:4,form:['W','W','L','W','W','L']},
-      {id:'psg',n:'PSG',p:8,w:4,d:2,l:2,gf:21,ga:11,hw:2,hd:1,hl:1,hgf:10,hga:5,aw:2,ad:1,al:1,agf:11,aga:6,form:['W','D','W','D','W','L']},
+      {id:'psg',espnId:'160',n:'PSG',p:8,w:4,d:2,l:2,gf:21,ga:11,hw:2,hd:1,hl:1,hgf:10,hga:5,aw:2,ad:1,al:1,agf:11,aga:6,form:['W','D','W','D','W','L']},
       {id:'new',n:'Newcastle',p:8,w:4,d:2,l:2,gf:17,ga:7,hw:2,hd:1,hl:1,hgf:9,hga:3,aw:2,ad:1,al:1,agf:8,aga:4,form:['W','D','W','D','L','W']},
       {id:'juv',n:'Juventus',p:8,w:3,d:4,l:1,gf:14,ga:10,hw:2,hd:2,hl:0,hgf:8,hga:4,aw:1,ad:2,al:1,agf:6,aga:6,form:['D','W','D','D','W','L']},
       {id:'atm',n:'Atlético Madrid',p:8,w:4,d:1,l:3,gf:17,ga:15,hw:2,hd:1,hl:1,hgf:9,hga:7,aw:2,ad:0,al:2,agf:8,aga:8,form:['W','L','D','W','L','W']},
       {id:'ata',n:'Atalanta',p:8,w:4,d:1,l:3,gf:10,ga:10,hw:2,hd:1,hl:1,hgf:5,hga:5,aw:2,ad:0,al:2,agf:5,aga:5,form:['D','L','W','W','L','W']},
-      {id:'lev4',n:'Bayer Leverkusen',p:8,w:3,d:3,l:2,gf:13,ga:14,hw:2,hd:1,hl:1,hgf:7,hga:6,aw:1,ad:2,al:1,agf:6,aga:8,form:['D','W','D','D','W','L']},
-      {id:'dor4',n:'Borussia Dortmund',p:8,w:3,d:2,l:3,gf:19,ga:17,hw:2,hd:1,hl:1,hgf:11,hga:8,aw:1,ad:1,al:2,agf:8,aga:9,form:['W','D','W','W','L','L']},
+      {id:'lev4',espnId:'131',n:'Bayer Leverkusen',p:8,w:3,d:3,l:2,gf:13,ga:14,hw:2,hd:1,hl:1,hgf:7,hga:6,aw:1,ad:2,al:1,agf:6,aga:8,form:['D','W','D','D','W','L']},
+      {id:'dor4',espnId:'124',n:'Borussia Dortmund',p:8,w:3,d:2,l:3,gf:19,ga:17,hw:2,hd:1,hl:1,hgf:11,hga:8,aw:1,ad:1,al:2,agf:8,aga:9,form:['W','D','W','W','L','L']},
       {id:'acm',n:'AC Milan',p:8,w:5,d:0,l:3,gf:14,ga:11,hw:3,hd:0,hl:1,hgf:8,hga:5,aw:2,ad:0,al:2,agf:6,aga:6,form:['W','L','W','W','L','W']},
     ]
   }
@@ -621,7 +625,7 @@ function buildInsights(ht,at,r,lg){
 // ══════════════════════════════════════════════════
 // RENDER
 // ══════════════════════════════════════════════════
-function renderResults(ht,at,r,lg,hId,aId){
+function renderResults(ht,at,r,lg){
   document.getElementById('homeDisplay').textContent=ht.n;
   document.getElementById('awayDisplay').textContent=at.n;
   document.getElementById('matchLeagueLabel').textContent=lg.emoji+' '+lg.name+' · עונה 2025/26';
@@ -684,7 +688,7 @@ function renderResults(ht,at,r,lg,hId,aId){
   document.getElementById('insightsList').innerHTML=
     buildInsights(ht,at,r,lg).map(s=>`<div class="insight-item"><div class="insight-dot"></div><div>${s}</div></div>`).join('');
 
-  renderH2H(hId,aId,currentLeague);
+  renderH2H(ht,at,currentLeague);
 
   const res=document.getElementById('results');
   res.classList.add('active');
@@ -748,7 +752,7 @@ document.getElementById('predictBtn').addEventListener('click',()=>{
   const at=lg.teams.find(t=>t.id===aId);
   if(!ht||!at)return;
   const r=predict(ht,at,lg);
-  renderResults(ht,at,r,lg,hId,aId);
+  renderResults(ht,at,r,lg);
 });
 ['homeTeam','awayTeam'].forEach(id=>document.getElementById(id).addEventListener('change',checkBtn));
 
@@ -768,6 +772,125 @@ document.getElementById('predictBtn').addEventListener('click',()=>{
     btn.innerHTML=theme==='dark'?moon:sun;
   });
 })();
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+buildTabs();
+populateSelects('israel');
+applyAccent(LEAGUES['israel'].accent);
+
+// ══════════════════════════════════════════════════
+// H2H — LIVE via ESPN (no API key needed)
+// ══════════════════════════════════════════════════
+const ESPN_LG = {
+  israel:'isr.1',premier:'eng.1',laliga:'esp.1',
+  seriea:'ita.1',bundesliga:'ger.1',ucl:'eng.1'
+};
+let _h2hCache={};
+
+async function fetchH2H(lg,id1,id2){
+  const k=lg+'_'+id1+'_'+id2;
+  if(_h2hCache[k]) return _h2hCache[k];
+  const seasons=[2025,2024,2023,2022,2021];
+  const res=[];
+  for(const s of seasons){
+    if(res.length>=8) break;
+    try{
+      const url=`https://site.api.espn.com/apis/site/v2/sports/soccer/${lg}/teams/${id1}/schedule?season=${s}&limit=60`;
+      const d=await(await fetch(url)).json();
+      for(const ev of(d.events||[])){
+        if(res.length>=8) break;
+        for(const c of(ev.competitions||[])){
+          const comps=c.competitors||[];
+          const ids=comps.map(x=>x.team?.id);
+          if(ids.includes(id2)){
+            const names=comps.map(x=>x.team?.shortDisplayName||'?');
+            const scores=comps.map(x=>{
+              const sc=x.score;
+              if(sc&&typeof sc==='object') return sc.value!=null?Math.round(sc.value):'?';
+              return '?';
+            });
+            res.push({date:(ev.date||'').substring(0,10),
+              home:names[0],away:names[1],hg:scores[0],ag:scores[1],
+              homeId:ids[0],awayId:ids[1]});
+          }
+        }
+      }
+    }catch(e){}
+  }
+  _h2hCache[k]=res;
+  return res;
+}
+
+function h2hTrend(matches,id1,id2,n1,n2){
+  let hw=0,aw=0,dr=0,haW=0;
+  matches.forEach(m=>{
+    const mine=(m.homeId===id1);
+    const hg=mine?m.hg:m.ag, ag=mine?m.ag:m.hg;
+    if(hg>ag)hw++; else if(hg<ag)aw++; else dr++;
+    if(m.hg>m.ag)haW++;
+  });
+  const tot=matches.length;
+  const haPct=haW/tot*100;
+  const l3=matches.slice(0,3);
+  let l3h=0,l3a=0;
+  l3.forEach(m=>{const mine=(m.homeId===id1);const hg=mine?m.hg:m.ag,ag=mine?m.ag:m.hg;if(hg>ag)l3h++;else if(hg<ag)l3a++;});
+  let t='';
+  if(l3h===3) t=`<strong>${n1}</strong> ניצחה ב-3 הפגישות האחרונות`;
+  else if(l3a===3) t=`<strong>${n2}</strong> ניצחה ב-3 האחרונות — חזקה גם בחוץ`;
+  else if(l3h>=2) t=`<strong>${n1}</strong> ניצחה ב-${l3h} מתוך 3 אחרונים`;
+  else if(l3a>=2) t=`<strong>${n2}</strong> ניצחה ב-${l3a} מתוך 3 אחרונים`;
+  else if(hw>aw+2) t=`<strong>${n1}</strong> שולטת בסדרה — ${hw}/${tot} ניצחונות`;
+  else if(aw>hw+2) t=`<strong>${n2}</strong> שולטת בסדרה — ${aw}/${tot} ניצחונות`;
+  else t=`סדרה מאוזנת · ${n1} ${hw} ניצחונות, תיקו ${dr}, ${n2} ${aw} ניצחונות`;
+  if(haPct>=65) t+=` · <span style="color:#34d399">יתרון בית חזק (${haPct.toFixed(0)}%)</span>`;
+  else if(haPct<=35) t+=` · <span style="color:#f472b6">יתרון בית חלש בסדרה זו</span>`;
+  return{hw,aw,dr,tot,haPct,trend:t};
+}
+
+async function renderH2H(ht,at,lgId){
+  const box=document.getElementById('h2hContent');
+  const lg=ESPN_LG[lgId];
+  const e1=ht.espnId, e2=at.espnId;
+  if(!lg||!e1||!e2||e1===''||e2===''){
+    box.innerHTML='<div class="h2h-no-data">נתוני H2H לא זמינים עבור זוג קבוצות זה</div>';
+    return;
+  }
+  box.innerHTML='<div class="h2h-loading"><div class="h2h-spinner"></div>טוען נתוני עימות ישיר מ-ESPN...</div>';
+  try{
+    const matches=await fetchH2H(lg,e1,e2);
+    if(!matches.length){
+      box.innerHTML='<div class="h2h-no-data">לא נמצאו עימותים ישירים ב-5 העונות האחרונות</div>';
+      return;
+    }
+    const s=h2hTrend(matches,e1,e2,ht.n,at.n);
+    const hwP=s.hw/s.tot*100,drP=s.dr/s.tot*100,awP=s.aw/s.tot*100;
+    const rows=matches.map(m=>{
+      const sc=`${m.hg}-${m.ag}`;
+      let cls='draw-result',badge='<span class="h2h-winner-badge dr">תיקו</span>';
+      if(m.hg!=='?'&&m.ag!=='?'){
+        if(m.hg>m.ag){cls='home-win';badge=`<span class="h2h-winner-badge hw">${String(m.home).substring(0,11)}</span>`;}
+        else if(m.hg<m.ag){cls='away-win';badge=`<span class="h2h-winner-badge aw">${String(m.away).substring(0,11)}</span>`;}
+      }
+      const dt=new Date(m.date);
+      const ds=isNaN(dt)?m.date:dt.toLocaleDateString('he-IL',{month:'short',year:'2-digit'});
+      return`<div class="h2h-match-row ${cls}"><span class="h2h-date">${ds}</span><span class="h2h-team-home">${m.home}</span><span class="h2h-score">${sc}</span><span class="h2h-team-away">${m.away}</span>${badge}</div>`;
+    }).join('');
+    box.innerHTML=`
+      <div class="h2h-header">
+        <div class="h2h-team-col"><div class="h2h-team-name">${ht.n}</div><div class="h2h-wins-big home-wins">${s.hw}</div><div class="h2h-wins-label">ניצחונות</div></div>
+        <div class="h2h-center-col"><div style="font-size:.75rem;color:var(--text-muted);margin-bottom:4px">תיקו</div><div class="h2h-wins-big draws">${s.dr}</div>
+          <div class="h2h-bar-track" style="margin-top:10px"><div class="h2h-bar-home" style="width:${hwP}%"></div><div class="h2h-bar-draw" style="width:${drP}%"></div><div class="h2h-bar-away" style="width:${awP}%"></div></div>
+          <div style="font-size:.72rem;color:var(--text-muted);margin-top:4px">${s.tot} משחקים</div></div>
+        <div class="h2h-team-col"><div class="h2h-team-name">${at.n}</div><div class="h2h-wins-big away-wins">${s.aw}</div><div class="h2h-wins-label">ניצחונות</div></div>
+      </div>
+      <div class="h2h-matches">${rows}</div>
+      <div class="h2h-trend">${s.trend}</div>`;
+  }catch(e){
+    box.innerHTML='<div class="h2h-no-data">שגיאה בטעינה — נסה שוב</div>';
+  }
+}
 
 // ══════════════════════════════════════════════════
 // INIT
