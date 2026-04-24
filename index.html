@@ -232,63 +232,7 @@ footer{border-top:1px solid var(--border);padding:24px 0 32px;text-align:center;
 footer a{color:var(--text-dim);text-decoration:none}
 footer a:hover{color:var(--text)}
 
-/* ── RESPONSIVE ── */
-@media(max-width:680px){
-.container{padding:0 16px}
-.matchup{grid-template-columns:1fr;gap:12px}
-.vs-center{display:none}
-.prob-grid{grid-template-columns:1fr}
-.stats-2col{grid-template-columns:1fr}
-.odds-row{flex-direction:column}
-.xg-bar-row{grid-template-columns:minmax(0,88px) 1fr minmax(0,72px);gap:8px}
-.xg-val{font-size:1.3rem}
-.hero{padding:36px 0 32px}
-.selector-card{padding:20px 16px}
-.match-header{padding:20px 16px}
-.match-teams{gap:12px}
-.header-inner{gap:8px}
-.logo-sub{display:none}
-.logo-text{font-size:1.05rem}
-.logo-icon{width:34px;height:34px}
-.live-badge{padding:5px 10px;font-size:.7rem}
-.live-badge span:not(.live-dot){max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.theme-btn{width:34px;height:34px}
-.sport-btn,.tab-btn{padding:8px 14px;font-size:.85rem}
-.nba-ou-row{flex-direction:column}
-.h2h-card,.xg-section,.insights-card,.h2h-trend{padding:18px 14px}
-.h2h-match-row{grid-template-columns:auto 1fr auto 1fr auto;gap:6px;padding:8px;font-size:.82rem}
-.h2h-score{padding:3px 8px;font-size:.92rem;min-width:50px}
-.h2h-date{font-size:.66rem}
-.h2h-winner-badge{display:none}
-.h2h-team-home,.h2h-team-away{font-size:.82rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.h2h-header{gap:8px}
-.h2h-wins-big{font-size:1.9rem}
-.h2h-team-name{font-size:.88rem}
-.match-vs{font-size:1.4rem}
-}
-@media(max-width:420px){
-.container{padding:0 12px}
-.hero h1{font-size:1.7rem}
-.hero p{font-size:.95rem}
-.hero-label{font-size:.72rem;padding:4px 12px}
-.prob-pct{font-size:2rem}
-.prob-card{padding:18px 12px}
-.selector-card{padding:16px 12px}
-.match-header{padding:18px 12px}
-.h2h-card,.xg-section,.insights-card{padding:16px 12px}
-.h2h-match-row{grid-template-columns:minmax(54px,auto) 1fr auto 1fr;gap:4px;padding:7px 6px}
-.h2h-score{padding:3px 6px;font-size:.88rem;min-width:46px}
-.xg-bar-row{grid-template-columns:minmax(0,72px) 1fr minmax(0,60px);gap:6px}
-.xg-val{font-size:1.15rem}
-.xg-team-label{font-size:.8rem}
-.tab-btn,.sport-btn{padding:7px 12px;font-size:.8rem}
-.logo-text{font-size:1rem}
-.live-badge{font-size:.66rem;padding:4px 8px}
-.live-badge span:not(.live-dot){max-width:90px}
-footer{padding:20px 0 28px;font-size:.75rem}
-.a11y-toggle{width:46px;height:46px;bottom:16px;left:16px}
-.a11y-toggle svg{width:24px;height:24px}
-}
+/* ── RESPONSIVE (kept near the end so base rules never shadow it) ── */
 
 /* ── H2H SECTION ── */
 .h2h-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
@@ -395,6 +339,64 @@ body.a11y-no-motion *,body.a11y-no-motion *::before,body.a11y-no-motion *::after
 .a11y-modal ul{padding-inline-start:20px;margin:4px 0}
 .a11y-modal a{color:#a78bfa}
 .a11y-modal .a11y-close{position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;background:var(--s3);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+
+/* ── RESPONSIVE (placed last so it overrides every base rule above at equal specificity) ── */
+@media(max-width:680px){
+.container{padding:0 16px}
+.matchup{grid-template-columns:1fr;gap:12px}
+.vs-center{display:none}
+.prob-grid{grid-template-columns:1fr}
+.stats-2col{grid-template-columns:1fr}
+.odds-row{flex-direction:column}
+.xg-bar-row{grid-template-columns:minmax(0,88px) 1fr minmax(0,72px);gap:8px}
+.xg-val{font-size:1.3rem}
+.hero{padding:36px 0 32px}
+.selector-card{padding:20px 16px}
+.match-header{padding:20px 16px}
+.match-teams{gap:12px}
+.header-inner{gap:8px}
+.logo-sub{display:none}
+.logo-text{font-size:1.05rem}
+.logo-icon{width:34px;height:34px}
+.live-badge{padding:5px 10px;font-size:.7rem}
+.live-badge span:not(.live-dot){max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-btn{width:34px;height:34px}
+.sport-btn,.tab-btn{padding:8px 14px;font-size:.85rem}
+.nba-ou-row{flex-direction:column}
+.h2h-card,.xg-section,.insights-card,.h2h-trend{padding:18px 14px}
+.h2h-match-row{grid-template-columns:auto 1fr auto 1fr auto;gap:6px;padding:8px;font-size:.82rem}
+.h2h-score{padding:3px 8px;font-size:.92rem;min-width:50px}
+.h2h-date{font-size:.66rem}
+.h2h-winner-badge{display:none}
+.h2h-team-home,.h2h-team-away{font-size:.82rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.h2h-header{gap:8px}
+.h2h-wins-big{font-size:1.9rem}
+.h2h-team-name{font-size:.88rem}
+.match-vs{font-size:1.4rem}
+}
+@media(max-width:420px){
+.container{padding:0 12px}
+.hero h1{font-size:1.7rem}
+.hero p{font-size:.95rem}
+.hero-label{font-size:.72rem;padding:4px 12px}
+.prob-pct{font-size:2rem}
+.prob-card{padding:18px 12px}
+.selector-card{padding:16px 12px}
+.match-header{padding:18px 12px}
+.h2h-card,.xg-section,.insights-card{padding:16px 12px}
+.h2h-match-row{grid-template-columns:minmax(54px,auto) 1fr auto 1fr;gap:4px;padding:7px 6px}
+.h2h-score{padding:3px 6px;font-size:.88rem;min-width:46px}
+.xg-bar-row{grid-template-columns:minmax(0,72px) 1fr minmax(0,60px);gap:6px}
+.xg-val{font-size:1.15rem}
+.xg-team-label{font-size:.8rem}
+.tab-btn,.sport-btn{padding:7px 12px;font-size:.8rem}
+.logo-text{font-size:1rem}
+.live-badge{font-size:.66rem;padding:4px 8px}
+.live-badge span:not(.live-dot){max-width:90px}
+footer{padding:20px 0 28px;font-size:.75rem}
+.a11y-toggle{width:46px;height:46px;bottom:16px;left:16px}
+.a11y-toggle svg{width:24px;height:24px}
+}
 </style>
 </head>
 <body>
