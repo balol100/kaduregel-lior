@@ -185,6 +185,34 @@ header{padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:0}
 .xg-val.home{color:#34d399}
 .xg-val.away{color:#f472b6}
 
+/* ── EXTENDED STATS (Winner-style) ── */
+.ext-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
+.ext-card h3{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ext-card h3 .ext-source{margin-inline-start:auto;font-size:.66rem;font-weight:500;color:var(--text-muted);letter-spacing:.02em;text-transform:none;opacity:.7}
+.ext-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ext-section{background:var(--s2);border:1px solid var(--border);border-radius:var(--r-md);padding:14px}
+.ext-section h4{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ext-kpi{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:.86rem}
+.ext-kpi .lbl{color:var(--text-dim)}
+.ext-kpi .val{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.ext-kpi .val.hi{color:#34d399}
+.ext-kpi .val.md{color:#fbbf24}
+.ext-kpi .val.lo{color:#f472b6}
+.ext-split{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+.ext-split-team{font-size:.72rem;color:var(--text-dim);text-align:center;line-height:1.3}
+.ext-split-team strong{display:block;font-family:var(--font-display);font-size:1.1rem;color:var(--text);margin-top:2px}
+.ext-split-vs{font-size:.7rem;color:var(--text-muted)}
+.ext-ou-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.ext-ou{flex:1;min-width:58px;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 4px;text-align:center}
+.ext-ou .lbl{font-size:.66rem;color:var(--text-muted);letter-spacing:.04em;display:block;margin-bottom:2px}
+.ext-ou .val{font-family:var(--font-display);font-weight:700;font-size:.92rem}
+.ext-note{font-size:.72rem;color:var(--text-muted);margin-top:10px;line-height:1.5}
+@media(max-width:520px){
+.ext-grid{grid-template-columns:1fr}
+.ext-card{padding:18px 14px}
+.ext-section{padding:12px}
+}
+
 /* ── INSIGHTS ── */
 .insights-card{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(56,189,248,.04));border:1px solid rgba(124,58,237,.2);border-radius:var(--r-xl);padding:24px;margin-bottom:20px}
 .insights-card h3{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a78bfa;margin-bottom:16px;display:flex;align-items:center;gap:8px}
@@ -481,6 +509,7 @@ body.a11y-no-motion *,body.a11y-no-motion *::before,body.a11y-no-motion *::after
 <div id="xgContent"></div>
 </div>
 <div class="stats-2col" id="statsGrid"></div>
+<div id="extStatsMount"></div>
 <div class="insights-card">
 <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>ניתוח AI</h3>
 <div id="insightsList"></div>
@@ -562,20 +591,20 @@ const LEAGUES = {
     id:'israel', name:'ליגת העל', emoji:'🇮🇱', color:'#3b82f6', avgGoals:1.35,
     accent:{bg:'rgba(59,130,246,.08)',border:'rgba(59,130,246,.3)',text:'#60a5fa',glow:'rgba(59,130,246,.15)',card:'rgba(59,130,246,.05)'},
     teams:[
-      {id:'hbs',espnId:'13083',n:'הפועל באר שבע',p:26,w:18,d:5,l:3,gf:58,ga:25,hw:9,hd:4,hl:0,hgf:29,hga:10,aw:9,ad:1,al:3,agf:29,aga:15,form:['W','W','D','D','W','W']},
-      {id:'bjr',espnId:'5218',n:'בית"ר ירושלים',p:26,w:17,d:6,l:3,gf:61,ga:29,hw:7,hd:5,hl:1,hgf:21,hga:12,aw:10,ad:1,al:2,agf:40,aga:17,form:['W','W','W','D','L','W']},
-      {id:'mta',espnId:'524',n:'מכבי תל אביב',p:26,w:14,d:7,l:5,gf:55,ga:32,hw:7,hd:3,hl:3,hgf:27,hga:20,aw:7,ad:4,al:2,agf:28,aga:12,form:['L','W','W','D','W','W']},
-      {id:'hta',n:'הפועל תל אביב',p:26,w:15,d:6,l:5,gf:46,ga:26,hw:12,hd:0,hl:1,hgf:27,hga:9,aw:3,ad:6,al:4,agf:19,aga:17,form:['D','W','D','W','W','W']},
-      {id:'mha',espnId:'611',n:'מכבי חיפה',p:26,w:11,d:9,l:6,gf:50,ga:28,hw:8,hd:1,hl:4,hgf:33,hga:15,aw:3,ad:8,al:2,agf:17,aga:13,form:['W','L','L','W','D','W']},
-      {id:'hpt',n:'הפועל פתח תקווה',p:26,w:9,d:10,l:7,gf:41,ga:36,hw:4,hd:5,hl:4,hgf:17,hga:16,aw:5,ad:5,al:3,agf:24,aga:20,form:['D','D','W','L','W','W']},
-      {id:'mne',espnId:'5945',n:'מכבי נתניה',p:26,w:10,d:5,l:11,gf:45,ga:55,hw:4,hd:5,hl:4,hgf:23,hga:25,aw:6,ad:0,al:7,agf:22,aga:30,form:['D','W','L','W','D','L']},
-      {id:'bsa',espnId:'8329',n:'בני סכנין',p:26,w:8,d:8,l:10,gf:27,ga:35,hw:4,hd:5,hl:4,hgf:15,hga:16,aw:4,ad:3,al:6,agf:12,aga:19,form:['W','L','D','L','L','D']},
-      {id:'qsh',espnId:'8327',n:'עירוני קרית שמונה',p:26,w:7,d:6,l:13,gf:37,ga:46,hw:4,hd:3,hl:6,hgf:18,hga:19,aw:3,ad:3,al:7,agf:19,aga:27,form:['L','W','W','D','D','L']},
-      {id:'hhai',espnId:'9577',n:'הפועל חיפה',p:26,w:6,d:7,l:13,gf:31,ga:44,hw:2,hd:4,hl:7,hgf:19,hga:27,aw:4,ad:3,al:6,agf:12,aga:17,form:['D','L','D','W','L','L']},
-      {id:'asd',n:'מ.ס. אשדוד',p:26,w:5,d:9,l:12,gf:32,ga:50,hw:2,hd:4,hl:7,hgf:19,hga:30,aw:3,ad:5,al:5,agf:13,aga:20,form:['D','L','L','L','W','D']},
-      {id:'hjr',espnId:'20970',n:'הפועל ירושלים',p:26,w:4,d:9,l:13,gf:22,ga:37,hw:2,hd:5,hl:6,hgf:12,hga:22,aw:2,ad:4,al:7,agf:10,aga:15,form:['L','D','L','L','D','L']},
-      {id:'tib',espnId:'22311',n:'עירוני טבריה',p:26,w:7,d:6,l:13,gf:32,ga:52,hw:5,hd:3,hl:5,hgf:17,hga:21,aw:2,ad:3,al:8,agf:15,aga:31,form:['D','L','W','D','L','L']},
-      {id:'mbr',espnId:'21517',n:'מכבי בני ריינה',p:26,w:3,d:3,l:20,gf:17,ga:59,hw:2,hd:2,hl:9,hgf:10,hga:31,aw:1,ad:1,al:11,agf:7,aga:28,form:['L','D','L','L','L','L']},
+      {id:'hbs',espnId:'13083',n:'הפועל באר שבע',p:26,w:18,d:5,l:3,gf:58,ga:25,hw:9,hd:4,hl:0,hgf:29,hga:10,aw:9,ad:1,al:3,agf:29,aga:15,form:['W','W','D','D','W','W'],cf:6.23,ca:3.77,yc:2.35,rc:4,sf:7.1,sa:3.1,btts:58,o25:58},
+      {id:'bjr',espnId:'5218',n:'בית"ר ירושלים',p:26,w:17,d:6,l:3,gf:61,ga:29,hw:7,hd:5,hl:1,hgf:21,hga:12,aw:10,ad:1,al:2,agf:40,aga:17,form:['W','W','W','D','L','W'],cf:5.65,ca:3.50,yc:2.42,rc:4,sf:6.0,sa:3.8,btts:69,o25:65},
+      {id:'mta',espnId:'524',n:'מכבי תל אביב',p:26,w:14,d:7,l:5,gf:55,ga:32,hw:7,hd:3,hl:3,hgf:27,hga:20,aw:7,ad:4,al:2,agf:28,aga:12,form:['L','W','W','D','W','W'],cf:6.12,ca:2.69,yc:2.50,rc:5,sf:5.8,sa:3.7,btts:68,o25:69},
+      {id:'hta',n:'הפועל תל אביב',p:26,w:15,d:6,l:5,gf:46,ga:26,hw:12,hd:0,hl:1,hgf:27,hga:9,aw:3,ad:6,al:4,agf:19,aga:17,form:['D','W','D','W','W','W'],cf:5.44,ca:4.16,yc:1.77,rc:6,sf:4.4,sa:3.3,btts:48,o25:54},
+      {id:'mha',espnId:'611',n:'מכבי חיפה',p:26,w:11,d:9,l:6,gf:50,ga:28,hw:8,hd:1,hl:4,hgf:33,hga:15,aw:3,ad:8,al:2,agf:17,aga:13,form:['W','L','L','W','D','W'],cf:6.23,ca:4.15,yc:2.12,rc:5,sf:5.2,sa:4.0,btts:54,o25:54},
+      {id:'hpt',n:'הפועל פתח תקווה',p:26,w:9,d:10,l:7,gf:41,ga:36,hw:4,hd:5,hl:4,hgf:17,hga:16,aw:5,ad:5,al:3,agf:24,aga:20,form:['D','D','W','L','W','W'],cf:5.15,ca:3.58,yc:1.46,rc:3,sf:4.2,sa:4.4,btts:58,o25:54},
+      {id:'mne',espnId:'5945',n:'מכבי נתניה',p:26,w:10,d:5,l:11,gf:45,ga:55,hw:4,hd:5,hl:4,hgf:23,hga:25,aw:6,ad:0,al:7,agf:22,aga:30,form:['D','W','L','W','D','L'],cf:4.85,ca:4.23,yc:2.62,rc:6,sf:5.9,sa:5.1,btts:69,o25:69},
+      {id:'bsa',espnId:'8329',n:'בני סכנין',p:26,w:8,d:8,l:10,gf:27,ga:35,hw:4,hd:5,hl:4,hgf:15,hga:16,aw:4,ad:3,al:6,agf:12,aga:19,form:['W','L','D','L','L','D'],cf:3.31,ca:6.00,yc:2.35,rc:4,sf:3.2,sa:4.7,btts:42,o25:46},
+      {id:'qsh',espnId:'8327',n:'עירוני קרית שמונה',p:26,w:7,d:6,l:13,gf:37,ga:46,hw:4,hd:3,hl:6,hgf:18,hga:19,aw:3,ad:3,al:7,agf:19,aga:27,form:['L','W','W','D','D','L'],cf:3.42,ca:4.62,yc:2.15,rc:4,sf:4.5,sa:4.3,btts:77,o25:69},
+      {id:'hhai',espnId:'9577',n:'הפועל חיפה',p:26,w:6,d:7,l:13,gf:31,ga:44,hw:2,hd:4,hl:7,hgf:19,hga:27,aw:4,ad:3,al:6,agf:12,aga:17,form:['D','L','D','W','L','L'],cf:4.31,ca:5.35,yc:2.46,rc:2,sf:4.1,sa:5.5,btts:54,o25:46},
+      {id:'asd',n:'מ.ס. אשדוד',p:26,w:5,d:9,l:12,gf:32,ga:50,hw:2,hd:4,hl:7,hgf:19,hga:30,aw:3,ad:5,al:5,agf:13,aga:20,form:['D','L','L','L','W','D'],cf:3.69,ca:5.69,yc:1.85,rc:5,sf:3.8,sa:5.1,btts:62,o25:58},
+      {id:'hjr',espnId:'20970',n:'הפועל ירושלים',p:26,w:4,d:9,l:13,gf:22,ga:37,hw:2,hd:5,hl:6,hgf:12,hga:22,aw:2,ad:4,al:7,agf:10,aga:15,form:['L','D','L','L','D','L'],cf:2.81,ca:5.46,yc:null,rc:5,sf:3.4,sa:5.5,btts:58,o25:46},
+      {id:'tib',espnId:'22311',n:'עירוני טבריה',p:26,w:7,d:6,l:13,gf:32,ga:52,hw:5,hd:3,hl:5,hgf:17,hga:21,aw:2,ad:3,al:8,agf:15,aga:31,form:['D','L','W','D','L','L'],cf:3.27,ca:5.92,yc:2.88,rc:6,sf:4.0,sa:5.2,btts:50,o25:50},
+      {id:'mbr',espnId:'21517',n:'מכבי בני ריינה',p:26,w:3,d:3,l:20,gf:17,ga:59,hw:2,hd:2,hl:9,hgf:10,hga:31,aw:1,ad:1,al:11,agf:7,aga:28,form:['L','D','L','L','L','L'],cf:3.42,ca:4.73,yc:1.92,rc:10,sf:3.2,sa:6.6,btts:46,o25:62},
     ]
   },
   premier: {
@@ -776,6 +805,128 @@ function predict(ht,at,lg){
 }
 
 // ══════════════════════════════════════════════════
+// EXTENDED STATS (corners / cards / SOT / BTTS / O2.5)
+// Only available for leagues whose teams carry cf/ca/yc/... fields.
+// Currently: ליגת העל (Israel Premier League) 2025/26.
+// ══════════════════════════════════════════════════
+function hasExtended(t){return t && t.cf!=null && t.ca!=null && t.sf!=null && t.sa!=null}
+function leagueAvgs(lg){
+  const ts=lg.teams.filter(t=>t.cf!=null);
+  if(!ts.length)return null;
+  const avg=k=>{const v=ts.map(t=>t[k]).filter(x=>typeof x==='number');return v.reduce((a,b)=>a+b,0)/(v.length||1)};
+  return{cf:avg('cf'),ca:avg('ca'),sf:avg('sf'),sa:avg('sa'),yc:avg('yc'),rc:avg('rc'),btts:avg('btts'),o25:avg('o25')};
+}
+// P(X > threshold) for Poisson(λ), integer threshold (e.g. 9.5 → >=10)
+function poissonOver(λ,halfThr){
+  const k=Math.ceil(halfThr); // P(X >= k)
+  let cum=0,v=Math.exp(-λ);
+  cum+=v;
+  for(let i=1;i<k;i++){v*=λ/i;cum+=v}
+  return Math.max(0,Math.min(1,1-cum));
+}
+function predictExtended(ht,at,lg,r){
+  if(!hasExtended(ht)||!hasExtended(at))return null;
+  const La=leagueAvgs(lg);
+  if(!La)return null;
+  // Corners: attack-index × opp-defense-index × league-avg, both sides
+  const cH=(ht.cf/La.cf)*(at.ca/La.ca)*La.cf;
+  const cA=(at.cf/La.cf)*(ht.ca/La.ca)*La.cf;
+  const cTot=cH+cA;
+  // Shots on target
+  const sH=(ht.sf/La.sf)*(at.sa/La.sa)*La.sf;
+  const sA=(at.sf/La.sf)*(ht.sa/La.sa)*La.sf;
+  // Yellow cards: both teams' baseline rates summed, fall back to league avg if missing
+  const ycH=(ht.yc==null?La.yc:ht.yc);
+  const ycA=(at.yc==null?La.yc:at.yc);
+  const ycTot=ycH+ycA;
+  // Red cards: p per match = rc_total / games_played, combined
+  const rcH=(ht.rc||0)/(ht.p||1), rcA=(at.rc||0)/(at.p||1);
+  const rcTot=rcH+rcA;
+  // BTTS & Over 2.5 — blend Poisson (from goals model xH/xA) with historical team rates
+  const pHome0=Math.exp(-r.xH), pAway0=Math.exp(-r.xA);
+  const bttsModel=(1-pHome0)*(1-pAway0)*100;
+  const bttsHist=(ht.btts+at.btts)/2;
+  const btts=(bttsModel*0.6+bttsHist*0.4);
+  // Over 2.5 via Poisson joint-distribution convolution
+  let pLE2=0;
+  for(let h=0;h<=9;h++)for(let a=0;a<=9;a++){
+    if(h+a<=2)pLE2+=poissonPMF(r.xH,h)*poissonPMF(r.xA,a);
+  }
+  const over25Model=(1-pLE2)*100;
+  const over25Hist=(ht.o25+at.o25)/2;
+  const over25=(over25Model*0.6+over25Hist*0.4);
+  // Over 1.5 & 3.5 from model only
+  let pLE1=0,pLE3=0;
+  for(let h=0;h<=9;h++)for(let a=0;a<=9;a++){
+    const p=poissonPMF(r.xH,h)*poissonPMF(r.xA,a);
+    if(h+a<=1)pLE1+=p;
+    if(h+a<=3)pLE3+=p;
+  }
+  return{
+    cH,cA,cTot,
+    cOver8_5:poissonOver(cTot,8.5)*100,
+    cOver9_5:poissonOver(cTot,9.5)*100,
+    cOver10_5:poissonOver(cTot,10.5)*100,
+    sH,sA,sTot:sH+sA,
+    ycTot,ycOver3_5:poissonOver(ycTot,3.5)*100,ycOver4_5:poissonOver(ycTot,4.5)*100,
+    rcTot,rcAny:(1-Math.exp(-rcTot))*100,
+    btts,over15:(1-pLE1)*100,over25,over35:(1-pLE3)*100
+  };
+}
+function renderExtended(ext,ht,at){
+  const mount=document.getElementById('extStatsMount');
+  if(!ext){mount.innerHTML='';return}
+  const col=p=>p>=65?'hi':p>=45?'md':'lo';
+  mount.innerHTML=`
+  <div class="ext-card">
+    <h3>📊 נתונים מורחבים<span class="ext-source">· נתוני עונה 2025/26</span></h3>
+    <div class="ext-grid">
+      <div class="ext-section">
+        <h4>🚩 קרנות</h4>
+        <div class="ext-kpi"><span class="lbl">צפוי סה"כ</span><span class="val">${ext.cTot.toFixed(1)}</span></div>
+        <div class="ext-ou-row">
+          <div class="ext-ou"><span class="lbl">Over 8.5</span><span class="val ${col(ext.cOver8_5)}">${ext.cOver8_5.toFixed(0)}%</span></div>
+          <div class="ext-ou"><span class="lbl">Over 9.5</span><span class="val ${col(ext.cOver9_5)}">${ext.cOver9_5.toFixed(0)}%</span></div>
+          <div class="ext-ou"><span class="lbl">Over 10.5</span><span class="val ${col(ext.cOver10_5)}">${ext.cOver10_5.toFixed(0)}%</span></div>
+        </div>
+        <div class="ext-split">
+          <div class="ext-split-team">${ht.n.length>12?ht.n.substring(0,10)+'…':ht.n}<strong>${ext.cH.toFixed(1)}</strong></div>
+          <div class="ext-split-vs">vs</div>
+          <div class="ext-split-team">${at.n.length>12?at.n.substring(0,10)+'…':at.n}<strong>${ext.cA.toFixed(1)}</strong></div>
+        </div>
+      </div>
+      <div class="ext-section">
+        <h4>🎯 בעיטות למסגרת</h4>
+        <div class="ext-kpi"><span class="lbl">צפוי סה"כ</span><span class="val">${ext.sTot.toFixed(1)}</span></div>
+        <div class="ext-split">
+          <div class="ext-split-team">${ht.n.length>12?ht.n.substring(0,10)+'…':ht.n}<strong>${ext.sH.toFixed(1)}</strong></div>
+          <div class="ext-split-vs">vs</div>
+          <div class="ext-split-team">${at.n.length>12?at.n.substring(0,10)+'…':at.n}<strong>${ext.sA.toFixed(1)}</strong></div>
+        </div>
+        <div class="ext-note">ממוצע עונתי · בית ${ht.sf.toFixed(1)}–${ht.sa.toFixed(1)} / חוץ ${at.sf.toFixed(1)}–${at.sa.toFixed(1)}</div>
+      </div>
+      <div class="ext-section">
+        <h4>🟨 כרטיסים</h4>
+        <div class="ext-kpi"><span class="lbl">צהובים צפויים</span><span class="val">${ext.ycTot.toFixed(1)}</span></div>
+        <div class="ext-ou-row">
+          <div class="ext-ou"><span class="lbl">Over 3.5</span><span class="val ${col(ext.ycOver3_5)}">${ext.ycOver3_5.toFixed(0)}%</span></div>
+          <div class="ext-ou"><span class="lbl">Over 4.5</span><span class="val ${col(ext.ycOver4_5)}">${ext.ycOver4_5.toFixed(0)}%</span></div>
+          <div class="ext-ou"><span class="lbl">אדום 1+</span><span class="val ${col(ext.rcAny)}">${ext.rcAny.toFixed(0)}%</span></div>
+        </div>
+        <div class="ext-note">אדומים בעונה: ${ht.n.length>10?ht.n.substring(0,9)+'…':ht.n} ${ht.rc} · ${at.n.length>10?at.n.substring(0,9)+'…':at.n} ${at.rc}</div>
+      </div>
+      <div class="ext-section">
+        <h4>⚽ שערים</h4>
+        <div class="ext-kpi"><span class="lbl">BTTS</span><span class="val ${col(ext.btts)}">${ext.btts.toFixed(0)}%</span></div>
+        <div class="ext-kpi"><span class="lbl">Over 1.5</span><span class="val ${col(ext.over15)}">${ext.over15.toFixed(0)}%</span></div>
+        <div class="ext-kpi"><span class="lbl">Over 2.5</span><span class="val ${col(ext.over25)}">${ext.over25.toFixed(0)}%</span></div>
+        <div class="ext-kpi"><span class="lbl">Over 3.5</span><span class="val ${col(ext.over35)}">${ext.over35.toFixed(0)}%</span></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
 // ODDS (implied from probs + 5% margin)
 // ══════════════════════════════════════════════════
 function toOdds(pct){
@@ -867,6 +1018,8 @@ function renderResults(ht,at,r,lg){
     </div>`;
   }
   document.getElementById('statsGrid').innerHTML=statCard(ht,r,true)+statCard(at,r,false);
+
+  renderExtended(predictExtended(ht,at,lg,r),ht,at);
 
   document.getElementById('insightsList').innerHTML=
     buildInsights(ht,at,r,lg).map(s=>`<div class="insight-item"><div class="insight-dot"></div><div>${s}</div></div>`).join('');
@@ -1085,6 +1238,7 @@ function renderNBAResults(ht, at, r){
   document.getElementById('homeDisplay').textContent = ht.n;
   document.getElementById('awayDisplay').textContent = at.n;
   document.getElementById('matchLeagueLabel').textContent = '🏀 NBA · עונה 2024/25';
+  document.getElementById('extStatsMount').innerHTML='';
 
   const max = Math.max(r.homeWin, r.awayWin);
   document.getElementById('probGrid').innerHTML=[
